@@ -60,12 +60,39 @@ The service account will have **zero access** to anything except the specific Go
 3. Copy the `SHEET_ID_HERE` part
 4. This is what you'll use in the notebook
 
-### 7. Upload Key to Colab
-1. In Google Colab, click the **Files** icon (📁) in the left sidebar
-2. Click **Upload to session storage**
-3. Upload your downloaded JSON key file
-4. Rename it to `service_account_key.json` (if it isn't already)
-5. The file should appear as `/content/service_account_key.json`
+### 7. Copy Key Content into Notebook
+1. Open your downloaded JSON key file in a text editor
+2. Copy the entire JSON content
+3. In the notebook, find the section with `SERVICE_ACCOUNT_FILE = "/content/service_account_key.json"`
+4. Replace that section with the following code:
+
+```python
+# Service Account Key (embedded for workshop use)
+SERVICE_ACCOUNT_KEY = {
+    "type": "service_account",
+    "project_id": "your-project-id",
+    "private_key_id": "...",
+    "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n",
+    "client_email": "workshop-reflections@your-project.iam.gserviceaccount.com",
+    "client_id": "...",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "..."
+}
+
+# Create credentials from the embedded key
+creds = service_account.Credentials.from_service_account_info(
+    SERVICE_ACCOUNT_KEY,
+    scopes=['https://www.googleapis.com/auth/spreadsheets']
+)
+gc = gspread.authorize(creds)
+ws = gc.open_by_key(SHEET_ID).sheet1
+print("✅ Connected using embedded service account key")
+```
+
+5. Replace the values in `SERVICE_ACCOUNT_KEY` with your actual key content
+6. Update `SHEET_ID` with your Google Sheet ID from step 6
 
 ### 8. Update the Notebook
 1. In the notebook, find the line: `SHEET_ID = "YOUR_GOOGLE_SHEET_ID_HERE"`
@@ -80,13 +107,53 @@ To verify the service account has minimal access:
 2. **Test Other Access**: Try accessing other sheets - it should fail
 3. **Check Permissions**: In Google Cloud Console, verify the service account has no IAM roles
 
-## 🚨 Security Best Practices
+## 🚨 Security Implications & Best Practices
 
-- **Never commit the JSON key** to version control
-- **Upload it directly to Colab** each time you run the notebook
-- **Delete the key** from your local machine after uploading
-- **Rotate keys periodically** (create new ones, delete old ones)
-- **Monitor usage** in Google Cloud Console > IAM & Admin > Service Accounts
+### ⚠️ **CRITICAL SECURITY WARNING**
+**Embedding the service account key directly in the notebook code has significant security implications:**
+
+- **🔓 Key Exposure**: The private key is visible to anyone with access to the notebook
+- **📤 Version Control Risk**: If committed to Git, the key becomes permanently exposed
+- **👥 Sharing Risk**: Anyone you share the notebook with can see and use the key
+- **🌐 Public Access**: If the notebook is made public, the key is publicly accessible
+
+### 🎓 **Workshop-Specific Security Measures**
+
+**This approach is ONLY acceptable for temporary workshop use with the following conditions:**
+
+1. **⏰ Temporary Use Only**: The service account and key should be **decommissioned immediately after the workshop**
+2. **🔒 Minimal Permissions**: The service account has zero IAM roles and can only access the specific shared sheet
+3. **📋 Limited Scope**: Only has access to Google Sheets API for the single shared sheet
+4. **🗑️ Cleanup Required**: Delete the service account and key after workshop completion
+
+### 🛡️ **Post-Workshop Cleanup (MANDATORY)**
+
+**After the workshop, you MUST:**
+
+1. **Delete the service account** in Google Cloud Console
+2. **Revoke access** from the Google Sheet (remove the service account email)
+3. **Delete the notebook** or remove the embedded key
+4. **Verify cleanup** by checking that the key no longer works
+
+### 🔒 **Production Security Best Practices**
+
+For any production use, follow these practices instead:
+
+- **Never embed keys** in code
+- **Use environment variables** or secure key management
+- **Upload keys to secure storage** (not version control)
+- **Rotate keys regularly**
+- **Monitor key usage** and access logs
+- **Use least privilege principle**
+
+### 📊 **Risk Assessment for Workshop Use**
+
+| Risk Level | Mitigation |
+|------------|------------|
+| **High**: Key exposure in code | ✅ Acceptable for temporary workshop use |
+| **Medium**: Unauthorized sheet access | ✅ Mitigated by minimal permissions and specific sheet sharing |
+| **Low**: Service account abuse | ✅ Mitigated by zero IAM roles and limited scope |
+| **Critical**: Permanent exposure | ✅ Mitigated by mandatory post-workshop cleanup |
 
 ## 🔧 Troubleshooting
 
