@@ -14,7 +14,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 public class YelpSentimentAnalysisSmileML {
     
     public static void main(String[] args) {
-        System.out.println("=== Yelp Review Sentiment Analysis ===\n");
+        System.out.println("=== Yelp Review Sentiment Analysis ===");
         
         try {
             // Load and prepare data
@@ -29,16 +29,9 @@ public class YelpSentimentAnalysisSmileML {
             // Test on sample reviews
             testSampleReviews(model);
             
-            // Show model insights
-            showModelInsights(model);
             
-            // Performance summary
-            showPerformanceSummary(model);
+            System.out.println("\n✅ Analysis completed!");
             
-            System.out.println("\n✅ Yelp sentiment analysis completed successfully!");
-            
-            // Student exercises
-            runStudentExercises(model);
             
         } catch (Exception e) {
             System.err.println("Error in Yelp sentiment analysis: " + e.getMessage());
@@ -50,7 +43,6 @@ public class YelpSentimentAnalysisSmileML {
      * Load and prepare the Yelp dataset
      */
     private static DataPreparationResult loadAndPrepareData() {
-        System.out.println("1. Loading Yelp dataset...");
         
         // Load CSV data
         List<String[]> csvData = new ArrayList<>();
@@ -60,17 +52,8 @@ public class YelpSentimentAnalysisSmileML {
             throw new RuntimeException("Error loading CSV file", e);
         }
         
-        System.out.println("   ✅ Dataset loaded successfully!");
-        System.out.println("   Total reviews: " + (csvData.size() - 1));
-        
-        // Count positive vs negative reviews
-        long positiveCount = csvData.stream().skip(1).filter(row -> "positive".equals(row[1])).count();
-        long negativeCount = csvData.stream().skip(1).filter(row -> "negative".equals(row[1])).count();
-        System.out.println("   Positive reviews: " + positiveCount);
-        System.out.println("   Negative reviews: " + negativeCount);
         
         // Extract texts and labels
-        System.out.println("\n2. Preparing data...");
         String[] texts = new String[csvData.size() - 1];
         String[] labels = new String[csvData.size() - 1];
         
@@ -79,30 +62,14 @@ public class YelpSentimentAnalysisSmileML {
             labels[i-1] = csvData.get(i)[1];
         }
         
-        // Show sample reviews
-        System.out.println("\n   Sample reviews:");
-        for (int i = 0; i < 3; i++) {
-            String review = texts[i].length() > 100 ? texts[i].substring(0, 100) + "..." : texts[i];
-            System.out.println("   " + (i+1) + ". (" + labels[i] + ") " + review);
-        }
         
         // Text preprocessing
-        System.out.println("\n3. Text preprocessing...");
         String[] processedTexts = Arrays.stream(texts)
             .map(text -> StringUtils.lowerCase(text))
             .map(text -> StringUtils.replaceChars(text, "!@#$%^&*()_+-=[]{}|;':\",./<>?`~", " "))
             .map(text -> StringUtils.normalizeSpace(text))
             .toArray(String[]::new);
         
-        System.out.println("   ✅ Text preprocessing completed!");
-        System.out.println("   Processed " + processedTexts.length + " texts");
-        
-        // Show sample processed texts
-        System.out.println("\n   Sample processed texts:");
-        for (int i = 0; i < 3; i++) {
-            String processed = processedTexts[i].length() > 80 ? processedTexts[i].substring(0, 80) + "..." : processedTexts[i];
-            System.out.println("   " + (i+1) + ". " + processed);
-        }
         
         return new DataPreparationResult(texts, processedTexts, labels);
     }
@@ -112,7 +79,6 @@ public class YelpSentimentAnalysisSmileML {
      */
     private static ModelTrainingResult trainModel(DataPreparationResult dataResult) {
         // Train-test split
-        System.out.println("\n4. Train-test split...");
         
         // Convert to feature format
         double[][] features = createBagOfWordsFeatures(dataResult.processedTexts);
@@ -121,30 +87,18 @@ public class YelpSentimentAnalysisSmileML {
         // Perform train-test split
         TrainTestSplitResult split = performTrainTestSplit(features, labels);
         
-        System.out.println("   ✅ Train-test split completed!");
-        System.out.println("   Training set size: " + split.trainFeatures.length);
-        System.out.println("   Test set size: " + split.testFeatures.length);
-        System.out.println("   Test ratio: " + String.format("%.1f%%", (double)split.testFeatures.length / features.length * 100));
         
         // Train Naive Bayes model
-        System.out.println("\n5. Training Naive Bayes model...");
         NaiveBayesModel nbModel = new NaiveBayesModel();
         nbModel.fit(split.trainFeatures, split.trainLabels);
         
-        System.out.println("   ✅ Naive Bayes model trained successfully!");
-        System.out.println("   Model type: Naive Bayes");
-        System.out.println("   Number of classes: " + nbModel.numClasses());
-        System.out.println("   Number of features: " + features[0].length);
         
         // Make predictions
-        System.out.println("\n6. Making predictions...");
         int[] predictions = new int[split.testFeatures.length];
         for (int i = 0; i < split.testFeatures.length; i++) {
             predictions[i] = nbModel.predict(split.testFeatures[i]);
         }
         
-        System.out.println("   ✅ Test predictions completed!");
-        System.out.println("   Predictions made for " + predictions.length + " test samples");
         
         return new ModelTrainingResult(nbModel, features, split, predictions, dataResult.labels);
     }
@@ -153,7 +107,6 @@ public class YelpSentimentAnalysisSmileML {
      * Evaluate the model performance
      */
     private static void evaluateModel(ModelTrainingResult model) {
-        System.out.println("\n7. Model evaluation...");
         
         // Calculate accuracy
         double accuracy = calculateAccuracy(model.split.testLabels, model.predictions);
@@ -178,19 +131,12 @@ public class YelpSentimentAnalysisSmileML {
      * Test the model on sample reviews
      */
     private static void testSampleReviews(ModelTrainingResult model) {
-        System.out.println("\n8. Testing on sample reviews...");
         String[] sampleReviews = {
             "Great food, excellent service!",
             "Terrible food, bad service",
-            "Amazing pizza, friendly staff",
-            "Cold food, rude waiter",
-            "Love this place, will come back",
-            "Hate it, never coming back",
-            "Outstanding quality, great atmosphere",
-            "Waste of money, terrible experience"
+            "Amazing pizza, friendly staff"
         };
         
-        System.out.println("   Sample review predictions:");
         for (String review : sampleReviews) {
             // Preprocess the review
             String processed = StringUtils.lowerCase(review);
@@ -209,191 +155,8 @@ public class YelpSentimentAnalysisSmileML {
         }
     }
     
-    /**
-     * Show model insights and configuration
-     */
-    private static void showModelInsights(ModelTrainingResult model) {
-        System.out.println("\n9. Model insights...");
-        System.out.println("   Model type: Naive Bayes");
-        System.out.println("   Libraries used: OpenCSV, Apache Commons Lang, Apache Commons Math");
-        System.out.println("   Number of classes: " + model.nbModel.numClasses());
-        System.out.println("   Number of features: " + model.features[0].length);
-        System.out.println("   Training samples: " + model.split.trainFeatures.length);
-        System.out.println("   Test samples: " + model.split.testFeatures.length);
-    }
     
-    /**
-     * Show detailed performance summary
-     */
-    private static void showPerformanceSummary(ModelTrainingResult model) {
-        System.out.println("\n10. Performance summary...");
-        
-        // Calculate accuracy
-        double accuracy = calculateAccuracy(model.split.testLabels, model.predictions);
-        System.out.println("   Overall Accuracy: " + String.format("%.1f%%", accuracy * 100));
-        
-        // Calculate per-class accuracy
-        DescriptiveStatistics positiveStats = new DescriptiveStatistics();
-        DescriptiveStatistics negativeStats = new DescriptiveStatistics();
-        
-        for (int i = 0; i < model.split.testLabels.length; i++) {
-            if (model.split.testLabels[i] == 1) { // positive
-                positiveStats.addValue(model.split.testLabels[i] == model.predictions[i] ? 1.0 : 0.0);
-            } else { // negative
-                negativeStats.addValue(model.split.testLabels[i] == model.predictions[i] ? 1.0 : 0.0);
-            }
-        }
-        
-        System.out.println("   Positive class accuracy: " + String.format("%.1f%%", positiveStats.getMean() * 100));
-        System.out.println("   Negative class accuracy: " + String.format("%.1f%%", negativeStats.getMean() * 100));
-        
-        // Additional statistics
-        System.out.println("   Standard deviation: " + String.format("%.3f", positiveStats.getStandardDeviation()));
-        System.out.println("   Min accuracy: " + String.format("%.1f%%", positiveStats.getMin() * 100));
-        System.out.println("   Max accuracy: " + String.format("%.1f%%", positiveStats.getMax() * 100));
-    }
     
-    /**
-     * Run all student exercises
-     */
-    private static void runStudentExercises(ModelTrainingResult model) {
-        System.out.println("\n" + "=".repeat(60));
-        System.out.println("🎓 STUDENT EXERCISE: Test Your Own Examples!");
-        System.out.println("=".repeat(60));
-        
-        runBasicStudentExercise(model);
-        runChallengeStudentExercise(model);
-        
-        System.out.println("\n🎓 Student exercise completed! You've learned to use the sentiment classifier!");
-    }
-    
-    /**
-     * Basic student exercise
-     */
-    private static void runBasicStudentExercise(ModelTrainingResult model) {
-        System.out.println("\n11. Student Exercise - Test Your Own Examples!");
-        System.out.println("   Instructions:");
-        System.out.println("   1. Add your own restaurant review examples below");
-        System.out.println("   2. Try to write both positive and negative reviews");
-        System.out.println("   3. See if the model correctly predicts the sentiment");
-        System.out.println("   4. Experiment with different types of reviews");
-        
-        // TODO: Students should fill in their own examples here
-        String[] studentExamples = {
-            // TODO: Add your positive review examples here
-            "This place has amazing food and great service!",
-            "Love the atmosphere and friendly staff.",
-            "Best pizza I've ever had, definitely coming back!",
-            
-            // TODO: Add your negative review examples here
-            "Terrible experience, food was cold and service was slow.",
-            "Overpriced and not worth the money.",
-            "Rude staff and dirty restaurant, never coming back."
-        };
-        
-        System.out.println("\n   Your examples:");
-        for (int i = 0; i < studentExamples.length; i++) {
-            System.out.println("   " + (i+1) + ". " + studentExamples[i]);
-        }
-        
-        // Test student examples
-        System.out.println("\n   Testing your examples...");
-        for (String review : studentExamples) {
-            // Preprocess the review
-            String processed = StringUtils.lowerCase(review);
-            processed = StringUtils.replaceChars(processed, "!@#$%^&*()_+-=[]{}|;':\",./<>?`~", " ");
-            processed = StringUtils.normalizeSpace(processed);
-            
-            // Convert to feature vector
-            double[] features = createSimpleFeatureVector(processed);
-            
-            // Make prediction
-            int prediction = model.nbModel.predict(features);
-            String sentiment = prediction == 0 ? "negative" : "positive";
-            
-            String shortReview = review.length() > 50 ? review.substring(0, 50) + "..." : review;
-            System.out.println("   '" + shortReview + "' -> " + sentiment);
-        }
-    }
-    
-    /**
-     * Advanced student exercise
-     */
-    private static void runAdvancedStudentExercise(ModelTrainingResult modelResult) {
-
-    }
-    
-    /**
-     * Challenge student exercise
-     */
-    private static void runChallengeStudentExercise(ModelTrainingResult model) {
-        System.out.println("\n13. Challenge Exercise - Test Edge Cases!");
-        System.out.println("   Instructions:");
-        System.out.println("   1. Try reviews with mixed sentiment (positive and negative)");
-        System.out.println("   2. Test very short reviews (1-2 words)");
-        System.out.println("   3. Try reviews with sarcasm or irony");
-        System.out.println("   4. Test reviews with typos or informal language");
-        System.out.println("   5. See how the model handles these cases");
-
-        
-        // TODO: Students should add edge case examples here
-        String[] edgeCaseExamples = {
-            // TODO: Add mixed sentiment examples
-            "Great food but terrible service",
-            "Nice atmosphere but overpriced",
-            
-            // TODO: Add very short examples
-            "Amazing!",
-            "Terrible",
-            "OK",
-            
-            // TODO: Add sarcastic examples
-            "Oh great, another hour wait for cold food",
-            "Sure, if you like paying $20 for a sandwich",
-            
-            // TODO: Add examples with typos
-            "Fud was gud but servis was bad",
-            "Luv this place, def coming bak"
-        };
-        
-        System.out.println("\n   Edge case examples:");
-        for (int i = 0; i < edgeCaseExamples.length; i++) {
-            System.out.println("   " + (i+1) + ". " + edgeCaseExamples[i]);
-        }
-        
-        System.out.println("\n   Testing edge cases...");
-        for (String review : edgeCaseExamples) {
-            // Preprocess the review
-            String processed = StringUtils.lowerCase(review);
-            processed = StringUtils.replaceChars(processed, "!@#$%^&*()_+-=[]{}|;':\",./<>?`~", " ");
-            processed = StringUtils.normalizeSpace(processed);
-            
-            // Convert to feature vector
-            double[] features = createSimpleFeatureVector(processed);
-            
-            // Make prediction
-            int prediction = model.nbModel.predict(features);
-            String sentiment = prediction == 0 ? "negative" : "positive";
-            
-            String shortReview = review.length() > 40 ? review.substring(0, 40) + "..." : review;
-            System.out.println("   '" + shortReview + "' -> " + sentiment);
-        }
-    }
-    
-    /**
-     * Show reflection questions for students
-     */
-    private static void showReflectionQuestions() {
-        System.out.println("\n14. Reflection Questions!");
-        System.out.println("   Think about these questions:");
-        System.out.println("   1. How does using libraries compare to custom implementations?");
-        System.out.println("   2. What are the benefits of Apache Commons for text processing?");
-        System.out.println("   3. Why is it better to use established libraries?");
-        System.out.println("   4. What would you need to implement from scratch without libraries?");
-        System.out.println("   5. How do libraries help with code maintainability and reliability?");
-        System.out.println("   6. What other libraries could you use for this task?");
-        System.out.println("   7. How do libraries handle edge cases better than custom code?");
-    }
         
     /**
      * Create bag of words features (simplified implementation)
