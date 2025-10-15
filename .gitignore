@@ -75,6 +75,30 @@ docs/_build/
 .pybuilder/
 target/
 
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# Java IDEs
+.classpath
+.project
+.settings/
+*.ctxt
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
 # Jupyter Notebook
 .ipynb_checkpoints
 
