@@ -119,7 +119,7 @@ public class YelpSentimentAnalysisSmileML {
         int[] labels = convertLabelsToInt(dataResult.labels);
         
         // Perform train-test split
-        TrainTestSplitResult split = performTrainTestSplit(features, labels, 0.2, 12345);
+        TrainTestSplitResult split = performTrainTestSplit(features, labels);
         
         System.out.println("   ✅ Train-test split completed!");
         System.out.println("   Training set size: " + split.trainFeatures.length);
@@ -441,7 +441,14 @@ public class YelpSentimentAnalysisSmileML {
     }
     
     /**
-     * Perform train-test split
+     * Perform train-test split with default values (20% test, random seed 42)
+     */
+    private static TrainTestSplitResult performTrainTestSplit(double[][] features, int[] labels) {
+        return performTrainTestSplit(features, labels, 0.2, 42);
+    }
+    
+    /**
+     * Perform train-test split with custom parameters
      */
     private static TrainTestSplitResult performTrainTestSplit(double[][] features, int[] labels, double testSize, long randomSeed) {
         Random random = new Random(randomSeed);

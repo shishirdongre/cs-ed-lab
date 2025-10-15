@@ -1,78 +1,107 @@
 #!/usr/bin/env python3
 """
-Create a simple Yelp dataset for sentiment analysis
-Downloads a subset of the Yelp review dataset and processes it
+Yelp Dataset Processor
+Downloads and processes the real Yelp review dataset from Hugging Face.
+Creates a clean CSV file for sentiment analysis.
 """
 
+import csv
 import os
-import pandas as pd
 from datasets import load_dataset
-import random
 
-def create_simple_yelp_dataset():
-    """Create a simple Yelp dataset with 1000 reviews"""
+def create_yelp_dataset(num_reviews=1000, output_file="simple_yelp_reviews.csv"):
+    """
+    Download and process the real Yelp review dataset.
     
-    print("📊 Creating simple Yelp dataset...")
+    Args:
+        num_reviews (int): Number of reviews to sample from the dataset
+        output_file (str): Output CSV file path
+    """
     
+    print("Loading Yelp dataset from Hugging Face...")
     try:
-        # Load the Yelp review dataset
-        print("   Downloading Yelp dataset from Hugging Face...")
-        dataset = load_dataset("yelp_review_full", split="train")
+        # Load the dataset
+        ds = load_dataset("Yelp/yelp_review_full")
         
-        # Convert to pandas DataFrame for easier manipulation
-        df = pd.DataFrame(dataset)
+        # Get the training split
+        train_data = ds['train']
         
-        print(f"   Original dataset size: {len(df)} reviews")
+        print(f"Dataset loaded successfully. Total reviews: {len(train_data)}")
         
-        # Filter for shorter reviews (easier to process)
-        df['text_length'] = df['text'].str.len()
-        df_short = df[df['text_length'] <= 200].copy()
+        # Sample reviews (stratified by label)
+        reviews = []
         
-        print(f"   Reviews <= 200 characters: {len(df_short)}")
+        # Get reviews by label
+        label_0 = [item for item in train_data if item['label'] == 0]  # 1-star
+        label_1 = [item for item in train_data if item['label'] == 1]  # 2-star  
+        label_2 = [item for item in train_data if item['label'] == 2]  # 3-star
+        label_3 = [item for item in train_data if item['label'] == 3]  # 4-star
+        label_4 = [item for item in train_data if item['label'] == 4]  # 5-star
         
-        # Sample equal numbers of positive and negative reviews
-        positive_reviews = df_short[df_short['label'] == 1].sample(n=500, random_state=42)
-        negative_reviews = df_short[df_short['label'] == 0].sample(n=500, random_state=42)
+        # Sample from each label group
+        samples_per_label = num_reviews // 5
+        remaining = num_reviews % 5
         
-        # Combine and shuffle
-        combined_df = pd.concat([positive_reviews, negative_reviews])
-        combined_df = combined_df.sample(frac=1, random_state=42).reset_index(drop=True)
+        for i, label_group in enumerate([label_0, label_1, label_2, label_3, label_4]):
+            sample_size = samples_per_label + (1 if i < remaining else 0)
+            
+            # Sample from this label group
+            sampled = label_group[:sample_size]
+            
+            for item in sampled:
+                # Clean the text (remove newlines, extra spaces)
+                text = item['text'].replace('\n', ' ').replace('\r', ' ').strip()
+                # Remove extra spaces
+                text = ' '.join(text.split())
+                
+                # Skip very short or very long reviews
+                if len(text) < 10 or len(text) > 500:
+                    continue
+                
+                # Convert 5-star rating to sentiment (1-2 stars = negative, 3 stars = neutral, 4-5 stars = positive)
+                if item['label'] <= 1:
+                    sentiment = 0  # Negative
+                elif item['label'] == 2:
+                    sentiment = 2  # Neutral
+                else:
+                    sentiment = 1  # Positive
+                
+                reviews.append({
+                    'review_id': f"yelp_{item['label']}_{len(reviews)}",
+                    'business': f"Business_{item['label']}_{len(reviews)}",
+                    'text': text,
+                    'sentiment': sentiment
+                })
         
-        # Clean the text data
-        combined_df['text'] = combined_df['text'].str.replace('\n', ' ').str.replace('\r', ' ')
-        combined_df['text'] = combined_df['text'].str.strip()
+        print(f"Processed {len(reviews)} reviews")
         
-        # Create sentiment labels (0 = negative, 1 = positive)
-        combined_df['sentiment'] = combined_df['label'].map({0: 'negative', 1: 'positive'})
+        # Write to CSV
+        with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
+            fieldnames = ['review_id', 'business', 'text', 'sentiment']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            
+            writer.writeheader()
+            for review in reviews:
+                writer.writerow(review)
         
-        # Select only the columns we need
-        final_df = combined_df[['text', 'sentiment']].copy()
+        print(f"Dataset saved to: {output_file}")
         
-        # Save to CSV
-        output_file = 'simple_yelp_reviews.csv'
-        final_df.to_csv(output_file, index=False)
+        # Print statistics
+        pos_count = sum(1 for r in reviews if r['sentiment'] == 1)
+        neg_count = sum(1 for r in reviews if r['sentiment'] == 0)
+        neu_count = sum(1 for r in reviews if r['sentiment'] == 2)
         
-        print(f"   ✅ Dataset created successfully!")
-        print(f"   File: {output_file}")
-        print(f"   Total reviews: {len(final_df)}")
-        print(f"   Positive reviews: {len(final_df[final_df['sentiment'] == 'positive'])}")
-        print(f"   Negative reviews: {len(final_df[final_df['sentiment'] == 'negative'])}")
-        
-        # Show sample reviews
-        print("\n   Sample reviews:")
-        for i, row in final_df.head(3).iterrows():
-            print(f"   {i+1}. ({row['sentiment']}) {row['text'][:80]}...")
-        
-        return True
+        print(f"Sentiment distribution:")
+        print(f"  Positive: {pos_count} ({pos_count/len(reviews)*100:.1f}%)")
+        print(f"  Negative: {neg_count} ({neg_count/len(reviews)*100:.1f}%)")
+        print(f"  Neutral:  {neu_count} ({neu_count/len(reviews)*100:.1f}%)")
         
     except Exception as e:
-        print(f"   ❌ Error creating dataset: {e}")
-        return False
+        print(f"Error loading dataset: {e}")
+        print("Make sure you have the 'datasets' library installed:")
+        print("pip install datasets")
+        raise
 
 if __name__ == "__main__":
-    success = create_simple_yelp_dataset()
-    if success:
-        print("\n🎉 Simple Yelp dataset creation completed!")
-    else:
-        print("\n💥 Failed to create dataset!")
-        exit(1)
+    # Create dataset
+    create_yelp_dataset()
