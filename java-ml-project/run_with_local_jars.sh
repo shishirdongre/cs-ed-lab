@@ -14,19 +14,14 @@ fi
 
 # Check if dataset exists
 if [ ! -f "simple_yelp_reviews.csv" ]; then
-    echo "📊 Dataset not found. Creating dataset..."
-    if command -v python3 &> /dev/null; then
-        python3 create_simple_yelp_dataset_fallback.py
-    elif command -v python &> /dev/null; then
-        python create_simple_yelp_dataset_fallback.py
-    else
-        echo "❌ Python is not installed. Please install Python to create the dataset."
-        exit 1
-    fi
+    echo "❌ Dataset 'simple_yelp_reviews.csv' not found!"
+    echo "   Please run: python3 create_simple_yelp_dataset.py"
+    echo "   to generate the dataset first."
+    exit 1
 fi
 
 echo "🔨 Compiling project..."
-javac -cp "lib/*" -d target/classes YelpSentimentAnalysisSmileML.java
+javac -cp "lib/*" YelpSentimentAnalysisSmileML.java
 
 if [ $? -ne 0 ]; then
     echo "❌ Compilation failed. Please check the errors above."
@@ -40,7 +35,7 @@ echo "🚀 Running sentiment analysis..."
 echo "=================================="
 
 # Run the analysis using local JARs
-java -cp ".:target/classes:lib/*" YelpSentimentAnalysisSmileML
+java -cp ".:lib/*" YelpSentimentAnalysisSmileML
 
 echo
 echo "=================================="
