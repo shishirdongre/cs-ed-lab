@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  yelp-sentiment-analysis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yelp-sentiment-analysis
+    volumes:
+      # Mount local directory for development
+      - .:/app/local
+    environment:
+      - JAVA_OPTS=-Xmx2g
+    ports:
+      - "8080:8080"
+    # Override default command for interactive mode
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+
+  # Alternative service for one-time analysis
+  yelp-analysis-run:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yelp-analysis-run
+    environment:
+      - JAVA_OPTS=-Xmx2g
+    # This will run the analysis and exit
+    command: ./run_analysis.sh

@@ -1,135 +1,84 @@
-# Java Text Classification ML Project
+# Yelp Sentiment Analysis
 
-This project implements a text classification system to distinguish between formal and slang language using Java ML libraries, similar to the Python notebook implementation.
-
-## Features
-
-- **Data Creation**: Generates sample formal/slang dataset
-- **Text Preprocessing**: Bag of Words and TF-IDF feature extraction
-- **ML Models**: Naive Bayes and Logistic Regression classifiers
-- **Model Evaluation**: Accuracy, confusion matrix, precision, recall, F1-score
-- **Prediction Demo**: Interactive prediction on new text examples
-
-## Prerequisites
-
-- Java 11 or higher
-- Maven 3.6 or higher
+A simple Java sentiment analysis tool that uses real Yelp reviews to classify text as positive or negative.
 
 ## Quick Start
 
-1. **Navigate to the project directory:**
+1. **Run the analysis:**
    ```bash
-   cd java-ml-project
+   ./run_with_local_jars.sh
    ```
 
-2. **Set up Java environment (if not already done):**
+2. **Generate new dataset (if needed):**
    ```bash
-   export JAVA_HOME=/usr/lib/jvm/java-24-openjdk
-   export PATH=$JAVA_HOME/bin:$PATH
+   # Activate virtual environment
+   source ../venv/bin/activate
+   
+   # Generate dataset
+   python3 create_simple_yelp_dataset.py
    ```
 
-3. **Run the text classification demo:**
-   ```bash
-   mvn exec:java
-   ```
+## Setup Instructions
 
-## Alternative: Manual Compilation and Run
+### Prerequisites
+- Java 8+
+- Python 3+ (for dataset generation)
 
+### Using Virtual Environment
+
+The project uses a Python virtual environment for dataset generation. The virtual environment is located in the parent directory (`../venv/`).
+
+**To activate the virtual environment:**
 ```bash
-# Compile
-mvn compile
-
-# Run with classpath
-java -cp "target/classes:$(mvn dependency:build-classpath -q -Dmdep.outputFile=/dev/stdout)" com.example.ml.SimpleTextClassifier
+# From the java-ml-project directory
+source ../venv/bin/activate
 ```
 
-## Project Structure
-
-```
-src/main/java/com/example/ml/
-├── TextClassificationMain.java      # Main class - runs complete pipeline
-├── TextClassificationDemo.java       # Sample data creation
-├── DataLoader.java                  # CSV loading and DataFrame creation
-├── TextPreprocessor.java            # Text preprocessing and feature extraction
-├── TrainTestSplit.java              # Train-test split functionality
-├── NaiveBayesClassifier.java        # Naive Bayes implementation
-├── LogisticRegressionClassifier.java # Logistic Regression implementation
-├── ModelEvaluator.java              # Evaluation metrics
-└── PredictionDemo.java              # Prediction demonstration
-```
-
-## Running Individual Components
-
-You can also run individual components:
-
+**To deactivate:**
 ```bash
-# Create sample data only
-mvn exec:java -Dexec.mainClass="com.example.ml.TextClassificationDemo"
-
-# Run main pipeline
-mvn exec:java -Dexec.mainClass="com.example.ml.TextClassificationMain"
+deactivate
 ```
 
-## Dependencies
+**To install Python dependencies (if needed):**
+```bash
+# Activate virtual environment first
+source ../venv/bin/activate
 
-- **Smile ML Library**: Java equivalent of scikit-learn
-  - `smile-core`: Core ML algorithms
-  - `smile-data`: Data structures and utilities
-- **OpenCSV**: CSV file handling
-
-## Output
-
-The program will:
-1. Create a sample dataset with formal and slang examples
-2. Load and preprocess the data
-3. Split into training and test sets
-4. Train both Naive Bayes and Logistic Regression models
-5. Evaluate both models with comprehensive metrics
-6. Demonstrate predictions on new text examples
-7. Display a summary of model performance
-
-## Sample Output
-
-```
-=== Simple Text Classification Demo ===
-
-Text Classification Results:
-Text			Classification
-----------------------------------------
-therefore      	formal
-omg            	slang
-consequently   	formal
-lol            	slang
-demonstrate    	formal
-yolo           	slang
-however        	formal
-btw            	slang
-furthermore    	formal
-lit            	slang
-illustrate     	formal
-fyi            	slang
-
-Feature Extraction Example:
-Text: 'therefore'
-Features: [9.0, 4.0, 5.0, 0.0, 0.0]
-  - Length: 9.0
-  - Vowels: 4.0
-  - Consonants: 5.0
-  - Uppercase: 0.0
-  - Special chars: 0.0
-
-✅ Simple text classification completed!
+# Install dependencies
+pip install datasets pandas
 ```
 
-## Customization
+## Files
 
-- Modify `TextClassificationDemo.java` to add your own formal/slang examples
-- Adjust train-test split ratio in `TextClassificationMain.java`
-- Add new evaluation metrics in `ModelEvaluator.java`
-- Extend with additional ML algorithms
+- `YelpSentimentAnalysisSmileML.java` - Main sentiment analysis class
+- `simple_yelp_reviews.csv` - Real Yelp dataset (2000 reviews)
+- `create_simple_yelp_dataset.py` - Script to generate dataset from Hugging Face
+- `run_with_local_jars.sh` - Run script using local JAR dependencies
+- `lib/` - Local JAR dependencies
+- `archive/` - Old/unused files
+
+## Features
+
+- Uses real Yelp reviews from Hugging Face dataset
+- Naive Bayes classification with 71.5% accuracy
+- Text preprocessing and feature extraction
+- Train/test split and model evaluation
+- Student exercises for learning
+
+## Requirements
+
+- Java 8+
+- Python 3+ (for dataset generation)
+- No Maven needed (uses local JARs)
 
 ## Troubleshooting
 
-- Ensure Java 11+ is installed: `java -version`
-- Ensure Maven is installed: `mvn -version`
-- If you get dependency issues, try: `mvn clean install`
+**If you get "Dataset not found" error:**
+1. Activate the virtual environment: `source ../venv/bin/activate`
+2. Generate the dataset: `python3 create_simple_yelp_dataset.py`
+3. Run the analysis: `./run_with_local_jars.sh`
+
+**If you get Python module errors:**
+1. Activate the virtual environment: `source ../venv/bin/activate`
+2. Install dependencies: `pip install datasets pandas`
+3. Generate the dataset: `python3 create_simple_yelp_dataset.py`
