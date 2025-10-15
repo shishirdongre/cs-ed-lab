@@ -1,4 +1,4 @@
-// BlueJ version - Yelp Review Sentiment Analysis using Professional Libraries
+// BlueJ version - Yelp Review Sentiment Analysis
 
 import java.util.*;
 import java.io.*;
@@ -7,38 +7,38 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
- * Yelp Review Sentiment Analysis using Professional Libraries
+ * Yelp Review Sentiment Analysis
  * Uses real Yelp dataset for restaurant review sentiment classification
- * Demonstrates proper use of libraries instead of custom implementations
+ * Implements Naive Bayes classifier for sentiment analysis
  */
 public class YelpSentimentAnalysisSmileML {
     
     public static void main(String[] args) {
-        System.out.println("=== Yelp Review Sentiment Analysis (Professional Libraries) ===\n");
+        System.out.println("=== Yelp Review Sentiment Analysis ===\n");
         
         try {
-            // Load and prepare data using libraries
-            DataPreparationResult dataResult = loadAndPrepareDataWithLibraries();
+            // Load and prepare data
+            DataPreparationResult dataResult = loadAndPrepareData();
             
-            // Train the model using libraries
-            ModelTrainingResult modelResult = trainModelWithLibraries(dataResult);
+            // Train the model
+            ModelTrainingResult model = trainModel(dataResult);
             
-            // Evaluate the model using libraries
-            evaluateModelWithLibraries(modelResult);
+            // Evaluate the model
+            evaluateModel(model);
             
             // Test on sample reviews
-            testSampleReviewsWithLibraries(modelResult);
+            testSampleReviews(model);
             
             // Show model insights
-            showModelInsightsWithLibraries(modelResult);
+            showModelInsights(model);
             
             // Performance summary
-            showPerformanceSummaryWithLibraries(modelResult);
+            showPerformanceSummary(model);
             
             System.out.println("\n✅ Yelp sentiment analysis completed successfully!");
             
             // Student exercises
-            runStudentExercisesWithLibraries(modelResult);
+            runStudentExercises(model);
             
         } catch (Exception e) {
             System.err.println("Error in Yelp sentiment analysis: " + e.getMessage());
@@ -47,12 +47,12 @@ public class YelpSentimentAnalysisSmileML {
     }
     
     /**
-     * Load and prepare the Yelp dataset using professional libraries
+     * Load and prepare the Yelp dataset
      */
-    private static DataPreparationResult loadAndPrepareDataWithLibraries() {
-        System.out.println("1. Loading Yelp dataset with OpenCSV...");
+    private static DataPreparationResult loadAndPrepareData() {
+        System.out.println("1. Loading Yelp dataset...");
         
-        // Load CSV data using OpenCSV library
+        // Load CSV data
         List<String[]> csvData = new ArrayList<>();
         try (CSVReader reader = new CSVReader(new FileReader("simple_yelp_reviews.csv"))) {
             csvData = reader.readAll();
@@ -60,7 +60,7 @@ public class YelpSentimentAnalysisSmileML {
             throw new RuntimeException("Error loading CSV file", e);
         }
         
-        System.out.println("   ✅ Dataset loaded successfully with OpenCSV!");
+        System.out.println("   ✅ Dataset loaded successfully!");
         System.out.println("   Total reviews: " + (csvData.size() - 1));
         
         // Count positive vs negative reviews
@@ -86,18 +86,18 @@ public class YelpSentimentAnalysisSmileML {
             System.out.println("   " + (i+1) + ". (" + labels[i] + ") " + review);
         }
         
-        // Text preprocessing using Apache Commons Lang
-        System.out.println("\n3. Text preprocessing with Apache Commons Lang...");
+        // Text preprocessing
+        System.out.println("\n3. Text preprocessing...");
         String[] processedTexts = Arrays.stream(texts)
-            .map(text -> StringUtils.lowerCase(text))  // Library function
-            .map(text -> StringUtils.replaceChars(text, "!@#$%^&*()_+-=[]{}|;':\",./<>?`~", " "))  // Library function
-            .map(text -> StringUtils.normalizeSpace(text))  // Library function
+            .map(text -> StringUtils.lowerCase(text))
+            .map(text -> StringUtils.replaceChars(text, "!@#$%^&*()_+-=[]{}|;':\",./<>?`~", " "))
+            .map(text -> StringUtils.normalizeSpace(text))
             .toArray(String[]::new);
         
-        System.out.println("   ✅ Text preprocessing completed with Apache Commons!");
+        System.out.println("   ✅ Text preprocessing completed!");
         System.out.println("   Processed " + processedTexts.length + " texts");
         
-        // Show most common words using Apache Commons
+        // Show sample processed texts
         System.out.println("\n   Sample processed texts:");
         for (int i = 0; i < 3; i++) {
             String processed = processedTexts[i].length() > 80 ? processedTexts[i].substring(0, 80) + "..." : processedTexts[i];
@@ -108,17 +108,17 @@ public class YelpSentimentAnalysisSmileML {
     }
     
     /**
-     * Train the Naive Bayes model using library-based approach
+     * Train the Naive Bayes model
      */
-    private static ModelTrainingResult trainModelWithLibraries(DataPreparationResult dataResult) {
-        // Train-test split using library-based approach
-        System.out.println("\n4. Train-test split with library utilities...");
+    private static ModelTrainingResult trainModel(DataPreparationResult dataResult) {
+        // Train-test split
+        System.out.println("\n4. Train-test split...");
         
         // Convert to feature format
         double[][] features = createBagOfWordsFeatures(dataResult.processedTexts);
         int[] labels = convertLabelsToInt(dataResult.labels);
         
-        // Use library-based train-test split
+        // Perform train-test split
         TrainTestSplitResult split = performTrainTestSplit(features, labels, 0.2, 12345);
         
         System.out.println("   ✅ Train-test split completed!");
@@ -126,18 +126,18 @@ public class YelpSentimentAnalysisSmileML {
         System.out.println("   Test set size: " + split.testFeatures.length);
         System.out.println("   Test ratio: " + String.format("%.1f%%", (double)split.testFeatures.length / features.length * 100));
         
-        // Train Naive Bayes model using library-based approach
-        System.out.println("\n5. Training Naive Bayes model with library utilities...");
+        // Train Naive Bayes model
+        System.out.println("\n5. Training Naive Bayes model...");
         NaiveBayesModel nbModel = new NaiveBayesModel();
         nbModel.fit(split.trainFeatures, split.trainLabels);
         
         System.out.println("   ✅ Naive Bayes model trained successfully!");
-        System.out.println("   Model type: Library-based Naive Bayes");
+        System.out.println("   Model type: Naive Bayes");
         System.out.println("   Number of classes: " + nbModel.numClasses());
         System.out.println("   Number of features: " + features[0].length);
         
         // Make predictions
-        System.out.println("\n6. Making predictions with library utilities...");
+        System.out.println("\n6. Making predictions...");
         int[] predictions = new int[split.testFeatures.length];
         for (int i = 0; i < split.testFeatures.length; i++) {
             predictions[i] = nbModel.predict(split.testFeatures[i]);
@@ -150,24 +150,24 @@ public class YelpSentimentAnalysisSmileML {
     }
     
     /**
-     * Evaluate the model performance using library utilities
+     * Evaluate the model performance
      */
-    private static void evaluateModelWithLibraries(ModelTrainingResult modelResult) {
-        System.out.println("\n7. Model evaluation with library utilities...");
+    private static void evaluateModel(ModelTrainingResult model) {
+        System.out.println("\n7. Model evaluation...");
         
-        // Calculate accuracy using library utilities
-        double accuracy = calculateAccuracy(modelResult.split.testLabels, modelResult.predictions);
+        // Calculate accuracy
+        double accuracy = calculateAccuracy(model.split.testLabels, model.predictions);
         System.out.println("   Overall Accuracy: " + String.format("%.3f", accuracy) + " (" + String.format("%.1f%%", accuracy * 100) + ")");
         
-        // Confusion matrix using library utilities
-        int[][] confusionMatrix = calculateConfusionMatrix(modelResult.split.testLabels, modelResult.predictions);
+        // Confusion matrix
+        int[][] confusionMatrix = calculateConfusionMatrix(model.split.testLabels, model.predictions);
         System.out.println("\n   Confusion Matrix:");
         System.out.println("   Actual\\Predicted\tNegative\tPositive");
         System.out.println("   Negative\t\t" + confusionMatrix[0][0] + "\t\t" + confusionMatrix[0][1]);
         System.out.println("   Positive\t\t" + confusionMatrix[1][0] + "\t\t" + confusionMatrix[1][1]);
         
-        // Classification metrics using library utilities
-        ClassificationMetrics metrics = calculateClassificationMetrics(modelResult.split.testLabels, modelResult.predictions);
+        // Classification metrics
+        ClassificationMetrics metrics = calculateClassificationMetrics(model.split.testLabels, model.predictions);
         System.out.println("\n   Classification Report:");
         System.out.println("   Precision: " + String.format("%.3f", metrics.precision));
         System.out.println("   Recall: " + String.format("%.3f", metrics.recall));
@@ -175,10 +175,10 @@ public class YelpSentimentAnalysisSmileML {
     }
     
     /**
-     * Test the model on sample reviews using library utilities
+     * Test the model on sample reviews
      */
-    private static void testSampleReviewsWithLibraries(ModelTrainingResult modelResult) {
-        System.out.println("\n8. Testing on sample reviews with library utilities...");
+    private static void testSampleReviews(ModelTrainingResult model) {
+        System.out.println("\n8. Testing on sample reviews...");
         String[] sampleReviews = {
             "Great food, excellent service!",
             "Terrible food, bad service",
@@ -192,7 +192,7 @@ public class YelpSentimentAnalysisSmileML {
         
         System.out.println("   Sample review predictions:");
         for (String review : sampleReviews) {
-            // Preprocess the review using Apache Commons
+            // Preprocess the review
             String processed = StringUtils.lowerCase(review);
             processed = StringUtils.replaceChars(processed, "!@#$%^&*()_+-=[]{}|;':\",./<>?`~", " ");
             processed = StringUtils.normalizeSpace(processed);
@@ -201,7 +201,7 @@ public class YelpSentimentAnalysisSmileML {
             double[] features = createSimpleFeatureVector(processed);
             
             // Make prediction
-            int prediction = modelResult.nbModel.predict(features);
+            int prediction = model.nbModel.predict(features);
             String sentiment = prediction == 0 ? "negative" : "positive";
             
             String shortReview = review.length() > 50 ? review.substring(0, 50) + "..." : review;
@@ -212,73 +212,71 @@ public class YelpSentimentAnalysisSmileML {
     /**
      * Show model insights and configuration
      */
-    private static void showModelInsightsWithLibraries(ModelTrainingResult modelResult) {
-        System.out.println("\n9. Model insights with library utilities...");
-        System.out.println("   Model type: Library-based Naive Bayes");
+    private static void showModelInsights(ModelTrainingResult model) {
+        System.out.println("\n9. Model insights...");
+        System.out.println("   Model type: Naive Bayes");
         System.out.println("   Libraries used: OpenCSV, Apache Commons Lang, Apache Commons Math");
-        System.out.println("   Number of classes: " + modelResult.nbModel.numClasses());
-        System.out.println("   Number of features: " + modelResult.features[0].length);
-        System.out.println("   Training samples: " + modelResult.split.trainFeatures.length);
-        System.out.println("   Test samples: " + modelResult.split.testFeatures.length);
+        System.out.println("   Number of classes: " + model.nbModel.numClasses());
+        System.out.println("   Number of features: " + model.features[0].length);
+        System.out.println("   Training samples: " + model.split.trainFeatures.length);
+        System.out.println("   Test samples: " + model.split.testFeatures.length);
     }
     
     /**
-     * Show detailed performance summary using Apache Commons Math
+     * Show detailed performance summary
      */
-    private static void showPerformanceSummaryWithLibraries(ModelTrainingResult modelResult) {
-        System.out.println("\n10. Performance summary with Apache Commons Math...");
+    private static void showPerformanceSummary(ModelTrainingResult model) {
+        System.out.println("\n10. Performance summary...");
         
         // Calculate accuracy
-        double accuracy = calculateAccuracy(modelResult.split.testLabels, modelResult.predictions);
+        double accuracy = calculateAccuracy(model.split.testLabels, model.predictions);
         System.out.println("   Overall Accuracy: " + String.format("%.1f%%", accuracy * 100));
         
-        // Calculate per-class accuracy using Apache Commons Math
+        // Calculate per-class accuracy
         DescriptiveStatistics positiveStats = new DescriptiveStatistics();
         DescriptiveStatistics negativeStats = new DescriptiveStatistics();
         
-        for (int i = 0; i < modelResult.split.testLabels.length; i++) {
-            if (modelResult.split.testLabels[i] == 1) { // positive
-                positiveStats.addValue(modelResult.split.testLabels[i] == modelResult.predictions[i] ? 1.0 : 0.0);
+        for (int i = 0; i < model.split.testLabels.length; i++) {
+            if (model.split.testLabels[i] == 1) { // positive
+                positiveStats.addValue(model.split.testLabels[i] == model.predictions[i] ? 1.0 : 0.0);
             } else { // negative
-                negativeStats.addValue(modelResult.split.testLabels[i] == modelResult.predictions[i] ? 1.0 : 0.0);
+                negativeStats.addValue(model.split.testLabels[i] == model.predictions[i] ? 1.0 : 0.0);
             }
         }
         
         System.out.println("   Positive class accuracy: " + String.format("%.1f%%", positiveStats.getMean() * 100));
         System.out.println("   Negative class accuracy: " + String.format("%.1f%%", negativeStats.getMean() * 100));
         
-        // Additional statistics using Apache Commons Math
+        // Additional statistics
         System.out.println("   Standard deviation: " + String.format("%.3f", positiveStats.getStandardDeviation()));
         System.out.println("   Min accuracy: " + String.format("%.1f%%", positiveStats.getMin() * 100));
         System.out.println("   Max accuracy: " + String.format("%.1f%%", positiveStats.getMax() * 100));
     }
     
     /**
-     * Run all student exercises using libraries
+     * Run all student exercises
      */
-    private static void runStudentExercisesWithLibraries(ModelTrainingResult modelResult) {
+    private static void runStudentExercises(ModelTrainingResult model) {
         System.out.println("\n" + "=".repeat(60));
-        System.out.println("🎓 STUDENT EXERCISE: Using Professional Libraries!");
+        System.out.println("🎓 STUDENT EXERCISE: Test Your Own Examples!");
         System.out.println("=".repeat(60));
         
-        runBasicStudentExerciseWithLibraries(modelResult);
-        runAdvancedStudentExerciseWithLibraries(modelResult);
-        runChallengeStudentExerciseWithLibraries(modelResult);
-        showReflectionQuestionsWithLibraries();
+        runBasicStudentExercise(model);
+        runChallengeStudentExercise(model);
         
-        System.out.println("\n🎓 Student exercise completed! You've learned to use professional libraries!");
+        System.out.println("\n🎓 Student exercise completed! You've learned to use the sentiment classifier!");
     }
     
     /**
-     * Basic student exercise using libraries
+     * Basic student exercise
      */
-    private static void runBasicStudentExerciseWithLibraries(ModelTrainingResult modelResult) {
-        System.out.println("\n11. Student Exercise - Test Your Own Examples with Libraries!");
+    private static void runBasicStudentExercise(ModelTrainingResult model) {
+        System.out.println("\n11. Student Exercise - Test Your Own Examples!");
         System.out.println("   Instructions:");
         System.out.println("   1. Add your own restaurant review examples below");
         System.out.println("   2. Try to write both positive and negative reviews");
-        System.out.println("   3. See if the library-based model correctly predicts the sentiment");
-        System.out.println("   4. Compare with the custom implementation");
+        System.out.println("   3. See if the model correctly predicts the sentiment");
+        System.out.println("   4. Experiment with different types of reviews");
         
         // TODO: Students should fill in their own examples here
         String[] studentExamples = {
@@ -298,10 +296,10 @@ public class YelpSentimentAnalysisSmileML {
             System.out.println("   " + (i+1) + ". " + studentExamples[i]);
         }
         
-        // Test student examples using libraries
-        System.out.println("\n   Testing your examples with libraries...");
+        // Test student examples
+        System.out.println("\n   Testing your examples...");
         for (String review : studentExamples) {
-            // Preprocess using Apache Commons
+            // Preprocess the review
             String processed = StringUtils.lowerCase(review);
             processed = StringUtils.replaceChars(processed, "!@#$%^&*()_+-=[]{}|;':\",./<>?`~", " ");
             processed = StringUtils.normalizeSpace(processed);
@@ -310,7 +308,7 @@ public class YelpSentimentAnalysisSmileML {
             double[] features = createSimpleFeatureVector(processed);
             
             // Make prediction
-            int prediction = modelResult.nbModel.predict(features);
+            int prediction = model.nbModel.predict(features);
             String sentiment = prediction == 0 ? "negative" : "positive";
             
             String shortReview = review.length() > 50 ? review.substring(0, 50) + "..." : review;
@@ -319,41 +317,24 @@ public class YelpSentimentAnalysisSmileML {
     }
     
     /**
-     * Advanced student exercise - Library comparison
+     * Advanced student exercise
      */
-    private static void runAdvancedStudentExerciseWithLibraries(ModelTrainingResult modelResult) {
-        System.out.println("\n12. Advanced Exercise - Compare Libraries vs Custom Code!");
-        System.out.println("   Instructions:");
-        System.out.println("   1. Notice how libraries handle ML operations");
-        System.out.println("   2. Compare with Apache Commons for text processing");
-        System.out.println("   3. See how professional libraries simplify code");
-        System.out.println("   4. Understand the benefits of using established libraries");
-        
-        System.out.println("\n   Library Benefits:");
-        System.out.println("   ✅ OpenCSV: Reliable CSV handling, handles edge cases");
-        System.out.println("   ✅ Apache Commons Lang: Robust text processing, well-tested");
-        System.out.println("   ✅ Apache Commons Math: Statistical functions, optimized");
-        System.out.println("   ✅ Less code: Focus on business logic, not utilities");
-        System.out.println("   ✅ Better performance: Optimized implementations");
-        System.out.println("   ✅ Fewer bugs: Battle-tested by thousands of projects");
-        
-        System.out.println("\n   Code Comparison:");
-        System.out.println("   Custom: String processed = text.toLowerCase().replaceAll(\"[^a-zA-Z0-9\\\\s]\", \" \");");
-        System.out.println("   Library: String processed = StringUtils.lowerCase(StringUtils.replaceChars(text, \"!@#$%^&*()_+-=[]{}|;':\\\",./<>?`~\", \" \"));");
-        System.out.println("   Result: Library version is more readable and handles edge cases better!");
+    private static void runAdvancedStudentExercise(ModelTrainingResult modelResult) {
+
     }
     
     /**
-     * Challenge student exercise - Edge cases with libraries
+     * Challenge student exercise
      */
-    private static void runChallengeStudentExerciseWithLibraries(ModelTrainingResult modelResult) {
-        System.out.println("\n13. Challenge Exercise - Test Edge Cases with Libraries!");
+    private static void runChallengeStudentExercise(ModelTrainingResult model) {
+        System.out.println("\n13. Challenge Exercise - Test Edge Cases!");
         System.out.println("   Instructions:");
         System.out.println("   1. Try reviews with mixed sentiment (positive and negative)");
         System.out.println("   2. Test very short reviews (1-2 words)");
         System.out.println("   3. Try reviews with sarcasm or irony");
         System.out.println("   4. Test reviews with typos or informal language");
-        System.out.println("   5. See how libraries handle these cases");
+        System.out.println("   5. See how the model handles these cases");
+
         
         // TODO: Students should add edge case examples here
         String[] edgeCaseExamples = {
@@ -380,10 +361,9 @@ public class YelpSentimentAnalysisSmileML {
             System.out.println("   " + (i+1) + ". " + edgeCaseExamples[i]);
         }
         
-        // Test edge cases using libraries
-        System.out.println("\n   Testing edge cases with libraries...");
+        System.out.println("\n   Testing edge cases...");
         for (String review : edgeCaseExamples) {
-            // Preprocess using Apache Commons
+            // Preprocess the review
             String processed = StringUtils.lowerCase(review);
             processed = StringUtils.replaceChars(processed, "!@#$%^&*()_+-=[]{}|;':\",./<>?`~", " ");
             processed = StringUtils.normalizeSpace(processed);
@@ -392,7 +372,7 @@ public class YelpSentimentAnalysisSmileML {
             double[] features = createSimpleFeatureVector(processed);
             
             // Make prediction
-            int prediction = modelResult.nbModel.predict(features);
+            int prediction = model.nbModel.predict(features);
             String sentiment = prediction == 0 ? "negative" : "positive";
             
             String shortReview = review.length() > 40 ? review.substring(0, 40) + "..." : review;
@@ -401,10 +381,10 @@ public class YelpSentimentAnalysisSmileML {
     }
     
     /**
-     * Show reflection questions for students about libraries
+     * Show reflection questions for students
      */
-    private static void showReflectionQuestionsWithLibraries() {
-        System.out.println("\n14. Reflection Questions about Professional Libraries!");
+    private static void showReflectionQuestions() {
+        System.out.println("\n14. Reflection Questions!");
         System.out.println("   Think about these questions:");
         System.out.println("   1. How does using libraries compare to custom implementations?");
         System.out.println("   2. What are the benefits of Apache Commons for text processing?");
@@ -414,9 +394,7 @@ public class YelpSentimentAnalysisSmileML {
         System.out.println("   6. What other libraries could you use for this task?");
         System.out.println("   7. How do libraries handle edge cases better than custom code?");
     }
-    
-    // Helper methods using libraries
-    
+        
     /**
      * Create bag of words features (simplified implementation)
      */
