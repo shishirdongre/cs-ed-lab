@@ -43,17 +43,23 @@ def create_simple_yelp_dataset():
     print(f"Positive: {len(simple_dataset[simple_dataset['sentiment'] == 'positive'])}")
     print(f"Negative: {len(simple_dataset[simple_dataset['sentiment'] == 'negative'])}")
     
-    # Clean text (remove newlines and extra spaces)
-    simple_dataset['text'] = simple_dataset['text'].str.replace('\n', ' ').str.replace('\r', ' ').str.replace('  +', ' ', regex=True).str.strip()
+    # Clean text - replace ALL newlines, carriage returns, and multiple spaces with single spaces
+    import re
+    simple_dataset['text'] = simple_dataset['text'].apply(lambda x: re.sub(r'[\n\r]+', ' ', str(x)))
+    simple_dataset['text'] = simple_dataset['text'].apply(lambda x: re.sub(r'[ \t]+', ' ', str(x)))
+    simple_dataset['text'] = simple_dataset['text'].str.strip()
+    
+    # Replace quotes to avoid CSV parsing issues
+    simple_dataset['text'] = simple_dataset['text'].str.replace('"', "'")
     
     # Save as CSV
-    simple_dataset[['text', 'sentiment']].to_csv('java-ml-project/simple_yelp_reviews.csv', index=False)
+    simple_dataset[['text', 'sentiment']].to_csv('simple_yelp_reviews.csv', index=False)
     
     print("\nSample reviews:")
     for i in range(5):
         print(f"{i+1}. ({simple_dataset.iloc[i]['sentiment']}) {simple_dataset.iloc[i]['text']}")
     
-    print(f"\n✅ Simple dataset saved as 'java-ml-project/simple_yelp_reviews.csv'")
+    print(f"\n✅ Simple dataset saved as 'simple_yelp_reviews.csv'")
 
 if __name__ == "__main__":
     create_simple_yelp_dataset()
