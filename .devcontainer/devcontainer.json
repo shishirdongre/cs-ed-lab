@@ -46,7 +46,7 @@
     },
     
     // Post-create command to set up the environment
-    "postCreateCommand": "chmod +x /workspace/venv/bin/* && cd /workspace/java-ml-project && chmod +x *.sh scripts/*.py && echo 'Environment ready! Java and Python with venv are configured.'",
+    "postCreateCommand": "cd /workspace/java-ml-project && chmod +x setup_codespace.sh && ./setup_codespace.sh",
     
     // User settings
     "remoteUser": "root"
