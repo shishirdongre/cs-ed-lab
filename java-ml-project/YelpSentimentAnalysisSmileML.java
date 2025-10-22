@@ -6,26 +6,60 @@ import com.opencsv.CSVReader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import smile.classification.NaiveBayes;
+import smile.nlp.stemmer.PorterStemmer;
 import smile.stat.distribution.Distribution;
 import smile.stat.distribution.GaussianDistribution;
-import smile.nlp.stemmer.PorterStemmer;
+import smile.stat.distribution.PoissonDistribution;
 
 /**
  * Yelp Review Sentiment Analysis
  * Uses real Yelp dataset for restaurant review sentiment classification
- * Implements Naive Bayes classifier for sentiment analysis
+ * Implements Multinomial Naive Bayes classifier for sentiment analysis
  */
 public class YelpSentimentAnalysisSmileML {
+    
+    // Vocabulary class for consistent word-to-index mapping
+    static class Vocab {
+        final Map<String,Integer> index;  // token -> column
+        Vocab(Map<String,Integer> index) { this.index = index; }
+        int size() { return index.size(); }
+    }
+
+    // Vectorization result containing vocabulary and feature matrix
+    private static class Vectorization {
+        final Vocab vocab;
+        final double[][] X;
+        Vectorization(Vocab vocab, double[][] X) { this.vocab = vocab; this.X = X; }
+    }
+
+    // Index split for stratified sampling
+    private static class IndexSplit { 
+        final int[] trainIdx, testIdx; 
+        IndexSplit(int[] tr, int[] te){trainIdx=tr;testIdx=te;} 
+    }
+
     
     public static void main(String[] args) {
         System.out.println("=== Yelp Review Sentiment Analysis ===");
         
         try {
             // Load and prepare data
+            System.out.println("Loading data...");
             DataPreparationResult dataResult = loadAndPrepareData();
+            System.out.println("Data loaded: " + dataResult.processedTexts.length + " samples");
+            System.out.println("About to call trainModel...");
             
             // Train the model
-            ModelTrainingResult model = trainModel(dataResult);
+            System.out.println("About to call trainModel...");
+            ModelTrainingResult model;
+            try {
+                model = trainModel(dataResult);
+                System.out.println("trainModel completed successfully");
+            } catch (Exception e) {
+                System.err.println("Error in trainModel: " + e.getMessage());
+                e.printStackTrace();
+                return;
+            }
             
             // Evaluate the model
             evaluateModel(model);
@@ -40,70 +74,262 @@ public class YelpSentimentAnalysisSmileML {
         } catch (Exception e) {
             System.err.println("Error in Yelp sentiment analysis: " + e.getMessage());
             e.printStackTrace();
+            System.err.println("Stack trace:");
+            e.printStackTrace();
         }
     }
     
     /**
-     * Load and prepare the Yelp dataset
+     * Load and prepare the Yelp dataset with proper header handling
      */
     private static DataPreparationResult loadAndPrepareData() {
-        
-        // Load CSV data
-        List<String[]> csvData = new ArrayList<>();
+        List<String[]> rows;
         try (CSVReader reader = new CSVReader(new FileReader("simple_yelp_reviews.csv"))) {
-            csvData = reader.readAll();
-        } catch (IOException | com.opencsv.exceptions.CsvException e) {
+            rows = reader.readAll();
+        } catch (Exception e) {
             throw new RuntimeException("Error loading CSV file", e);
         }
-        
-        
-        // Extract texts and labels
-        String[] texts = new String[csvData.size() - 1];
-        String[] labels = new String[csvData.size() - 1];
-        
-        for (int i = 1; i < csvData.size(); i++) {
-            texts[i-1] = csvData.get(i)[0];
-            labels[i-1] = csvData.get(i)[1];
+        if (rows.isEmpty()) throw new IllegalArgumentException("Empty CSV");
+
+        // Skip header
+        rows = rows.subList(1, rows.size());
+
+        String[] texts  = new String[rows.size()];
+        String[] labels = new String[rows.size()];
+        for (int i = 0; i < rows.size(); i++) {
+            texts[i]  = rows.get(i)[0];              // "text"
+            labels[i] = rows.get(i)[1].trim();       // "positive"/"negative"
         }
-        
-        
-        // Text preprocessing
-        String[] processedTexts = Arrays.stream(texts)
-            .map(text -> StringUtils.lowerCase(text))
-            .map(text -> StringUtils.replaceChars(text, "!@#$%^&*()_+-=[]{}|;':\",./<>?`~", " "))
-            .map(text -> StringUtils.normalizeSpace(text))
+
+        // Simple normalization consistent with vectorizer below
+        String[] processed = Arrays.stream(texts)
+            .map(StringUtils::lowerCase)
+            .map(t -> t.replaceAll("[^a-zA-Z\\s]", " "))
+            .map(StringUtils::normalizeSpace)
             .toArray(String[]::new);
+
+        System.out.println("Loaded " + texts.length + " samples");
+        System.out.println("Sample labels: " + Arrays.toString(Arrays.copyOf(labels, Math.min(5, labels.length))));
         
-        
-        return new DataPreparationResult(texts, processedTexts, labels);
+        return new DataPreparationResult(texts, processed, labels);
     }
     
     /**
-     * Train the Naive Bayes model
+     * Create bag of words for a single text using PorterStemmer
      */
-    private static ModelTrainingResult trainModel(DataPreparationResult dataResult) {
-        // Train-test split
+    private static Map<String,Integer> bagOfWords(String text, PorterStemmer stemmer) {
+        String[] words = text.toLowerCase().replaceAll("[^a-zA-Z\\s]", " ").split("\\s+");
+        Map<String,Integer> bag = new HashMap<>();
+        for (String w : words) {
+            if (w.length() > 2) {
+                String s = stemmer.stem(w);
+                bag.put(s, bag.getOrDefault(s, 0) + 1);
+            }
+        }
+        return bag;
+    }
+    
+    /**
+     * Build vocabulary from training data and vectorize
+     */
+    private static Vectorization buildVocabAndVectorizeTrain(String[] trainTexts, int vocabSize) {
+        PorterStemmer stemmer = new PorterStemmer();
+        // Document frequency (how many docs contain the token)
+        Map<String,Integer> df = new HashMap<>();
+        List<Map<String,Integer>> bags = new ArrayList<>();
+
+        for (String t : trainTexts) {
+            Map<String,Integer> bag = bagOfWords(t, stemmer);
+            bags.add(bag);
+            for (String w : bag.keySet()) df.put(w, df.getOrDefault(w, 0) + 1);
+        }
+
+        // top-K by DF (stable & effective for NB)
+        List<Map.Entry<String,Integer>> sorted = new ArrayList<>(df.entrySet());
+        sorted.sort((a,b) -> Integer.compare(b.getValue(), a.getValue()));
+        int K = Math.min(vocabSize, sorted.size());
+        Map<String,Integer> idx = new HashMap<>(K);
+        for (int i = 0; i < K; i++) idx.put(sorted.get(i).getKey(), i);
+        Vocab vocab = new Vocab(idx);
+
+        double[][] X = new double[trainTexts.length][K];
+        for (int i = 0; i < trainTexts.length; i++) fillRow(X[i], bags.get(i), vocab);
+        return new Vectorization(vocab, X);
+    }
+    
+    /**
+     * Vectorize texts using existing vocabulary
+     */
+    private static double[][] vectorizeWithVocab(String[] texts, Vocab vocab) {
+        PorterStemmer stemmer = new PorterStemmer();
+        double[][] X = new double[texts.length][vocab.size()];
+        for (int i = 0; i < texts.length; i++) {
+            Map<String,Integer> bag = bagOfWords(texts[i], stemmer);
+            fillRow(X[i], bag, vocab);
+        }
+        return X;
+    }
+    
+    /**
+     * Fill feature row using vocabulary mapping
+     */
+    private static void fillRow(double[] row, Map<String,Integer> bag, Vocab vocab) {
+        Arrays.fill(row, 0.0);
+        for (Map.Entry<String,Integer> e : bag.entrySet()) {
+            Integer j = vocab.index.get(e.getKey());
+            if (j != null) row[j] = e.getValue();  // raw counts for Multinomial NB
+        }
+    }
+    
+    /**
+     * Convert string labels to integers with robust parsing
+     */
+    private static int[] convertLabelsToInt(String[] labels) {
+        int[] y = new int[labels.length];
+        for (int i = 0; i < labels.length; i++) {
+            String s = labels[i].trim().toLowerCase();
+            if (s.startsWith("pos"))      y[i] = 1;
+            else if (s.startsWith("neg")) y[i] = 0;
+            else throw new IllegalArgumentException("Unknown label: " + labels[i]);
+        }
+        return y;
+    }
+    
+    /**
+     * Perform stratified train-test split by class labels
+     */
+    private static TrainTestSplitResult stratifiedSplit(double[][] X, int[] y, double testSize, long seed) {
+        Random rnd = new Random(seed);
+        List<Integer> pos = new ArrayList<>(), neg = new ArrayList<>();
+        for (int i = 0; i < y.length; i++) (y[i] == 1 ? pos : neg).add(i);
+        Collections.shuffle(pos, rnd);
+        Collections.shuffle(neg, rnd);
+
+        int tp = Math.max(1, (int)Math.round(pos.size() * testSize));
+        int tn = Math.max(1, (int)Math.round(neg.size() * testSize));
+
+        List<Integer> testIdx = new ArrayList<>();
+        testIdx.addAll(pos.subList(0, Math.min(tp, pos.size())));
+        testIdx.addAll(neg.subList(0, Math.min(tn, neg.size())));
+
+        boolean[] isTest = new boolean[y.length];
+        for (int i : testIdx) isTest[i] = true;
+
+        List<Integer> trainIdx = new ArrayList<>();
+        for (int i = 0; i < y.length; i++) if (!isTest[i]) trainIdx.add(i);
+
+        return slice(X, y, trainIdx, testIdx);
+    }
+    
+    /**
+     * Slice data using train/test indices
+     */
+    private static TrainTestSplitResult slice(double[][] X, int[] y, List<Integer> trainIdx, List<Integer> testIdx) {
+        double[][] Xtr = new double[trainIdx.size()][];
+        double[][] Xte = new double[testIdx.size()][];
+        int[] ytr = new int[trainIdx.size()];
+        int[] yte = new int[testIdx.size()];
+        for (int i = 0; i < trainIdx.size(); i++) { Xtr[i] = X[trainIdx.get(i)]; ytr[i] = y[trainIdx.get(i)]; }
+        for (int i = 0; i < testIdx.size(); i++)  { Xte[i] = X[testIdx.get(i)];  yte[i] = y[testIdx.get(i)];  }
+        return new TrainTestSplitResult(Xtr, Xte, ytr, yte);
+    }
+    
+    /**
+     * Helper to compute stratified indices
+     */
+    private static IndexSplit performTrainTestSplitIndices(int n, double testSize, long seed, int[] y) {
+        // Stratify by labels
+        List<Integer> pos = new ArrayList<>(), neg = new ArrayList<>();
+        for (int i = 0; i < n; i++) (y[i]==1?pos:neg).add(i);
+        Random rnd = new Random(seed);
+        Collections.shuffle(pos, rnd); Collections.shuffle(neg, rnd);
+        int tp = Math.max(1, (int)Math.round(pos.size()*testSize));
+        int tn = Math.max(1, (int)Math.round(neg.size()*testSize));
+        List<Integer> test = new ArrayList<>();
+        test.addAll(pos.subList(0, Math.min(tp, pos.size())));
+        test.addAll(neg.subList(0, Math.min(tn, neg.size())));
+        boolean[] isTest = new boolean[n]; for (int i:test) isTest[i]=true;
+        List<Integer> train = new ArrayList<>(); for (int i=0;i<n;i++) if (!isTest[i]) train.add(i);
+        return new IndexSplit(train.stream().mapToInt(Integer::intValue).toArray(),
+                              test.stream().mapToInt(Integer::intValue).toArray());
+    }
+    
+    /**
+     * Train the Multinomial Naive Bayes model with proper vocabulary management
+     */
+    private static ModelTrainingResult trainModel(DataPreparationResult data) {
+        System.out.println("DEBUG: trainModel called with " + data.processedTexts.length + " samples");
+        int[] y = convertLabelsToInt(data.labels);
+
+        // Build vocab and vectorize **on training only**
+        int vocabSize = 10000; // feel free to set 5k–20k
+        // First do a temporary vectorization on all to split indices consistently
+        IndexSplit indexSplit = performTrainTestSplitIndices(y.length, 0.2, 42, y);
+        // Build train texts and test texts arrays
+        String[] trainTexts = new String[indexSplit.trainIdx.length];
+        String[] testTexts = new String[indexSplit.testIdx.length];
+        int[] yTrain = new int[indexSplit.trainIdx.length];
+        int[] yTest = new int[indexSplit.testIdx.length];
         
-        // Convert to feature format
-        double[][] features = createBagOfWordsFeatures(dataResult.processedTexts);
-        int[] labels = convertLabelsToInt(dataResult.labels);
-        
-        // Perform train-test split
-        TrainTestSplitResult split = performTrainTestSplit(features, labels);
-        
-        
-        // Train Naive Bayes model using Smile library
-        NaiveBayes nbModel = trainSmileNaiveBayes(split.trainFeatures, split.trainLabels);
-        
-        
-        // Make predictions
-        int[] predictions = new int[split.testFeatures.length];
-        for (int i = 0; i < split.testFeatures.length; i++) {
-            predictions[i] = nbModel.predict(split.testFeatures[i]);
+        for (int i = 0; i < indexSplit.trainIdx.length; i++) {
+            trainTexts[i] = data.processedTexts[indexSplit.trainIdx[i]];
+            yTrain[i] = y[indexSplit.trainIdx[i]];
         }
         
+        for (int i = 0; i < indexSplit.testIdx.length; i++) {
+            testTexts[i] = data.processedTexts[indexSplit.testIdx[i]];
+            yTest[i] = y[indexSplit.testIdx[i]];
+        }
         
-        return new ModelTrainingResult(nbModel, features, split, predictions, dataResult.labels);
+        System.out.println("Train texts: " + trainTexts.length + ", Test texts: " + testTexts.length);
+
+        Vectorization vecTrain = buildVocabAndVectorizeTrain(trainTexts, vocabSize);
+        double[][] Xtrain = vecTrain.X;
+        double[][] Xtest  = vectorizeWithVocab(testTexts, vecTrain.vocab);
+
+        // Debug: Print some statistics
+        System.out.println("Training data shape: " + Xtrain.length + " x " + Xtrain[0].length);
+        System.out.println("Test data shape: " + Xtest.length + " x " + Xtest[0].length);
+        System.out.println("Vocabulary size: " + vecTrain.vocab.size());
+        System.out.println("Training labels - Positive: " + Arrays.stream(yTrain).sum() + ", Negative: " + (yTrain.length - Arrays.stream(yTrain).sum()));
+        System.out.println("Test labels - Positive: " + Arrays.stream(yTest).sum() + ", Negative: " + (yTest.length - Arrays.stream(yTest).sum()));
+        
+        // Debug: Check feature values
+        double[] trainSums = new double[Xtrain.length];
+        for (int i = 0; i < Xtrain.length; i++) {
+            trainSums[i] = Arrays.stream(Xtrain[i]).sum();
+        }
+        System.out.println("Training feature sums - Min: " + Arrays.stream(trainSums).min().orElse(0) + 
+                          ", Max: " + Arrays.stream(trainSums).max().orElse(0) + 
+                          ", Mean: " + Arrays.stream(trainSums).average().orElse(0));
+        
+        // Check if features are too sparse
+        int nonZeroFeatures = 0;
+        for (int i = 0; i < Xtrain.length; i++) {
+            for (int j = 0; j < Xtrain[i].length; j++) {
+                if (Xtrain[i][j] > 0) nonZeroFeatures++;
+            }
+        }
+        System.out.println("Non-zero features: " + nonZeroFeatures + " out of " + (Xtrain.length * Xtrain[0].length));
+        
+        // Debug: Check a few sample feature vectors
+        System.out.println("Sample feature vectors:");
+        for (int i = 0; i < Math.min(3, Xtrain.length); i++) {
+            System.out.println("Sample " + i + " (class " + yTrain[i] + "): sum=" + trainSums[i] + 
+                             ", non-zero features=" + Arrays.stream(Xtrain[i]).mapToInt(x -> x > 0 ? 1 : 0).sum());
+        }
+
+        NaiveBayes nb = trainSmileNaiveBayes(Xtrain, yTrain);
+
+        int[] preds = new int[Xtest.length];
+        for (int i = 0; i < Xtest.length; i++) preds[i] = nb.predict(Xtest[i]);
+        
+        // Debug: Print predictions
+        System.out.println("Predictions - Positive: " + Arrays.stream(preds).sum() + ", Negative: " + (preds.length - Arrays.stream(preds).sum()));
+
+        // Pack split so your evaluateModel(...) keeps working
+        TrainTestSplitResult split = new TrainTestSplitResult(Xtrain, Xtest, yTrain, yTest);
+        return new ModelTrainingResult(nb, null, split, preds, data.labels, vecTrain.vocab);
     }
     
     /**
@@ -134,28 +360,27 @@ public class YelpSentimentAnalysisSmileML {
      * Test the model on sample reviews
      */
     private static void testSampleReviews(ModelTrainingResult model) {
-        String[] sampleReviews = {
+        String[] samples = {
             "Great food, excellent service!",
             "Terrible food, bad service",
             "Amazing pizza, friendly staff"
         };
-        
-        for (String review : sampleReviews) {
-            // Preprocess the review
-            String processed = StringUtils.lowerCase(review);
-            processed = StringUtils.replaceChars(processed, "!@#$%^&*()_+-=[]{}|;':\",./<>?`~", " ");
-            processed = StringUtils.normalizeSpace(processed);
-            
-            // Convert to feature vector
-            double[] features = createSimpleFeatureVector(processed);
-            
-            // Make prediction
-            int prediction = model.nbModel.predict(features);
-            String sentiment = prediction == 0 ? "negative" : "positive";
-            
-            String shortReview = review.length() > 50 ? review.substring(0, 50) + "..." : review;
-            System.out.println("   '" + shortReview + "' -> " + sentiment);
+        for (String s : samples) {
+            String sentiment = predictSentiment(model.nbModel, model.vocab, s);
+            System.out.println("   '" + (s.length()>60? s.substring(0,60)+"..." : s) + "' -> " + sentiment);
         }
+    }
+    
+    /**
+     * Predict sentiment using shared vocabulary
+     */
+    private static String predictSentiment(NaiveBayes nb, Vocab vocab, String raw) {
+        PorterStemmer stemmer = new PorterStemmer();
+        Map<String,Integer> bag = bagOfWords(raw, stemmer);
+        double[] x = new double[vocab.size()];
+        fillRow(x, bag, vocab);
+        int pred = nb.predict(x);
+        return pred == 1 ? "positive" : "negative";
     }
     
     
@@ -164,45 +389,61 @@ public class YelpSentimentAnalysisSmileML {
     /**
      * Train Smile NaiveBayes model
      */
-    private static NaiveBayes trainSmileNaiveBayes(double[][] features, int[] labels) {
-        int numClasses = 2; // negative (0) and positive (1)
-        int numFeatures = features[0].length;
-        
+    private static NaiveBayes trainSmileNaiveBayes(double[][] trainX, int[] trainY) {
+        // Use Gaussian distribution but with proper feature scaling for word counts
+        int numClasses = 2;
+        int numFeatures = trainX[0].length;
+
         // Calculate prior probabilities
         double[] priori = new double[numClasses];
-        for (int label : labels) {
+        for (int label : trainY) {
             priori[label]++;
         }
         for (int i = 0; i < numClasses; i++) {
-            priori[i] /= labels.length;
+            priori[i] /= trainY.length;
         }
-        
+
         // Calculate conditional distributions for each feature in each class
         Distribution[][] condprob = new Distribution[numClasses][numFeatures];
-        
+
         for (int classIdx = 0; classIdx < numClasses; classIdx++) {
             // Get features for this class
             List<double[]> classFeatures = new ArrayList<>();
-            for (int i = 0; i < features.length; i++) {
-                if (labels[i] == classIdx) {
-                    classFeatures.add(features[i]);
+            for (int i = 0; i < trainX.length; i++) {
+                if (trainY[i] == classIdx) {
+                    classFeatures.add(trainX[i]);
                 }
             }
-            
+
             // Calculate distribution for each feature in this class
             for (int featureIdx = 0; featureIdx < numFeatures; featureIdx++) {
                 double[] featureValues = new double[classFeatures.size()];
                 for (int i = 0; i < classFeatures.size(); i++) {
                     featureValues[i] = classFeatures.get(i)[featureIdx];
                 }
-                
-                // Fit Gaussian distribution for this feature in this class
-                condprob[classIdx][featureIdx] = GaussianDistribution.fit(featureValues);
+
+                // Calculate mean and variance for this feature in this class
+                double mean = Arrays.stream(featureValues).average().orElse(0.0);
+                double variance = 0.0;
+                if (featureValues.length > 1) {
+                    double sumSquaredDiffs = 0.0;
+                    for (double value : featureValues) {
+                        sumSquaredDiffs += Math.pow(value - mean, 2);
+                    }
+                    variance = sumSquaredDiffs / (featureValues.length - 1);
+                }
+
+                // Add smoothing to avoid zero variance and very small means
+                variance = Math.max(variance, 0.1); // Minimum variance
+                mean = Math.max(mean, 0.01); // Minimum mean to avoid zero probabilities
+
+                condprob[classIdx][featureIdx] = new smile.stat.distribution.GaussianDistribution(mean, Math.sqrt(variance));
             }
         }
-        
+
         return new NaiveBayes(priori, condprob);
     }
+    
     
     /**
      * Create bag of words features using Smile library with PorterStemmer
@@ -253,16 +494,6 @@ public class YelpSentimentAnalysisSmileML {
         return featureMatrix;
     }
     
-    /**
-     * Convert string labels to integers
-     */
-    private static int[] convertLabelsToInt(String[] labels) {
-        int[] intLabels = new int[labels.length];
-        for (int i = 0; i < labels.length; i++) {
-            intLabels[i] = "positive".equals(labels[i]) ? 1 : 0;
-        }
-        return intLabels;
-    }
     
     /**
      * Create feature vector for prediction using same approach as training
@@ -295,40 +526,6 @@ public class YelpSentimentAnalysisSmileML {
         return features;
     }
     
-    /**
-     * Perform train-test split with default values (20% test, random seed 42)
-     */
-    private static TrainTestSplitResult performTrainTestSplit(double[][] features, int[] labels) {
-        return performTrainTestSplit(features, labels, 0.2, 42);
-    }
-    
-    /**
-     * Perform train-test split with custom parameters
-     */
-    private static TrainTestSplitResult performTrainTestSplit(double[][] features, int[] labels, double testSize, long randomSeed) {
-        Random random = new Random(randomSeed);
-        int totalSize = features.length;
-        int testSizeInt = (int) (totalSize * testSize);
-        
-        // Create indices and shuffle
-        List<Integer> indices = new ArrayList<>();
-        for (int i = 0; i < totalSize; i++) {
-            indices.add(i);
-        }
-        Collections.shuffle(indices, random);
-        
-        // Split indices
-        List<Integer> testIndices = indices.subList(0, testSizeInt);
-        List<Integer> trainIndices = indices.subList(testSizeInt, totalSize);
-        
-        // Create arrays
-        double[][] trainFeatures = trainIndices.stream().map(i -> features[i]).toArray(double[][]::new);
-        double[][] testFeatures = testIndices.stream().map(i -> features[i]).toArray(double[][]::new);
-        int[] trainLabels = trainIndices.stream().mapToInt(i -> labels[i]).toArray();
-        int[] testLabels = testIndices.stream().mapToInt(i -> labels[i]).toArray();
-        
-        return new TrainTestSplitResult(trainFeatures, testFeatures, trainLabels, testLabels);
-    }
     
     /**
      * Calculate accuracy
@@ -421,18 +618,20 @@ public class YelpSentimentAnalysisSmileML {
      */
     private static class ModelTrainingResult {
         final NaiveBayes nbModel;
-        final double[][] features;
+        final double[][] features;              // (unused now)
         final TrainTestSplitResult split;
         final int[] predictions;
         final String[] originalLabels;
-        
-        ModelTrainingResult(NaiveBayes nbModel, double[][] features, TrainTestSplitResult split, 
-                          int[] predictions, String[] originalLabels) {
+        final Vocab vocab;                      // NEW
+
+        ModelTrainingResult(NaiveBayes nbModel, double[][] features, TrainTestSplitResult split,
+                            int[] predictions, String[] originalLabels, Vocab vocab) {
             this.nbModel = nbModel;
             this.features = features;
             this.split = split;
             this.predictions = predictions;
             this.originalLabels = originalLabels;
+            this.vocab = vocab;
         }
     }
 }
