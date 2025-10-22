@@ -8,6 +8,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import smile.classification.NaiveBayes;
 import smile.stat.distribution.Distribution;
 import smile.stat.distribution.GaussianDistribution;
+import smile.nlp.stemmer.PorterStemmer;
 
 /**
  * Yelp Review Sentiment Analysis
@@ -204,11 +205,12 @@ public class YelpSentimentAnalysisSmileML {
     }
     
     /**
-     * Create bag of words features using proper vocabulary building
+     * Create bag of words features using Smile library with PorterStemmer
      */
     private static double[][] createBagOfWordsFeatures(String[] texts) {
         // Tokenize and create bag of words for each text
         List<Map<String, Integer>> bags = new ArrayList<>();
+        PorterStemmer stemmer = new PorterStemmer();
         
         for (String text : texts) {
             // Simple tokenization and cleaning
@@ -216,11 +218,12 @@ public class YelpSentimentAnalysisSmileML {
                 .replaceAll("[^a-zA-Z\\s]", " ") // Remove punctuation
                 .split("\\s+");
             
-            // Create bag of words
+            // Create bag of words with stemming
             Map<String, Integer> bag = new HashMap<>();
             for (String word : words) {
                 if (!word.isEmpty() && word.length() > 2) { // Filter short words
-                    bag.put(word, bag.getOrDefault(word, 0) + 1);
+                    String stemmed = stemmer.stem(word);
+                    bag.put(stemmed, bag.getOrDefault(stemmed, 0) + 1);
                 }
             }
             bags.add(bag);
@@ -267,17 +270,19 @@ public class YelpSentimentAnalysisSmileML {
     private static double[] createSimpleFeatureVector(String text) {
         // Use same vocabulary size as training (5000)
         double[] features = new double[5000];
+        PorterStemmer stemmer = new PorterStemmer();
         
         // Simple tokenization and cleaning (same as training)
         String[] words = text.toLowerCase()
             .replaceAll("[^a-zA-Z\\s]", " ") // Remove punctuation
             .split("\\s+");
         
-        // Create bag of words (same as training)
+        // Create bag of words with stemming (same as training)
         Map<String, Integer> bag = new HashMap<>();
         for (String word : words) {
             if (!word.isEmpty() && word.length() > 2) { // Filter short words
-                bag.put(word, bag.getOrDefault(word, 0) + 1);
+                String stemmed = stemmer.stem(word);
+                bag.put(stemmed, bag.getOrDefault(stemmed, 0) + 1);
             }
         }
         
