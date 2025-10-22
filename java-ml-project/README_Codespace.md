@@ -6,7 +6,6 @@ This repository is configured to work with GitHub Codespaces for Java and Python
 
 1. **Open in Codespace**: Click the "Code" button and select "Codespaces" → "Create codespace on main"
 2. **Wait for setup**: The container will build automatically (takes 2-3 minutes)
-3. **Run setup script**: `./setup_codespace.sh`
 
 ## Environment Details
 
@@ -68,7 +67,6 @@ pip install package_name
 ├── *.java                  # Java source files
 ├── *.py                    # Python scripts
 ├── requirements.txt        # Python dependencies
-├── setup_codespace.sh      # Environment setup script
 └── run_*.sh               # Convenience scripts
 ```
 
