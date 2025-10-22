@@ -8,8 +8,7 @@ A sentiment analysis project using Naive Bayes classification on Yelp reviews, i
 
 1. **Click the badge above** or go to "Code" → "Codespaces" → "Create codespace on main"
 2. **Wait for container build** (2-3 minutes)
-3. **Run setup**: `./setup_codespace.sh`
-4. **Test environment**: 
+3. **Test environment**: 
    - Java: `./test_java.sh`
    - Python: `./test_python.sh`
 
@@ -31,7 +30,6 @@ java-ml-project/
 ├── *.java                     # Java source files
 ├── *.py                       # Python scripts
 ├── requirements.txt           # Python dependencies
-├── setup_codespace.sh         # Environment setup script
 └── README_Codespace.md        # Detailed Codespace documentation
 ```
 
@@ -193,7 +191,6 @@ pip install -r requirements.txt
 ## 🚀 Getting Started
 
 1. **Open in Codespace** using the badge above
-2. **Run setup**: `./setup_codespace.sh`
 3. **Test environment**: 
    - `./test_java.sh`
    - `python test_environment.py`
