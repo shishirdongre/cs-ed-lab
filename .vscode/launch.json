@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "Compile and Run",
+            "runtimeExecutable": "/bin/bash",
+            "runtimeArgs": ["-lc", "${workspaceFolder}/run_with_local_jars.sh"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        }
+    ]
+}

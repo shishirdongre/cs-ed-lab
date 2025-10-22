@@ -21,7 +21,7 @@ if [ ! -f "simple_yelp_reviews.csv" ]; then
 fi
 
 echo "🔨 Compiling project..."
-javac -cp "lib/*" YelpSentimentAnalysisSmileML.java
+javac -encoding UTF-8 -cp "lib/*" YelpSentimentAnalysisSmileML.java
 
 if [ $? -ne 0 ]; then
     echo "❌ Compilation failed. Please check the errors above."

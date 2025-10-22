@@ -15,8 +15,8 @@ wget -q -O lib/opencsv-5.7.1.jar https://repo1.maven.org/maven2/com/opencsv/open
 echo "   Dependencies downloaded successfully!"
 
 echo ""
-echo "2. Compiling Java source files..."
-javac -cp "lib/*" -d target/classes src/main/java/com/example/ml/*.java
+echo "2. Compiling Java source files with UTF-16..."
+javac -encoding UTF-16 -cp "lib/*" -d target/classes src/main/java/com/example/ml/*.java
 
 if [ $? -eq 0 ]; then
     echo "   Compilation successful!"
@@ -27,7 +27,7 @@ fi
 
 echo ""
 echo "3. Running the ML pipeline..."
-java -cp "target/classes:lib/*" com.example.ml.TextClassificationMain
+java -encoding UTF-16 -cp "target/classes:lib/*" com.example.ml.TextClassificationMain
 
 echo ""
 echo "=== Pipeline completed! ==="
