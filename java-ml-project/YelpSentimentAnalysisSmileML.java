@@ -38,6 +38,7 @@ public class YelpSentimentAnalysisSmileML {
         IndexSplit(int[] tr, int[] te){trainIdx=tr;testIdx=te;} 
     }
 
+
     
     public static void main(String[] args) {
         System.out.println("=== Yelp Review Sentiment Analysis ===");
@@ -118,10 +119,18 @@ public class YelpSentimentAnalysisSmileML {
      * Create bag of words for a single text using PorterStemmer
      */
     private static Map<String,Integer> bagOfWords(String text, PorterStemmer stemmer) {
-        String[] words = text.toLowerCase().replaceAll("[^a-zA-Z\\s]", " ").split("\\s+");
+        // Enhanced text preprocessing
+        String processed = text.toLowerCase();
+        // Remove URLs, emails, and special characters
+        processed = processed.replaceAll("http\\S+|www\\S+|@\\S+", "");
+        processed = processed.replaceAll("[^a-zA-Z\\s]", " ");
+        // Remove extra whitespace
+        processed = processed.replaceAll("\\s+", " ").trim();
+        
+        String[] words = processed.split("\\s+");
         Map<String,Integer> bag = new HashMap<>();
         for (String w : words) {
-            if (w.length() > 2) {
+            if (w.length() > 2 && w.matches("[a-zA-Z]+")) { // Only alphabetic words
                 String s = stemmer.stem(w);
                 bag.put(s, bag.getOrDefault(s, 0) + 1);
             }
@@ -144,8 +153,16 @@ public class YelpSentimentAnalysisSmileML {
             for (String w : bag.keySet()) df.put(w, df.getOrDefault(w, 0) + 1);
         }
 
+        // Filter by minimum document frequency (at least 2 documents)
+        Map<String,Integer> filteredDf = new HashMap<>();
+        for (Map.Entry<String,Integer> entry : df.entrySet()) {
+            if (entry.getValue() >= 2) { // Minimum document frequency
+                filteredDf.put(entry.getKey(), entry.getValue());
+            }
+        }
+
         // top-K by DF (stable & effective for NB)
-        List<Map.Entry<String,Integer>> sorted = new ArrayList<>(df.entrySet());
+        List<Map.Entry<String,Integer>> sorted = new ArrayList<>(filteredDf.entrySet());
         sorted.sort((a,b) -> Integer.compare(b.getValue(), a.getValue()));
         int K = Math.min(vocabSize, sorted.size());
         Map<String,Integer> idx = new HashMap<>(K);
@@ -177,7 +194,10 @@ public class YelpSentimentAnalysisSmileML {
         Arrays.fill(row, 0.0);
         for (Map.Entry<String,Integer> e : bag.entrySet()) {
             Integer j = vocab.index.get(e.getKey());
-            if (j != null) row[j] = e.getValue();  // raw counts for Multinomial NB
+            if (j != null) {
+                // Use log(1 + count) to reduce impact of very frequent words
+                row[j] = Math.log(1.0 + e.getValue());
+            }
         }
     }
     
@@ -261,8 +281,8 @@ public class YelpSentimentAnalysisSmileML {
         System.out.println("DEBUG: trainModel called with " + data.processedTexts.length + " samples");
         int[] y = convertLabelsToInt(data.labels);
 
-        // Build vocab and vectorize **on training only**
-        int vocabSize = 10000; // feel free to set 5k–20k
+            // Build vocab and vectorize **on training only**
+            int vocabSize = 50000; // Increased vocabulary size
         // First do a temporary vectorization on all to split indices consistently
         IndexSplit indexSplit = performTrainTestSplitIndices(y.length, 0.2, 42, y);
         // Build train texts and test texts arrays
@@ -390,7 +410,7 @@ public class YelpSentimentAnalysisSmileML {
      * Train Smile NaiveBayes model
      */
     private static NaiveBayes trainSmileNaiveBayes(double[][] trainX, int[] trainY) {
-        // Use Gaussian distribution but with proper feature scaling for word counts
+        // Use Gaussian distribution with improved parameters for word counts
         int numClasses = 2;
         int numFeatures = trainX[0].length;
 
@@ -433,9 +453,9 @@ public class YelpSentimentAnalysisSmileML {
                     variance = sumSquaredDiffs / (featureValues.length - 1);
                 }
 
-                // Add smoothing to avoid zero variance and very small means
-                variance = Math.max(variance, 0.1); // Minimum variance
-                mean = Math.max(mean, 0.01); // Minimum mean to avoid zero probabilities
+                // Improved smoothing parameters
+                variance = Math.max(variance, 0.5); // Higher minimum variance
+                mean = Math.max(mean, 0.001); // Lower minimum mean
 
                 condprob[classIdx][featureIdx] = new smile.stat.distribution.GaussianDistribution(mean, Math.sqrt(variance));
             }
