@@ -1,6 +1,6 @@
 {
     "name": "Java ML Project",
-    "dockerFile": "Dockerfile",
+    "dockerFile": "../Dockerfile",
     "workspaceFolder": "/workspace/java-ml-project",
     
     // Features to install
