@@ -1,0 +1,53 @@
+{
+    "name": "Java ML Project",
+    "dockerFile": "../Dockerfile",
+    "workspaceFolder": "/workspace",
+    
+    // Features to install
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
+    
+    // VS Code extensions to install
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack",
+                "ms-python.python",
+                "ms-python.pylint",
+                "ms-toolsai.jupyter",
+                "redhat.java",
+                "vscjava.vscode-java-debug",
+                "vscjava.vscode-java-test",
+                "vscjava.vscode-maven",
+                "vscjava.vscode-java-dependency"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/workspace/venv/bin/python",
+                "python.terminal.activateEnvironment": true,
+                "java.configuration.updateBuildConfiguration": "automatic",
+                "java.compile.nullAnalysis.mode": "automatic"
+            }
+        }
+    },
+    
+    // Port forwarding
+    "forwardPorts": [8080, 8888],
+    "portsAttributes": {
+        "8080": {
+            "label": "Java Application",
+            "onAutoForward": "notify"
+        },
+        "8888": {
+            "label": "Jupyter Notebook",
+            "onAutoForward": "notify"
+        }
+    },
+    
+    // Post-create command to set up the environment
+    "postCreateCommand": "chmod +x /workspace/venv/bin/* && echo 'Environment ready! Java and Python with venv are configured.'",
+    
+    // User settings
+    "remoteUser": "root"
+}

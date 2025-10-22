@@ -5,6 +5,9 @@ import java.io.*;
 import com.opencsv.CSVReader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import smile.classification.NaiveBayes;
+import smile.stat.distribution.Distribution;
+import smile.stat.distribution.GaussianDistribution;
 
 /**
  * Yelp Review Sentiment Analysis
@@ -88,9 +91,8 @@ public class YelpSentimentAnalysisSmileML {
         TrainTestSplitResult split = performTrainTestSplit(features, labels);
         
         
-        // Train Naive Bayes model
-        NaiveBayesModel nbModel = new NaiveBayesModel();
-        nbModel.fit(split.trainFeatures, split.trainLabels);
+        // Train Naive Bayes model using Smile library
+        NaiveBayes nbModel = trainSmileNaiveBayes(split.trainFeatures, split.trainLabels);
         
         
         // Make predictions
@@ -158,6 +160,49 @@ public class YelpSentimentAnalysisSmileML {
     
     
         
+    /**
+     * Train Smile NaiveBayes model
+     */
+    private static NaiveBayes trainSmileNaiveBayes(double[][] features, int[] labels) {
+        int numClasses = 2; // negative (0) and positive (1)
+        int numFeatures = features[0].length;
+        
+        // Calculate prior probabilities
+        double[] priori = new double[numClasses];
+        for (int label : labels) {
+            priori[label]++;
+        }
+        for (int i = 0; i < numClasses; i++) {
+            priori[i] /= labels.length;
+        }
+        
+        // Calculate conditional distributions for each feature in each class
+        Distribution[][] condprob = new Distribution[numClasses][numFeatures];
+        
+        for (int classIdx = 0; classIdx < numClasses; classIdx++) {
+            // Get features for this class
+            List<double[]> classFeatures = new ArrayList<>();
+            for (int i = 0; i < features.length; i++) {
+                if (labels[i] == classIdx) {
+                    classFeatures.add(features[i]);
+                }
+            }
+            
+            // Calculate distribution for each feature in this class
+            for (int featureIdx = 0; featureIdx < numFeatures; featureIdx++) {
+                double[] featureValues = new double[classFeatures.size()];
+                for (int i = 0; i < classFeatures.size(); i++) {
+                    featureValues[i] = classFeatures.get(i)[featureIdx];
+                }
+                
+                // Fit Gaussian distribution for this feature in this class
+                condprob[classIdx][featureIdx] = GaussianDistribution.fit(featureValues);
+            }
+        }
+        
+        return new NaiveBayes(priori, condprob);
+    }
+    
     /**
      * Create bag of words features (simplified implementation)
      */
@@ -275,67 +320,6 @@ public class YelpSentimentAnalysisSmileML {
         return new ClassificationMetrics(precision, recall, f1);
     }
     
-    /**
-     * Simple Naive Bayes model implementation
-     */
-    private static class NaiveBayesModel {
-        private double[][] featureMeans;
-        private double[] classProbs;
-        private int numClasses = 2;
-        
-        public void fit(double[][] features, int[] labels) {
-            // Simplified Naive Bayes implementation
-            featureMeans = new double[numClasses][features[0].length];
-            classProbs = new double[numClasses];
-            
-            // Calculate class probabilities
-            for (int label : labels) {
-                classProbs[label]++;
-            }
-            for (int i = 0; i < numClasses; i++) {
-                classProbs[i] /= labels.length;
-            }
-            
-            // Calculate feature means
-            for (int i = 0; i < features.length; i++) {
-                for (int j = 0; j < features[i].length; j++) {
-                    featureMeans[labels[i]][j] += features[i][j];
-                }
-            }
-            
-            for (int i = 0; i < numClasses; i++) {
-                int count = 0;
-                for (int label : labels) {
-                    if (label == i) count++;
-                }
-                for (int j = 0; j < featureMeans[i].length; j++) {
-                    featureMeans[i][j] /= count;
-                }
-            }
-        }
-        
-        public int predict(double[] features) {
-            double maxProb = Double.NEGATIVE_INFINITY;
-            int predictedClass = 0;
-            
-            for (int i = 0; i < numClasses; i++) {
-                double prob = Math.log(classProbs[i]);
-                for (int j = 0; j < features.length; j++) {
-                    prob += Math.log(featureMeans[i][j] + 1e-10) * features[j];
-                }
-                if (prob > maxProb) {
-                    maxProb = prob;
-                    predictedClass = i;
-                }
-            }
-            
-            return predictedClass;
-        }
-        
-        public int numClasses() {
-            return numClasses;
-        }
-    }
     
     /**
      * Train-test split result container
@@ -389,13 +373,13 @@ public class YelpSentimentAnalysisSmileML {
      * Model training result container
      */
     private static class ModelTrainingResult {
-        final NaiveBayesModel nbModel;
+        final NaiveBayes nbModel;
         final double[][] features;
         final TrainTestSplitResult split;
         final int[] predictions;
         final String[] originalLabels;
         
-        ModelTrainingResult(NaiveBayesModel nbModel, double[][] features, TrainTestSplitResult split, 
+        ModelTrainingResult(NaiveBayes nbModel, double[][] features, TrainTestSplitResult split, 
                           int[] predictions, String[] originalLabels) {
             this.nbModel = nbModel;
             this.features = features;

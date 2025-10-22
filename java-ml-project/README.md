@@ -1,84 +1,220 @@
-# Yelp Sentiment Analysis
+# Java Machine Learning Project
 
-A simple Java sentiment analysis tool that uses real Yelp reviews to classify text as positive or negative.
+A sentiment analysis project using Naive Bayes classification on Yelp reviews, implemented in Java with the Smile library and supporting Python analysis tools.
 
-## Quick Start
+## 🚀 Quick Start with GitHub Codespaces
 
-1. **Run the analysis:**
-   ```bash
-   ./run_with_local_jars.sh
-   ```
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new)
 
-2. **Generate new dataset (if needed):**
-   ```bash
-   # Activate virtual environment
-   source ../venv/bin/activate
-   
-   # Generate dataset
-   python3 create_simple_yelp_dataset.py
-   ```
+1. **Click the badge above** or go to "Code" → "Codespaces" → "Create codespace on main"
+2. **Wait for container build** (2-3 minutes)
+3. **Run setup**: `./setup_codespace.sh`
+4. **Test environment**: 
+   - Java: `./test_java.sh`
+   - Python: `./test_python.sh`
 
-## Setup Instructions
+## 📁 Project Structure
+
+```
+java-ml-project/
+├── .devcontainer/              # GitHub Codespace configuration
+│   ├── devcontainer.json      # VS Code settings
+│   └── docker-compose.yml     # Container orchestration
+├── lib/                       # Java dependencies (JAR files)
+│   ├── smile-core-3.0.1.jar  # Machine learning library
+│   ├── smile-base-3.0.1.jar  # Statistical distributions
+│   └── opencsv-5.7.1.jar     # CSV file handling
+├── scripts/                   # Testing and utility scripts
+│   ├── TestEnvironment.java   # Java environment test
+│   └── test_environment.py    # Python environment test
+├── venv/                      # Python virtual environment
+├── *.java                     # Java source files
+├── *.py                       # Python scripts
+├── requirements.txt           # Python dependencies
+├── setup_codespace.sh         # Environment setup script
+└── README_Codespace.md        # Detailed Codespace documentation
+```
+
+## 🛠️ Environment Setup
 
 ### Prerequisites
-- Java 8+
-- Python 3+ (for dataset generation)
+- GitHub account
+- Access to GitHub Codespaces (free tier available)
 
-### Using Virtual Environment
-
-The project uses a Python virtual environment for dataset generation. The virtual environment is located in the parent directory (`../venv/`).
-
-**To activate the virtual environment:**
+### Local Development (Alternative)
 ```bash
-# From the java-ml-project directory
-source ../venv/bin/activate
+# Clone repository
+git clone <repository-url>
+cd java-ml-project
+
+# Setup Python virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+# Compile Java
+javac -cp "lib/*" *.java
+
+# Run
+java -cp ".:lib/*" YelpSentimentAnalysisSmileML
 ```
 
-**To deactivate:**
+## ☕ Java Development
+
+### Compilation and Execution
 ```bash
-deactivate
+# Compile all Java files
+javac -cp "lib/*" *.java
+
+# Run main application
+java -cp ".:lib/*" YelpSentimentAnalysisSmileML
+
+# Run test
+./test_java.sh
+
+# Using convenience script
+./run_java.sh
 ```
 
-**To install Python dependencies (if needed):**
-```bash
-# Activate virtual environment first
-source ../venv/bin/activate
+### Key Java Files
+- `YelpSentimentAnalysisSmileML.java` - Main sentiment analysis application
+- `scripts/TestEnvironment.java` - Environment verification script
+- `Workshop_Teaching_Outline.md` - Comprehensive teaching guide
 
-# Install dependencies
-pip install datasets pandas
+## 🐍 Python Development
+
+### Virtual Environment
+The Python virtual environment is automatically activated in Codespaces.
+
+```bash
+# Check if venv is active
+which python
+
+# Install new packages
+pip install package_name
+
+# Run Python scripts
+python script.py
+# or
+./run_python.sh script.py
+
+# Start Jupyter notebook
+./start_jupyter.sh
 ```
 
-## Files
+### Python Scripts
+- `scripts/test_environment.py` - Environment verification
+- `create_simple_yelp_dataset.py` - Dataset creation utility
 
-- `YelpSentimentAnalysisSmileML.java` - Main sentiment analysis class
-- `simple_yelp_reviews.csv` - Real Yelp dataset (2000 reviews)
-- `create_simple_yelp_dataset.py` - Script to generate dataset from Hugging Face
-- `run_with_local_jars.sh` - Run script using local JAR dependencies
-- `lib/` - Local JAR dependencies
-- `archive/` - Old/unused files
+## 📊 Machine Learning Pipeline
 
-## Features
+### Data Processing
+1. **Load CSV data** using OpenCSV library
+2. **Text preprocessing** (lowercase, punctuation removal, normalization)
+3. **Feature extraction** (bag-of-words with hashing)
+4. **Label encoding** (string to integer conversion)
 
-- Uses real Yelp reviews from Hugging Face dataset
-- Naive Bayes classification with 71.5% accuracy
-- Text preprocessing and feature extraction
-- Train/test split and model evaluation
-- Student exercises for learning
+### Model Training
+1. **Train-test split** (80/20 with random seed)
+2. **Naive Bayes training** using Smile library
+3. **Gaussian distribution fitting** for each feature
+4. **Prior probability calculation**
 
-## Requirements
+### Evaluation
+- **Accuracy**: Overall classification accuracy
+- **Confusion Matrix**: True vs predicted labels
+- **Precision, Recall, F1-Score**: Detailed performance metrics
 
-- Java 8+
-- Python 3+ (for dataset generation)
-- No Maven needed (uses local JARs)
+## 🎓 Educational Content
 
-## Troubleshooting
+### Workshop Materials
+- **Complete teaching outline** in `Workshop_Teaching_Outline.md`
+- **Design patterns** explanation (DTO pattern, container classes)
+- **Step-by-step implementation** guide
+- **Progressive exercises** (beginner to advanced)
 
-**If you get "Dataset not found" error:**
-1. Activate the virtual environment: `source ../venv/bin/activate`
-2. Generate the dataset: `python3 create_simple_yelp_dataset.py`
-3. Run the analysis: `./run_with_local_jars.sh`
+### Key Learning Objectives
+- Java machine learning implementation
+- External library integration (Smile)
+- Text preprocessing and feature engineering
+- Model evaluation and metrics
+- Software engineering practices in ML
 
-**If you get Python module errors:**
-1. Activate the virtual environment: `source ../venv/bin/activate`
-2. Install dependencies: `pip install datasets pandas`
-3. Generate the dataset: `python3 create_simple_yelp_dataset.py`
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### Java Compilation Errors
+```bash
+# Check classpath
+echo $CLASSPATH
+
+# Verify JAR files
+ls -la lib/
+
+# Recompile
+javac -cp "lib/*" *.java
+```
+
+#### Python Environment Issues
+```bash
+# Check virtual environment
+which python
+python --version
+
+# Reactivate environment
+source venv/bin/activate
+
+# Reinstall dependencies
+pip install -r requirements.txt
+```
+
+#### Codespace Issues
+- **Container rebuild**: Delete and recreate codespace
+- **Port forwarding**: Check VS Code port panel
+- **Extensions**: Verify Java and Python extensions are installed
+
+## 📚 Dependencies
+
+### Java Dependencies
+- **OpenJDK 11**: Java runtime and compiler
+- **Smile Core 3.0.1**: Machine learning algorithms
+- **Smile Base 3.0.1**: Statistical distributions
+- **OpenCSV 5.7.1**: CSV file handling
+- **Apache Commons Lang3**: String utilities
+
+### Python Dependencies
+- **NumPy**: Numerical computing
+- **Pandas**: Data manipulation
+- **Scikit-learn**: Machine learning algorithms
+- **Matplotlib**: Data visualization
+- **Jupyter**: Interactive notebooks
+
+## 🚀 Getting Started
+
+1. **Open in Codespace** using the badge above
+2. **Run setup**: `./setup_codespace.sh`
+3. **Test environment**: 
+   - `./test_java.sh`
+   - `python test_environment.py`
+4. **Run main application**: `./run_java.sh`
+5. **Explore the code** and follow the teaching outline
+
+## 📖 Additional Resources
+
+- [Smile Library Documentation](https://haifengl.github.io/smile/)
+- [OpenCSV Documentation](http://opencsv.sourceforge.net/)
+- [Java Machine Learning Tutorial](https://www.baeldung.com/java-machine-learning)
+- [GitHub Codespaces Documentation](https://docs.github.com/en/codespaces)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is for educational purposes. Please check individual library licenses for commercial use.
