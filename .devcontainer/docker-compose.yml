@@ -3,11 +3,11 @@ version: '3.8'
 services:
   java-ml-project:
     build:
-      context: ..
+      context: .
       dockerfile: Dockerfile
     volumes:
-      - ..:/workspace:cached
-    working_dir: /workspace
+      - .:/workspace:cached
+    working_dir: /workspace/java-ml-project
     environment:
       - PYTHONPATH=/workspace
       - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64

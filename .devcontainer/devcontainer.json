@@ -1,7 +1,7 @@
 {
     "name": "Java ML Project",
-    "dockerFile": "../Dockerfile",
-    "workspaceFolder": "/workspace",
+    "dockerFile": "Dockerfile",
+    "workspaceFolder": "/workspace/java-ml-project",
     
     // Features to install
     "features": {
@@ -46,7 +46,7 @@
     },
     
     // Post-create command to set up the environment
-    "postCreateCommand": "chmod +x /workspace/venv/bin/* && echo 'Environment ready! Java and Python with venv are configured.'",
+    "postCreateCommand": "chmod +x /workspace/venv/bin/* && cd /workspace/java-ml-project && chmod +x *.sh scripts/*.py && echo 'Environment ready! Java and Python with venv are configured.'",
     
     // User settings
     "remoteUser": "root"
