@@ -204,22 +204,50 @@ public class YelpSentimentAnalysisSmileML {
     }
     
     /**
-     * Create bag of words features (simplified implementation)
+     * Create bag of words features using proper vocabulary building
      */
     private static double[][] createBagOfWordsFeatures(String[] texts) {
-        double[][] features = new double[texts.length][1000]; // Simplified feature size
+        // Tokenize and create bag of words for each text
+        List<Map<String, Integer>> bags = new ArrayList<>();
+        
+        for (String text : texts) {
+            // Simple tokenization and cleaning
+            String[] words = text.toLowerCase()
+                .replaceAll("[^a-zA-Z\\s]", " ") // Remove punctuation
+                .split("\\s+");
+            
+            // Create bag of words
+            Map<String, Integer> bag = new HashMap<>();
+            for (String word : words) {
+                if (!word.isEmpty() && word.length() > 2) { // Filter short words
+                    bag.put(word, bag.getOrDefault(word, 0) + 1);
+                }
+            }
+            bags.add(bag);
+        }
+        
+        // Build vocabulary from all bags
+        Set<String> vocabulary = new HashSet<>();
+        for (Map<String, Integer> bag : bags) {
+            vocabulary.addAll(bag.keySet());
+        }
+        
+        // Convert to array and limit vocabulary size
+        String[] features = vocabulary.toArray(new String[0]);
+        int vocabSize = Math.min(features.length, 5000);
+        String[] selectedFeatures = Arrays.copyOf(features, vocabSize);
+        
+        // Create feature matrix
+        double[][] featureMatrix = new double[texts.length][vocabSize];
         
         for (int i = 0; i < texts.length; i++) {
-            String[] words = texts[i].split("\\s+");
-            for (String word : words) {
-                if (!word.isEmpty()) {
-                    int hash = Math.abs(word.hashCode()) % 1000;
-                    features[i][hash]++;
-                }
+            Map<String, Integer> bag = bags.get(i);
+            for (int j = 0; j < vocabSize; j++) {
+                featureMatrix[i][j] = bag.getOrDefault(selectedFeatures[j], 0);
             }
         }
         
-        return features;
+        return featureMatrix;
     }
     
     /**
@@ -234,17 +262,31 @@ public class YelpSentimentAnalysisSmileML {
     }
     
     /**
-     * Create simple feature vector for prediction
+     * Create feature vector for prediction using same approach as training
      */
     private static double[] createSimpleFeatureVector(String text) {
-        double[] features = new double[1000]; // Simplified feature size
-        String[] words = text.split("\\s+");
+        // Use same vocabulary size as training (5000)
+        double[] features = new double[5000];
+        
+        // Simple tokenization and cleaning (same as training)
+        String[] words = text.toLowerCase()
+            .replaceAll("[^a-zA-Z\\s]", " ") // Remove punctuation
+            .split("\\s+");
+        
+        // Create bag of words (same as training)
+        Map<String, Integer> bag = new HashMap<>();
         for (String word : words) {
-            if (!word.isEmpty()) {
-                int hash = Math.abs(word.hashCode()) % 1000;
-                features[hash]++;
+            if (!word.isEmpty() && word.length() > 2) { // Filter short words
+                bag.put(word, bag.getOrDefault(word, 0) + 1);
             }
         }
+        
+        // Use hash-based mapping to fit into fixed vocabulary size
+        for (Map.Entry<String, Integer> entry : bag.entrySet()) {
+            int hash = Math.abs(entry.getKey().hashCode()) % 5000;
+            features[hash] += entry.getValue();
+        }
+        
         return features;
     }
     
