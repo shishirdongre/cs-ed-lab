@@ -15,9 +15,9 @@ if [ ! -d "lib" ] || [ ! -f "lib/spark-core_2.13-4.0.1.jar" ]; then
     exit 1
 fi
 
-# Compile the Java file with Spark dependencies
-echo "Compiling..."
-javac -cp "lib/*" YelpSentimentAnalysisSpark.java
+    # Compile the Java file with Spark dependencies
+    echo "Compiling..."
+    javac -Xlint:-options -cp "lib/*" YelpSentimentAnalysisSpark.java
 
 if [ $? -eq 0 ]; then
     echo "Compilation successful!"
@@ -25,8 +25,13 @@ if [ $? -eq 0 ]; then
     echo "Running Multinomial Naive Bayes sentiment analysis..."
     echo "=================================================="
     
-    # Run the program with local JARs
-    java -cp ".:lib/*" YelpSentimentAnalysisSpark
+    # Run the program with local JARs (suppress Spark logs)
+    if [ -f "log4j.properties" ]; then
+        java -Dlog4j.configuration=file:log4j.properties -Dspark.ui.showConsoleProgress=false -cp ".:lib/*" YelpSentimentAnalysisSpark
+    else
+        # Fallback: suppress logs via JVM properties
+        java -Dlog4j.configuration=org.apache.log4j.ConsoleAppender -Dlog4j.logger.org.apache.spark=WARN -Dspark.ui.showConsoleProgress=false -cp ".:lib/*" YelpSentimentAnalysisSpark
+    fi
     
     echo ""
     echo "=================================================="

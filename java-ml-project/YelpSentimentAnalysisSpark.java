@@ -46,11 +46,16 @@ public class YelpSentimentAnalysisSpark {
             .setAppName("YelpSentimentAnalysis")
             .setMaster("local[*]")
             .set("spark.sql.adaptive.enabled", "false")
-            .set("spark.sql.adaptive.coalescePartitions.enabled", "false");
+            .set("spark.sql.adaptive.coalescePartitions.enabled", "false")
+            .set("spark.ui.showConsoleProgress", "false")
+            .set("spark.sql.adaptive.skewJoin.enabled", "false");
             
         SparkSession spark = SparkSession.builder()
             .config(conf)
             .getOrCreate();
+            
+        // Suppress Spark logs
+        spark.sparkContext().setLogLevel("WARN");
             
         JavaSparkContext jsc = JavaSparkContext.fromSparkContext(spark.sparkContext());
         
@@ -283,8 +288,23 @@ public class YelpSentimentAnalysisSpark {
         
         List<Row> results = predictions.select("label", "prediction").collectAsList();
         for (Row row : results) {
-            int actual = row.getInt(0);
-            int predicted = row.getInt(1);
+            // Handle both Integer and Double types from Spark
+            int actual, predicted;
+            
+            // Get actual label
+            if (row.get(0) instanceof Integer) {
+                actual = row.getInt(0);
+            } else {
+                actual = ((Double) row.get(0)).intValue();
+            }
+            
+            // Get predicted label
+            if (row.get(1) instanceof Integer) {
+                predicted = row.getInt(1);
+            } else {
+                predicted = ((Double) row.get(1)).intValue();
+            }
+            
             matrix[actual][predicted]++;
         }
         
@@ -303,7 +323,18 @@ public class YelpSentimentAnalysisSpark {
             {"Love this restaurant, will come back", "positive"},
             {"Worst experience ever", "negative"},
             {"Outstanding quality and service", "positive"},
-            {"Complete waste of money", "negative"}
+            {"Complete waste of money", "negative"},
+            {"Perfect ambiance and delicious food", "positive"},
+            {"Overpriced and disappointing", "negative"},
+            {"Best restaurant in town, highly recommend", "positive"},
+            {"Rude staff and cold food", "negative"},
+            {"Fresh ingredients and great taste", "positive"},
+            {"Long wait time and poor service", "negative"},
+            {"Excellent value for money", "positive"},
+            {"Dirty tables and slow service", "negative"},
+            {"Cozy atmosphere and friendly staff", "positive"},
+            {"Food was bland and tasteless", "negative"},
+            {"Quick service and good portions", "positive"}
         };
         
         System.out.println("Testing model on sample reviews:\n");
@@ -328,7 +359,14 @@ public class YelpSentimentAnalysisSpark {
             // Make prediction
             Dataset<Row> prediction = model.transform(reviewData);
             Row result = prediction.select("prediction").collectAsList().get(0);
-            int predictedLabel = result.getInt(0);
+            
+            // Handle both Integer and Double types from Spark
+            int predictedLabel;
+            if (result.get(0) instanceof Integer) {
+                predictedLabel = result.getInt(0);
+            } else {
+                predictedLabel = ((Double) result.get(0)).intValue();
+            }
             
             String predicted = (predictedLabel == 1) ? "positive" : "negative";
             String status = expected.equals(predicted) ? "✅" : "❌";

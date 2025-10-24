@@ -455,9 +455,11 @@ private static void testSampleReviews(PipelineModel model, SparkSession spark) {
 # Compile the Java code
 javac -cp "lib/*" YelpSentimentAnalysisSpark.java
 
-# Run the analysis
-java -cp ".:lib/*" YelpSentimentAnalysisSpark
+# Run the analysis (with suppressed logs)
+./run_naive_bayes.sh
 ```
+
+**Note:** The run script automatically suppresses Spark info logs for cleaner output.
 
 ### 📊 Expected Output
 ```
@@ -571,6 +573,7 @@ predictions.groupBy("label", "prediction").count().show();
 2. **Memory Errors:** OutOfMemoryError with large datasets
 3. **Data Format:** Incorrect CSV structure
 4. **Version Conflicts:** Java/Spark compatibility
+5. **Verbose Logs:** Too many Spark info messages
 
 **Solutions:**
 ```bash
@@ -582,6 +585,9 @@ java -Xmx4g -cp ".:lib/*" YelpSentimentAnalysisSpark
 
 # Verify data
 head -5 simple_yelp_reviews.csv
+
+# Suppress Spark logs
+java -Dlog4j.configuration=file:log4j.properties -cp ".:lib/*" YelpSentimentAnalysisSpark
 ```
 
 **Best Practices:**
