@@ -8,6 +8,8 @@ import pandas as pd
 import csv
 import random
 
+N_SAMPLES = 10000
+
 def create_simple_yelp_dataset():
     print("Loading Yelp dataset...")
     
@@ -30,8 +32,8 @@ def create_simple_yelp_dataset():
     print(f"Found {len(train_df)} total reviews")
     
     # Sample 10k of each class
-    pos_reviews = train_df[train_df['sentiment'] == 'positive'].sample(n=10000, random_state=42)
-    neg_reviews = train_df[train_df['sentiment'] == 'negative'].sample(n=10000, random_state=42)
+    pos_reviews = train_df[train_df['sentiment'] == 'positive'].sample(n=N_SAMPLES, random_state=42)
+    neg_reviews = train_df[train_df['sentiment'] == 'negative'].sample(n=N_SAMPLES, random_state=42)
     
     print(f"Sampled 10k positive and 10k negative reviews")
     
