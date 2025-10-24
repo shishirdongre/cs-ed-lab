@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  yelp-sentiment-analysis:
+    build: .
+    container_name: yelp-sentiment-analysis
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount the current directory to see results
+      - .:/workspace
+    environment:
+      - JAVA_OPTS=-Xmx2g
+    command: ["./run_analysis.sh"]

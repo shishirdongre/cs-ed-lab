@@ -1,0 +1,22 @@
+# JAR files (downloaded by setup_spark.sh)
+lib/*.jar
+
+# Compiled Java classes
+*.class
+
+# Spark temporary files
+spark-warehouse/
+metastore_db/
+derby.log
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log

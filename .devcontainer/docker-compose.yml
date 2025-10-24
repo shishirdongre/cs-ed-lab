@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  java-ml-project:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace:cached
+    working_dir: /workspace
+    environment:
+      - PYTHONPATH=/workspace
+      - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+    ports:
+      - "8080:8080"
+      - "8888:8888"
+    command: sleep infinity

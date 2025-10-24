@@ -1,0 +1,52 @@
+{
+    "name": "Java ML Project",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "workspaceFolder": "/workspaces/cs-ed-lab",
+    
+    // No features needed - everything installed in Dockerfile
+    
+    // VS Code extensions to install
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack",
+                "ms-python.python",
+                "ms-python.pylint",
+                "ms-toolsai.jupyter",
+                "redhat.java",
+                "vscjava.vscode-java-debug",
+                "vscjava.vscode-java-test",
+                "vscjava.vscode-maven",
+                "vscjava.vscode-java-dependency"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/opt/venv/bin/python",
+                "python.terminal.activateEnvironment": true,
+                "java.configuration.updateBuildConfiguration": "automatic",
+                "java.compile.nullAnalysis.mode": "automatic"
+            }
+        }
+    },
+    
+    // Port forwarding
+    "forwardPorts": [8080, 8888],
+    "portsAttributes": {
+        "8080": {
+            "label": "Java Application",
+            "onAutoForward": "notify"
+        },
+        "8888": {
+            "label": "Jupyter Notebook",
+            "onAutoForward": "notify"
+        }
+    },
+    
+    // Post-create command to set up the environment
+    "postCreateCommand": "cd /workspaces/cs-ed-lab/java-ml-project && chmod +x *.sh scripts/*.py && echo 'Environment ready! Java 21 and Python with venv are configured. Run scripts individually: ./create_dataset.sh, ./setup_spark.sh, ./run_naive_bayes.sh'",
+    
+    // User settings
+    "remoteUser": "root"
+}
