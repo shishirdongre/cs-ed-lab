@@ -6,7 +6,7 @@
             "request": "launch",
             "name": "Compile and Run",
             "runtimeExecutable": "/bin/bash",
-            "runtimeArgs": ["-lc", "${workspaceFolder}/run_with_local_jars.sh"],
+            "runtimeArgs": ["-lc", "${workspaceFolder}/java-ml-project/run_with_local_jars.sh"],
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal"
         }

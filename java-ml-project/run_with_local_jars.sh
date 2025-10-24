@@ -6,11 +6,17 @@
 echo "=== Yelp Sentiment Analysis Runner (Local JARs) ==="
 echo
 
+# Set Java path
+export PATH="/usr/lib/jvm/java-21-openjdk/bin:$PATH"
+
 # Check if Java is installed
 if ! command -v java &> /dev/null; then
     echo "❌ Java is not installed. Please install Java 11 or higher."
     exit 1
 fi
+
+# Change to the script's directory
+cd "$(dirname "$0")"
 
 # Check if dataset exists
 if [ ! -f "simple_yelp_reviews.csv" ]; then
