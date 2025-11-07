@@ -480,6 +480,52 @@ This code reads the CSV file into a Dataset (a structured collection of data). T
 
 ---
 
+### Question 1.2b: Understanding Features in Raw Dataset
+**Code Section:** Data Loading - Raw Dataset Structure (Lines 143-153)
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L153`
+
+**Predict:**
+Look at the schema definition and the data that was just loaded:
+```java
+StructType schema = new StructType(new StructField[]{
+    DataTypes.createStructField("text", DataTypes.StringType, false),
+    DataTypes.createStructField("sentiment", DataTypes.StringType, false)
+});
+```
+
+The CSV file contains two columns: "text" (the review text) and "sentiment" (positive or negative).
+
+**What do you think "features" means in the context of this raw dataset?**
+[Open text response - minimum 2 sentences]
+
+**What are the features in this dataset before any processing?**
+[Open text response]
+
+**What do you think makes something a "feature" in machine learning?**
+[Open text response]
+
+**Instruction:**
+In machine learning, "features" are the input data that the algorithm uses to make predictions. In the raw dataset, features are the columns or attributes that describe each example.
+
+**Reveal:**
+In this raw dataset, the "features" are the columns: "text" (the review text) and "sentiment" (the label). However, "text" is the actual feature we'll use for prediction, while "sentiment" is the label (the answer we're trying to predict). In machine learning, features are the input variables that the model uses to learn patterns and make predictions. Right now, our feature is just raw text - we'll need to process it into a format the computer can work with.
+
+**Reflect:**
+**On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what features are in the raw dataset?**
+- [ ] 1 - Not confident
+- [ ] 2
+- [ ] 3
+- [ ] 4
+- [ ] 5 - Very confident
+
+**How are features in this dataset similar to or different from features you might use in other programming contexts (like variables or parameters)?**
+[Open text response]
+
+**CONCEPTUAL TRANSFER:** What does the term "feature" remind you of? How are you thinking about what makes something a feature in this context?
+[Open text response - minimum 2 sentences]
+
+---
+
 ### Question 1.3: Label Conversion - withColumn Method
 **Code Section:** Data Loading - Label Conversion with withColumn (Lines 156-159)
 **Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L156-L159`
@@ -1029,6 +1075,62 @@ This creates a Pipeline that chains together all the processing steps in order. 
 [Open text response]
 
 **CONCEPTUAL TRANSFER:** What does putting these steps together in a Pipeline remind you of? How are you thinking about how data flows through these steps?
+[Open text response - minimum 2 sentences]
+
+---
+
+### Question 3.6b: Understanding Feature Extraction Process
+**Code Section:** Feature Engineering - Feature Extraction Stages (Lines 177-192)
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L177-L192`
+
+**Predict:**
+Look at all the feature extraction stages we've seen:
+```java
+Tokenizer tokenizer = new Tokenizer()
+    .setInputCol("text")
+    .setOutputCol("words");
+
+StopWordsRemover stopWordsRemover = new StopWordsRemover()
+    .setInputCol("words")
+    .setOutputCol("filtered_words");
+
+HashingTF hashingTF = new HashingTF()
+    .setInputCol("filtered_words")
+    .setOutputCol("rawFeatures")
+    .setNumFeatures(10000);
+
+IDF idf = new IDF()
+    .setInputCol("rawFeatures")
+    .setOutputCol("features");
+```
+
+**What do you think the feature extraction code is doing overall?**
+[Open text response - minimum 3 sentences]
+
+**How do you think the features change from the raw dataset to after feature extraction?**
+[Open text response - minimum 2 sentences]
+
+**Why do you think we need to transform the raw text into numerical features?**
+[Open text response]
+
+**Instruction:**
+Feature extraction is the process of converting raw data (like text) into a numerical format that machine learning algorithms can process. This code transforms text through multiple stages.
+
+**Reveal:**
+The feature extraction code is transforming raw text into numerical features that the classifier can use. It starts with raw text, splits it into words (Tokenizer), removes common words (StopWordsRemover), converts words to numbers (HashingTF), and then adjusts the importance of words (IDF). The final output is a numerical vector (a list of numbers) that represents the text in a way the computer can analyze. This is necessary because machine learning algorithms work with numbers, not text - they need numerical features to learn patterns and make predictions.
+
+**Reflect:**
+**On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what the feature extraction code is doing?**
+- [ ] 1 - Not confident
+- [ ] 2
+- [ ] 3
+- [ ] 4
+- [ ] 5 - Very confident
+
+**How is this process of transforming text to numbers similar to or different from data transformations you've done in other programming contexts?**
+[Open text response]
+
+**CONCEPTUAL TRANSFER:** What does this process of converting text to numerical features remind you of? How are you thinking about why we need to transform the data this way?
 [Open text response - minimum 2 sentences]
 
 ---
