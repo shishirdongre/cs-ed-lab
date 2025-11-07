@@ -1,0 +1,35 @@
+{
+  "type": "group",
+  "title": "Question 7.1b: Testing Individual Reviews - Making Prediction",
+  "code_section": "Testing - Making Prediction on Single Review (Line 360)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L360",
+  "instruction": "This code applies the trained model to make a prediction on the new review.",
+  "reveal": "This uses the trained model to make a prediction on the single review. The `prediction` dataset will contain the original review text, the dummy label, and most importantly, a new \"prediction\" column with the model's guess (0 for negative, 1 for positive). This is the same `.transform()` method we used on the test set, but now applied to a single new review.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 7.1b-a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nDataset<Row> prediction = model.transform(reviewData);\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 7.1b-b: What do you think will be in the `prediction` dataset?",
+      "description": "What do you think will be in the prediction dataset?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 7.1b-c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 7.1b-d: How is using a trained model different from writing a program with explicit rules to classify text?",
+      "description": "How is using a trained model different from writing a program with explicit rules to classify text?\n[Open text response]"
+    }
+  ]
+}

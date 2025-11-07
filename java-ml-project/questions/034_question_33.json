@@ -1,0 +1,12 @@
+{
+  "type": "checkbox",
+  "title": "Question 33: How do you typically debug code when something doesn't work?",
+  "options": [
+    "Add print statements to see what's happening",
+    "Use a debugger",
+    "Read error messages carefully",
+    "Ask for help",
+    "Search online for solutions",
+    "Other: _______________"
+  ]
+}

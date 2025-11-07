@@ -1,0 +1,12 @@
+{
+  "type": "checkbox",
+  "title": "Question 34: What motivates you to learn programming? (Check all that apply)",
+  "options": [
+    "It's required for my major",
+    "I find it interesting",
+    "I want to build things",
+    "Career opportunities",
+    "Problem-solving is satisfying",
+    "Other: _______________"
+  ]
+}

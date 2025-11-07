@@ -1,0 +1,55 @@
+{
+  "type": "group",
+  "title": "Question 3.5: LinearSVC Classifier - Configuration",
+  "code_section": "Feature Engineering - LinearSVC Configuration (Lines 194-198)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L194-L198",
+  "instruction": "This code sets up the learning algorithm - the part that will figure out patterns in the data.",
+  "reveal": "This creates a Linear Support Vector Classifier (LinearSVC), which is a machine learning algorithm that learns patterns from examples. It uses the \"features\" (the processed word counts) to predict the \"label\" (positive or negative). LinearSVC finds the best line (or hyperplane) that separates positive and negative reviews based on their features. The `setMaxIter(50)` sets the maximum number of iterations (training steps) the algorithm will perform. The `setRegParam(0.1)` sets the regularization parameter, which helps prevent the model from overfitting to the training data.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 3.5a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nLinearSVC lsvc = new LinearSVC()\n    .setFeaturesCol(\"features\")\n    .setLabelCol(\"label\")\n    .setMaxIter(50)\n    .setRegParam(0.1);\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.5b: What do you think a \"classifier\" does?",
+      "description": "What do you think a \"classifier\" does?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.5c: What do you think \"LinearSVC\" or \"SVC\" might stand for?",
+      "description": "What do you think \"LinearSVC\" or \"SVC\" might stand for?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.5d: What do you think `setMaxIter(50)` might mean?",
+      "description": "What do you think setMaxIter(50) might mean?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.5e: What do you think `setRegParam(0.1)` might mean?",
+      "description": "What do you think setRegParam(0.1) might mean?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 3.5f: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.5g: How is this different from writing an if-else statement to classify reviews?",
+      "description": "How is this different from writing an if-else statement to classify reviews?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.5h: Why do you think we might need to limit the number of iterations or use regularization?",
+      "description": "Why do you think we might need to limit the number of iterations or use regularization?\n[Open text response]"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "type": "group",
+  "title": "Question 1.3: Label Conversion - withColumn Method",
+  "code_section": "Data Loading - Label Conversion with withColumn (Lines 156-159)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L156-L159",
+  "instruction": "Sometimes we need to change the format of our data to make it easier for the computer to work with. This code is transforming text labels into numbers.",
+  "reveal": "This code creates a new column called \"label\" that converts the text sentiment values into numbers. If the sentiment is \"positive\", it becomes 1. Otherwise (if it's \"negative\"), it becomes 0. Then it selects only the \"text\" and \"label\" columns, keeping just what we need. Machine learning algorithms often work better with numbers than text labels.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 1.3a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\ndata = data.withColumn(\"label\", \n    when(col(\"sentiment\").equalTo(\"positive\"), 1)\n    .otherwise(0)\n).select(\"text\", \"label\");\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 1.3b: What do you think `.withColumn()` does?",
+      "description": "What do you think .withColumn() does?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 1.3c: Why do you think the code converts \"positive\" to 1 and everything else to 0?",
+      "description": "Why do you think the code converts \"positive\" to 1 and everything else to 0?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 1.3d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.3e: What do you think might happen if we tried to use the text \"positive\" and \"negative\" directly?",
+      "description": "What do you think might happen if we tried to use the text \"positive\" and \"negative\" directly instead of converting to numbers?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.3f: Converting text to numbers",
+      "description": "What do you think about converting text like \"positive\" to a number like 1? How are you making sense of why this conversion happens?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 7.1c: Testing Individual Reviews - Extracting Result",
+  "code_section": "Testing - Extracting Prediction Result (Lines 361-369)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L361-L369",
+  "instruction": "After making a prediction, we need to extract the actual prediction value from the dataset.",
+  "reveal": "This code extracts the prediction value from the dataset. `.select(\"prediction\")` gets just the prediction column, `.collectAsList()` brings it into memory as a list, and `.get(0)` gets the first (and only) row since we only predicted on one review. Then it handles the type (Integer or Double) to get the integer prediction value (0 or 1).",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 7.1c-a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nRow result = prediction.select(\"prediction\").collectAsList().get(0);\n\n// Handle both Integer and Double types from Spark\nint predictedLabel;\nif (result.get(0) instanceof Integer) {\n    predictedLabel = result.getInt(0);\n} else {\n    predictedLabel = ((Double) result.get(0)).intValue();\n}\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 7.1c-b: Why do you think the code uses `.get(0)`?",
+      "description": "Why do you think the code uses .get(0)?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 7.1c-c: Why do you think there's type checking again (instanceof)?",
+      "description": "Why do you think there's type checking again (instanceof)?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 7.1c-d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 7.1c-e: What do you notice about the pattern of extracting data from Spark datasets?",
+      "description": "What do you notice about the pattern of extracting data from Spark datasets?\n[Open text response]"
+    }
+  ]
+}

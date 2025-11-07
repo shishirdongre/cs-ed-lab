@@ -1,0 +1,45 @@
+{
+  "type": "group",
+  "title": "Question 1.2b: Understanding Features in Raw Dataset",
+  "code_section": "Data Loading - Raw Dataset Structure (Lines 143-153)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L153",
+  "instruction": "In machine learning, \"features\" are the input data that the algorithm uses to make predictions. In the raw dataset, features are the columns or attributes that describe each example.",
+  "reveal": "In this raw dataset, the \"features\" are the columns: \"text\" (the review text) and \"sentiment\" (the label). However, \"text\" is the actual feature we'll use for prediction, while \"sentiment\" is the label (the answer we're trying to predict). In machine learning, features are the input variables that the model uses to learn patterns and make predictions. Right now, our feature is just raw text - we'll need to process it into a format the computer can work with.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 1.2b-a: What do you think \"features\" means in the context of this raw dataset?",
+      "description": "Look at the schema definition and the data that was just loaded:\n\nStructType schema = new StructType(new StructField[]{\n    DataTypes.createStructField(\"text\", DataTypes.StringType, false),\n    DataTypes.createStructField(\"sentiment\", DataTypes.StringType, false)\n});\n\nThe CSV file contains two columns: \"text\" (the review text) and \"sentiment\" (positive or negative).\n\nWhat do you think \"features\" means in the context of this raw dataset?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 1.2b-b: What are the features in this dataset before any processing?",
+      "description": "What are the features in this dataset before any processing?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 1.2b-c: What do you think makes something a \"feature\" in machine learning?",
+      "description": "What do you think makes something a \"feature\" in machine learning?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 1.2b-d: How confident do you feel that you understood what features are in the raw dataset?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.2b-e: How are features in this dataset similar to or different from features you might use in other programming contexts?",
+      "description": "How are features in this dataset similar to or different from features you might use in other programming contexts (like variables or parameters)?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.2b-f: Understanding features",
+      "description": "What does the term \"feature\" remind you of? How are you thinking about what makes something a feature in this context?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

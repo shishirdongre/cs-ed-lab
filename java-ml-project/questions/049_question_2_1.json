@@ -1,0 +1,45 @@
+{
+  "type": "group",
+  "title": "Question 2.1: Train/Test Split - randomSplit Method",
+  "code_section": "Data Splitting - randomSplit (Lines 79-81)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L79-L81",
+  "instruction": "When learning, it's important to have some examples to study and some examples to test yourself on. This code divides the data into two groups.",
+  "reveal": "This code randomly splits the dataset into two parts. The first part (80% of the data) becomes `trainData` - this is what the computer will use to learn patterns. The second part (20% of the data) becomes `testData` - this is what we'll use later to check if the computer learned correctly. The `RANDOM_SEED` ensures we get the same split every time we run the program, which makes results reproducible.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 2.1a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nDataset<Row>[] splits = data.randomSplit(new double[]{1.0 - TEST_SIZE, TEST_SIZE}, RANDOM_SEED);\nDataset<Row> trainData = splits[0];\nDataset<Row> testData = splits[1];\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 2.1b: What do you think `TEST_SIZE` might be, and why would we split the data?",
+      "description": "What do you think TEST_SIZE might be, and why would we split the data?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 2.1c: What do you think `RANDOM_SEED` is for?",
+      "description": "What do you think RANDOM_SEED is for?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 2.1d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 2.1e: Why do you think we don't use the same data for both learning and testing?",
+      "description": "Why do you think we don't use the same data for both learning and testing?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 2.1f: Understanding data splitting",
+      "description": "What do you think about splitting the data into two parts? How are you making sense of why we do this?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "type": "group",
+  "title": "Question 3.1b: Understanding Method Chaining",
+  "code_section": "Feature Engineering - Method Chaining Pattern (Lines 169-171)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L169-L171",
+  "instruction": "This code uses a pattern called \"method chaining\" where multiple methods are called on the same object in sequence.",
+  "reveal": "This is called method chaining. Each method (like `.setInputCol()` and `.setOutputCol()`) returns the same object, so you can call another method on the result. This is equivalent to writing: `Tokenizer tokenizer = new Tokenizer(); tokenizer.setInputCol(\"text\"); tokenizer.setOutputCol(\"words\");` but more compact. This pattern is common in Java libraries that build configuration objects.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 3.1b-a: What do you notice about how the methods are called?",
+      "description": "Look at this code snippet:\n\nTokenizer tokenizer = new Tokenizer()\n    .setInputCol(\"text\")\n    .setOutputCol(\"words\");\n\nWhat do you notice about how the methods are called?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.1b-b: How is this different from calling methods separately?",
+      "description": "How is this different from calling methods separately?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 3.1b-c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.1b-d: Have you seen this pattern of chaining method calls before? Where?",
+      "description": "Have you seen this pattern of chaining method calls before? Where?\n[Open text response]"
+    }
+  ]
+}

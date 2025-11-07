@@ -1,0 +1,15 @@
+{
+  "type": "checkbox",
+  "title": "Question 10: Which Java concepts do you find most challenging? (Check all that apply)",
+  "options": [
+    "Variables and data types",
+    "Loops (for, while)",
+    "Conditionals (if-else)",
+    "Methods/functions",
+    "Classes and objects",
+    "Arrays and collections",
+    "File I/O",
+    "Exception handling",
+    "None of the above"
+  ]
+}

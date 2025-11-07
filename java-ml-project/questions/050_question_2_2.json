@@ -1,0 +1,35 @@
+{
+  "type": "group",
+  "title": "Question 2.2: Understanding Array Access After Split",
+  "code_section": "Data Splitting - Array Access (Lines 80-81)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L80-L81",
+  "instruction": "After splitting, the result is stored in an array. This code extracts the individual parts.",
+  "reveal": "The `randomSplit()` method returns an array with two datasets. `splits[0]` is the first dataset (training data, 80%), and `splits[1]` is the second dataset (test data, 20%). This is similar to how you might access elements in a regular Java array.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 2.2a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nDataset<Row> trainData = splits[0];\nDataset<Row> testData = splits[1];\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 2.2b: Why do you think the code uses array indices [0] and [1]?",
+      "description": "Why do you think the code uses array indices [0] and [1]?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 2.2c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 2.2d: How is accessing data from this array similar to or different from accessing elements in arrays you've used before?",
+      "description": "How is accessing data from this array similar to or different from accessing elements in arrays you've used before?\n[Open text response]"
+    }
+  ]
+}

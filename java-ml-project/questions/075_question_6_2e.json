@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 6.2e: Calculating Sensitivity and Specificity",
+  "code_section": "Evaluation - Sensitivity/Specificity Calculation (Lines 269-270)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L269-L270",
+  "instruction": "These are additional metrics that give us more detailed information about model performance.",
+  "reveal": "Sensitivity (also called recall) measures how well the model finds positive cases - it's the proportion of actual positives that were correctly identified. Specificity measures how well the model finds negative cases - it's the proportion of actual negatives that were correctly identified. The `(double)` cast ensures we get decimal division instead of integer division (which would truncate to 0 or 1).",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 6.2e-a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\ndouble sensitivity = (double) truePositives / (truePositives + falseNegatives);\ndouble specificity = (double) trueNegatives / (trueNegatives + falsePositives);\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.2e-b: What do you think \"sensitivity\" and \"specificity\" might measure?",
+      "description": "What do you think \"sensitivity\" and \"specificity\" might measure?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.2e-c: Why do you think the code casts to `(double)`?",
+      "description": "Why do you think the code casts to (double)?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 6.2e-d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 6.2e-e: Why might sensitivity and specificity be useful in addition to accuracy?",
+      "description": "Why might sensitivity and specificity be useful in addition to accuracy?\n[Open text response]"
+    }
+  ]
+}

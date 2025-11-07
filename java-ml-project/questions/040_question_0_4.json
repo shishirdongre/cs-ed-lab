@@ -1,0 +1,45 @@
+{
+  "type": "group",
+  "title": "Question 0.4: Dataset Object Creation",
+  "code_section": "Dataset Creation - Reading Data (Lines 149-153)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L149-L153",
+  "instruction": "This code creates a Dataset object by reading data from a file. The Dataset will contain all the data from the CSV file.",
+  "reveal": "This code reads a CSV file and creates a `Dataset<Row>` object called `data`. The `.read()` method starts the reading process, `.option(\"header\", \"true\")` tells Spark that the first row contains column names, `.schema(schema)` specifies the structure of the data, and `.csv(CSV_FILE)` reads from the CSV file. The result is a Dataset object that contains all the data from the file, organized in rows and columns.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 0.4a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nDataset<Row> data = spark.read()\n    .option(\"header\", \"true\")\n    .option(\"inferSchema\", \"false\")\n    .schema(schema)\n    .csv(CSV_FILE);\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 0.4b: What do you think `Dataset<Row> data` represents?",
+      "description": "What do you think Dataset<Row> data represents?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 0.4c: What do you think happens when this code runs?",
+      "description": "What do you think happens when this code runs?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 0.4d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 0.4e: How is creating a Dataset from a file similar to or different from reading files in other Java programs you've written?",
+      "description": "How is creating a Dataset from a file similar to or different from reading files in other Java programs you've written?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 0.4f: Understanding spark.read().csv()",
+      "description": "When you see spark.read().csv(), what does this make you think about? How are you understanding what this code does?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

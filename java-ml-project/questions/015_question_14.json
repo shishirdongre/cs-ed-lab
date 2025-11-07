@@ -1,0 +1,10 @@
+{
+  "type": "multiple_choice",
+  "title": "Question 14: Have you worked with text processing in your programming courses (like splitting strings, searching text, etc.)?",
+  "options": [
+    "Yes, frequently",
+    "Yes, occasionally",
+    "Yes, but only once or twice",
+    "No, never"
+  ]
+}

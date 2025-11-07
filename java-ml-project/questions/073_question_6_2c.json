@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 6.2c: Confusion Matrix - Counting in Loop",
+  "code_section": "Evaluation - Counting Predictions (Lines 290-309)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L290-L309",
+  "instruction": "This code loops through each prediction result and counts how many times each combination of actual and predicted values occurs.",
+  "reveal": "This loop goes through each prediction result. For each row, it extracts the actual label and predicted label, then increments the count in the matrix at position [actual][predicted]. For example, if actual=1 (positive) and predicted=1 (positive), it increments matrix[1][1], which counts correct positive predictions. The `++` operator adds 1 to the current count.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 6.2c-a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nfor (Row row : results) {\n    int actual, predicted;\n    // ... code to get actual and predicted values ...\n    matrix[actual][predicted]++;\n}\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.2c-b: What does `matrix[actual][predicted]++` do?",
+      "description": "What does matrix[actual][predicted]++ do?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.2c-c: Why do you think we use the actual and predicted values as array indices?",
+      "description": "Why do you think we use the actual and predicted values as array indices?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 6.2c-d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 6.2c-e: How is this use of a 2D array as a counting structure similar to or different from other uses of arrays you've seen?",
+      "description": "How is this use of a 2D array as a counting structure similar to or different from other uses of arrays you've seen?\n[Open text response]"
+    }
+  ]
+}

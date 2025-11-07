@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 0.3: Dataset Object Import",
+  "code_section": "Dataset Import (Line 1-30, specifically Dataset)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L1-L30",
+  "instruction": "These are types that represent structured data in Spark. Think about how you might organize data in a program.",
+  "reveal": "`Dataset<Row>` is Spark's way of representing a table of data - like a spreadsheet with rows and columns. `Row` represents a single row in that table. When you read data from a file, it gets loaded into a Dataset. This is similar to how you might use a 2D array or a list of objects in regular Java, but Dataset is optimized for working with large amounts of data.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 0.3a: What do you think `Dataset` and `Row` might be?",
+      "description": "Look at this import statement:\n\nimport org.apache.spark.sql.Dataset;\nimport org.apache.spark.sql.Row;\n\nWhat do you think Dataset and Row might be?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 0.3b: What do you think these are used for in the context of data processing?",
+      "description": "What do you think these are used for in the context of data processing?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 0.3c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 0.3d: How is a Dataset similar to or different from data structures you've used before (like arrays or lists)?",
+      "description": "How is a Dataset similar to or different from data structures you've used before (like arrays or lists)?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 0.3e: Understanding Dataset<Row>",
+      "description": "When you see Dataset<Row>, what does it remind you of? How are you thinking about what this might be?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

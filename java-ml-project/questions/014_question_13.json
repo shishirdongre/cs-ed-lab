@@ -1,0 +1,10 @@
+{
+  "type": "multiple_choice",
+  "title": "Question 13: Have you worked with data files (like CSV files) in your programming courses?",
+  "options": [
+    "Yes, frequently",
+    "Yes, occasionally",
+    "Yes, but only once or twice",
+    "No, never"
+  ]
+}

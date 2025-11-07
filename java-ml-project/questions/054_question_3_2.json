@@ -1,0 +1,35 @@
+{
+  "type": "group",
+  "title": "Question 3.2: StopWordsRemover",
+  "code_section": "Feature Engineering - StopWordsRemover (Lines 174-176)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L174-L176",
+  "instruction": "Not all words are equally important when analyzing text. This code removes words that don't carry much meaning.",
+  "reveal": "StopWordsRemover removes common words like \"the\", \"a\", \"and\", \"is\", \"in\", etc. These words appear in almost every sentence but don't help distinguish between positive and negative reviews. By removing them, we focus on words that actually matter for sentiment analysis. The filtered words go into a new column called \"filtered_words\".",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 3.2a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nStopWordsRemover stopWordsRemover = new StopWordsRemover()\n    .setInputCol(\"words\")\n    .setOutputCol(\"filtered_words\");\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.2b: What do you think \"stop words\" might be?",
+      "description": "What do you think \"stop words\" might be?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 3.2c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.2d: Can you think of any situations where removing stop words might not be a good idea?",
+      "description": "Can you think of any situations where removing stop words might not be a good idea?\n[Open text response]"
+    }
+  ]
+}

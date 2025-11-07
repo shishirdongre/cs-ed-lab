@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 1.4: Conditional Logic in Data Transformation",
+  "code_section": "Data Loading - Conditional Logic (Lines 157-158)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L157-L158",
+  "instruction": "This code uses conditional logic to make decisions based on data values. Think about how you might check a condition and assign a value.",
+  "reveal": "This is a conditional expression that works like an if-else statement. It checks if the \"sentiment\" column equals \"positive\", and if so, returns 1. Otherwise, it returns 0. This is similar to `if (sentiment.equals(\"positive\")) { return 1; } else { return 0; }` but written in a more compact, functional style that works with data transformations.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 1.4a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nwhen(col(\"sentiment\").equalTo(\"positive\"), 1)\n    .otherwise(0)\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.4b: How is this similar to or different from an if-else statement you might write in regular Java?",
+      "description": "How is this similar to or different from an if-else statement you might write in regular Java?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 1.4c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.4d: What advantages or disadvantages do you see in this style of conditional logic?",
+      "description": "What advantages or disadvantages do you see in this style of conditional logic compared to traditional if-else statements?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.4e: Understanding when().otherwise()",
+      "description": "What does this when().otherwise() code remind you of? How are you understanding what it does?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

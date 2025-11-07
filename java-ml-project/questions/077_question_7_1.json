@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 7.1: Testing Individual Reviews - Creating DataFrame",
+  "code_section": "Testing - Creating DataFrame for Single Review (Lines 351-357)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L351-L357",
+  "instruction": "This code creates a dataset from a single piece of text. Think about how you might convert a single value into the format the model expects.",
+  "reveal": "This code creates a small dataset with just one review. `RowFactory.create(review, 0)` creates a row with the review text and a dummy label of 0. `Arrays.asList()` puts this single row into a list, and `spark.createDataFrame()` converts it into a Dataset with the specified schema. The dummy label is needed because the schema requires a label column, but we don't know the actual label yet - that's what we're trying to predict!",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 7.1a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nDataset<Row> reviewData = spark.createDataFrame(\n    Arrays.asList(RowFactory.create(review, 0)), // dummy label\n    new StructType(new StructField[]{\n        DataTypes.createStructField(\"text\", DataTypes.StringType, false),\n        DataTypes.createStructField(\"label\", DataTypes.IntegerType, false)\n    })\n);\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 7.1b: Why do you think there's a \"dummy label\" of 0?",
+      "description": "Why do you think there's a \"dummy label\" of 0?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 7.1c: What do you think `RowFactory.create()` does?",
+      "description": "What do you think RowFactory.create() does?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 7.1d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 7.1e: Why do you think we need to create a DataFrame instead of just passing the text string directly to the model?",
+      "description": "Why do you think we need to create a DataFrame instead of just passing the text string directly to the model?\n[Open text response]"
+    }
+  ]
+}
