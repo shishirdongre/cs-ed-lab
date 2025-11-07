@@ -6,13 +6,12 @@
 echo "=== Yelp Sentiment Analysis Runner (Local JARs) ==="
 echo
 
-# Set Java path to use Java 21 (matches JAR file versions)
+# Set Java path
 export PATH="/usr/lib/jvm/java-21-openjdk/bin:$PATH"
-export JAVA_HOME="/usr/lib/jvm/java-21-openjdk"
 
 # Check if Java is installed
 if ! command -v java &> /dev/null; then
-    echo "❌ Java is not installed. Please install Java 21 or higher."
+    echo "❌ Java is not installed. Please install Java 11 or higher."
     exit 1
 fi
 

@@ -4,28 +4,10 @@
         {
             "type": "pwa-node",
             "request": "launch",
-            "name": "Create Dataset",
+            "name": "Compile and Run",
             "runtimeExecutable": "/bin/bash",
-            "runtimeArgs": ["-lc", "${workspaceFolder}/java-ml-project/create_dataset.sh"],
-            "cwd": "${workspaceFolder}/java-ml-project",
-            "console": "integratedTerminal"
-        },
-        {
-            "type": "pwa-node",
-            "request": "launch",
-            "name": "Setup Spark",
-            "runtimeExecutable": "/bin/bash",
-            "runtimeArgs": ["-lc", "${workspaceFolder}/java-ml-project/setup_spark.sh"],
-            "cwd": "${workspaceFolder}/java-ml-project",
-            "console": "integratedTerminal"
-        },
-        {
-            "type": "pwa-node",
-            "request": "launch",
-            "name": "Run Sentiment Analysis",
-            "runtimeExecutable": "/bin/bash",
-            "runtimeArgs": ["-lc", "${workspaceFolder}/java-ml-project/run_naive_bayes.sh"],
-            "cwd": "${workspaceFolder}/java-ml-project",
+            "runtimeArgs": ["-lc", "${workspaceFolder}/java-ml-project/run_with_local_jars.sh"],
+            "cwd": "${workspaceFolder}",
             "console": "integratedTerminal"
         }
     ]

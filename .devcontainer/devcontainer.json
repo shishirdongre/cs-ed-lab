@@ -1,12 +1,13 @@
 {
     "name": "Java ML Project",
-    "build": {
-        "dockerfile": "Dockerfile",
-        "context": ".."
-    },
-    "workspaceFolder": "/workspaces/cs-ed-lab",
+    "dockerFile": "../Dockerfile",
+    "workspaceFolder": "/workspace",
     
-    // No features needed - everything installed in Dockerfile
+    // Features to install
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
     
     // VS Code extensions to install
     "customizations": {
@@ -23,7 +24,7 @@
                 "vscjava.vscode-java-dependency"
             ],
             "settings": {
-                "python.defaultInterpreterPath": "/opt/venv/bin/python",
+                "python.defaultInterpreterPath": "/workspace/venv/bin/python",
                 "python.terminal.activateEnvironment": true,
                 "java.configuration.updateBuildConfiguration": "automatic",
                 "java.compile.nullAnalysis.mode": "automatic"
@@ -45,7 +46,7 @@
     },
     
     // Post-create command to set up the environment
-    "postCreateCommand": "cd /workspaces/cs-ed-lab/java-ml-project && chmod +x *.sh scripts/*.py && echo 'Environment ready! Java 21 and Python with venv are configured. Run scripts individually: ./create_dataset.sh, ./setup_spark.sh, ./run_naive_bayes.sh'",
+    "postCreateCommand": "chmod +x /workspace/venv/bin/* && cd /workspace && chmod +x java-ml-project/*.sh java-ml-project/scripts/*.py && echo 'Environment ready! Java and Python with venv are configured.'",
     
     // User settings
     "remoteUser": "root"
