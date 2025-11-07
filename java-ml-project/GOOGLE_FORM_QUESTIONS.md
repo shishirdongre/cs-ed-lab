@@ -397,6 +397,75 @@ This code reads a CSV file and creates a `Dataset<Row>` object called `data`. Th
 
 ## STAGE 1: DATA LOADING & PREPARATION
 
+### Question 1.0: Understanding the Dataset
+**Code Section:** Dataset Overview - Sample Data
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/simple_yelp_reviews.csv`
+
+**Predict:**
+Look at these example rows from the dataset:
+
+| text | sentiment |
+|------|-----------|
+| "The chicken shwarma is awesome! The fries are hand cut and really good. Service is quick and the prices are reasonable. May have found my new lunch spot!" | positive |
+| "poor service and 1/2 of the menu was 'out of stock'. Meh indeed" | negative |
+| "I always in the Kalbi Plate with Kim Chi. Chicken Katsu has too much breading on it." | positive |
+| "Great service and my Chai was great!" | positive |
+| "Don Rafa has closed due to economic reasons. :(" | negative |
+
+**What do you notice about this dataset?**
+[Open text response - minimum 2 sentences]
+
+**How many features (columns) are there in this dataset?**
+[Open text response]
+
+**What do you think each column represents?**
+[Open text response]
+
+**What do you think "features" means in the context of machine learning?**
+[Open text response - minimum 2 sentences]
+
+**Instruction:**
+This dataset contains restaurant reviews with their sentiment labels. Understanding the data structure is the first step in building a machine learning model.
+
+**Reveal:**
+This dataset has 2 columns (features): "text" (the review) and "sentiment" (the label: positive or negative). In machine learning, "features" are the input variables that the model uses to make predictions. Here, the "text" column is our feature - it's what we'll use to predict the "sentiment". The "sentiment" column is the label (the answer we're trying to predict). The dataset contains thousands of restaurant reviews, each labeled as either positive or negative.
+
+**If you had to classify a review as positive or negative yourself, what words or phrases would you look for?**
+[Open text response - minimum 3 sentences]
+
+**Test Your Intuition:** Look at this review: "The food was okay, nothing special. The service was friendly but slow. I probably won't come back, but it wasn't terrible either."
+
+**How would you classify this review - positive or negative? Why?**
+[Open text response - minimum 2 sentences]
+
+**What makes this classification difficult or easy?**
+[Open text response]
+
+**How do you think a computer program might classify these reviews? What approach would you take?**
+[Open text response - minimum 2 sentences]
+
+**If you were to build a model to classify these reviews, what steps would you take? Think about:**
+- How would you process the text?
+- What would the model need to learn?
+- How would you know if the model is working correctly?
+[Open text response - minimum 3 sentences]
+
+**Reflect:**
+**On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understand what this dataset contains?**
+- [ ] 1 - Not confident
+- [ ] 2
+- [ ] 3
+- [ ] 4
+- [ ] 5 - Very confident
+
+**What challenges do you think a computer might face when trying to classify text reviews compared to how you would do it?**
+[Open text response]
+
+**CONCEPTUAL TRANSFER:** How is this dataset similar to or different from other data you've worked with in programming? What does it remind you of?
+[Open text response - minimum 2 sentences]
+
+---
+
 ### Question 1.1: Schema Definition
 **Code Section:** Data Loading - Schema Definition (Lines 143-146)
 **Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L146`
@@ -1855,8 +1924,10 @@ This code converts the numeric prediction (0 or 1) back to text ("negative" or "
 - Question 0.4: Dataset Object Creation (Lines 149-153)
 
 **STAGE 1: DATA LOADING & PREPARATION**
+- Question 1.0: Understanding the Dataset (Dataset Overview)
 - Question 1.1: Schema Definition (Lines 143-146)
 - Question 1.2: Reading CSV File (Lines 149-153)
+- Question 1.2b: Understanding Features in Raw Dataset (Lines 143-153)
 - Question 1.3: Label Conversion - withColumn (Lines 156-159)
 - Question 1.4: Conditional Logic (Lines 157-158)
 
