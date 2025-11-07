@@ -13,11 +13,8 @@ import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 import org.apache.spark.ml.feature.*;
-import org.apache.spark.ml.classification.NaiveBayes;
-import org.apache.spark.ml.classification.NaiveBayesModel;
-import org.apache.spark.ml.Pipeline;
-import org.apache.spark.ml.PipelineModel;
-import org.apache.spark.ml.PipelineStage;
+import org.apache.spark.ml.classification.LinearSVC;
+import org.apache.spark.ml.classification.LinearSVCModel;
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator;
 import org.apache.spark.ml.linalg.Vector;
 import org.apache.spark.ml.linalg.Vectors;
@@ -27,9 +24,29 @@ import static org.apache.spark.sql.functions.when;
 
 /**
  * Yelp Sentiment Analysis using Apache Spark MLlib
- * Implements Multinomial Naive Bayes for text classification
+ * Implements Linear SVC (hinge loss) for text classification
  */
 public class YelpSentimentAnalysisSpark {
+    
+    /**
+     * Container class to hold all model components for easy passing between methods
+     */
+    private static class ModelComponents {
+        public final Tokenizer tokenizer;
+        public final StopWordsRemover stopWordsRemover;
+        public final HashingTF hashingTF;
+        public final IDFModel idfModel;
+        public final LinearSVCModel svcModel;
+        
+        public ModelComponents(Tokenizer tokenizer, StopWordsRemover stopWordsRemover, 
+                             HashingTF hashingTF, IDFModel idfModel, LinearSVCModel svcModel) {
+            this.tokenizer = tokenizer;
+            this.stopWordsRemover = stopWordsRemover;
+            this.hashingTF = hashingTF;
+            this.idfModel = idfModel;
+            this.svcModel = svcModel;
+        }
+    }
     
     private static final String CSV_FILE = "simple_yelp_reviews.csv";
     private static final double TEST_SIZE = 0.2;
@@ -38,10 +55,52 @@ public class YelpSentimentAnalysisSpark {
     public static void main(String[] args) {
         System.out.println("\n" + "=".repeat(70));
         System.out.println("🤖 YELP SENTIMENT ANALYSIS WITH APACHE SPARK MLlib");
-        System.out.println("   Multinomial Naive Bayes Text Classification");
+        System.out.println("   Linear SVC Text Classification");
         System.out.println("=".repeat(70));
         
         // Initialize Spark
+        SparkSession spark = initializeSpark();
+        
+        try {
+            // Step 1: Load and prepare data
+            Dataset<Row> data = loadAndPrepareData(spark);
+            
+            // Step 2: Split data into train/test
+            Dataset<Row>[] splits = splitData(data);
+            Dataset<Row> trainData = splits[0];
+            Dataset<Row> testData = splits[1];
+            
+            // Step 3: Train the model
+            ModelComponents model = trainModel(trainData);
+            
+            // Step 4: Make predictions on test data
+            Dataset<Row> predictions = makePredictions(testData, model);
+            
+            // Step 5: Evaluate the model
+            evaluateModel(predictions);
+            
+            // Step 6: Test on sample reviews
+            testSampleReviews(model, spark);
+            
+        } catch (Exception e) {
+            System.err.println("\n❌ ERROR: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            spark.stop();
+        }
+        
+        System.out.println("\n" + "=".repeat(70));
+        System.out.println("🎉 ANALYSIS COMPLETED SUCCESSFULLY!");
+        System.out.println("=".repeat(70));
+    }
+    
+    /**
+     * Initialize Spark session with optimized configuration
+     */
+    private static SparkSession initializeSpark() {
+        System.out.println("\n🔧 INITIALIZING SPARK");
+        System.out.println("-".repeat(40));
+        
         SparkConf conf = new SparkConf()
             .setAppName("YelpSentimentAnalysis")
             .setMaster("local[*]")
@@ -56,83 +115,132 @@ public class YelpSentimentAnalysisSpark {
             
         // Suppress Spark logs
         spark.sparkContext().setLogLevel("WARN");
-            
-        JavaSparkContext jsc = JavaSparkContext.fromSparkContext(spark.sparkContext());
         
-        try {
-            // Load and prepare data
-            System.out.println("\n📊 DATA LOADING & PREPARATION");
-            System.out.println("-".repeat(40));
-            System.out.println("Loading dataset from: " + CSV_FILE);
-            
-            Dataset<Row> data = loadData(spark);
-            long totalSamples = data.count();
-            System.out.println("✅ Loaded " + totalSamples + " samples");
-            
-            // Show class distribution
-            System.out.println("\n📈 CLASS DISTRIBUTION:");
-            data.groupBy("label").count().show();
-            
-            // Split data
-            System.out.println("\n✂️  DATA SPLITTING");
-            System.out.println("-".repeat(40));
-            Dataset<Row>[] splits = data.randomSplit(new double[]{1.0 - TEST_SIZE, TEST_SIZE}, RANDOM_SEED);
-            Dataset<Row> trainData = splits[0];
-            Dataset<Row> testData = splits[1];
-            
-            long trainCount = trainData.count();
-            long testCount = testData.count();
-            System.out.printf("Training samples: %d (%.1f%%)\n", trainCount, (double)trainCount/totalSamples*100);
-            System.out.printf("Test samples:    %d (%.1f%%)\n", testCount, (double)testCount/totalSamples*100);
-            
-            // Build ML pipeline
-            System.out.println("\n🔧 MACHINE LEARNING PIPELINE");
-            System.out.println("-".repeat(40));
-            System.out.println("Building pipeline with:");
-            System.out.println("  • Tokenizer (text → words)");
-            System.out.println("  • StopWordsRemover (remove common words)");
-            System.out.println("  • HashingTF (words → features)");
-            System.out.println("  • IDF (inverse document frequency)");
-            System.out.println("  • Multinomial Naive Bayes (classifier)");
-            
-            Pipeline pipeline = buildPipeline();
-            
-            // Train model
-            System.out.println("\n🚀 MODEL TRAINING");
-            System.out.println("-".repeat(40));
-            System.out.println("Training Multinomial Naive Bayes classifier...");
-            long startTime = System.currentTimeMillis();
-            PipelineModel model = pipeline.fit(trainData);
-            long trainingTime = System.currentTimeMillis() - startTime;
-            System.out.printf("✅ Training completed in %.2f seconds\n", trainingTime / 1000.0);
-            
-            // Make predictions
-            System.out.println("\n🔮 MAKING PREDICTIONS");
-            System.out.println("-".repeat(40));
-            System.out.println("Running predictions on test set...");
-            long predStartTime = System.currentTimeMillis();
-            Dataset<Row> predictions = model.transform(testData);
-            long predTime = System.currentTimeMillis() - predStartTime;
-            System.out.printf("✅ Predictions completed in %.2f seconds\n", predTime / 1000.0);
-            
-            // Evaluate model
-            evaluateModel(predictions);
-            
-            // Test sample reviews
-            System.out.println("\n🧪 SAMPLE PREDICTIONS");
-            System.out.println("-".repeat(40));
-            testSampleReviews(model, spark);
-            
-        } catch (Exception e) {
-            System.err.println("\n❌ ERROR: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            spark.stop();
-        }
+        System.out.println("✅ Spark initialized successfully");
+        return spark;
+    }
+    
+    /**
+     * Load and prepare data from CSV file
+     */
+    private static Dataset<Row> loadAndPrepareData(SparkSession spark) throws IOException {
+        System.out.println("\n📊 DATA LOADING & PREPARATION");
+        System.out.println("-".repeat(40));
+        System.out.println("Loading dataset from: " + CSV_FILE);
         
-        System.out.println("\n" + "=".repeat(70));
-        System.out.println("🎉 ANALYSIS COMPLETED SUCCESSFULLY!");
-        System.out.println("=".repeat(70));
+        Dataset<Row> data = loadData(spark);
+        long totalSamples = data.count();
+        System.out.println("✅ Loaded " + totalSamples + " samples");
+        
+        // Show class distribution
+        System.out.println("\n📈 CLASS DISTRIBUTION:");
+        data.groupBy("label").count().show();
+        
+        return data;
+    }
+    
+    /**
+     * Split data into training and test sets
+     */
+    private static Dataset<Row>[] splitData(Dataset<Row> data) {
+        System.out.println("\n✂️  DATA SPLITTING");
+        System.out.println("-".repeat(40));
+        
+        Dataset<Row>[] splits = data.randomSplit(new double[]{1.0 - TEST_SIZE, TEST_SIZE}, RANDOM_SEED);
+        Dataset<Row> trainData = splits[0];
+        Dataset<Row> testData = splits[1];
+        
+        long totalSamples = data.count();
+        long trainCount = trainData.count();
+        long testCount = testData.count();
+        
+        System.out.printf("Training samples: %d (%.1f%%)\\n", trainCount, (double)trainCount/totalSamples*100);
+        System.out.printf("Test samples:    %d (%.1f%%)\\n", testCount, (double)testCount/totalSamples*100);
+        
+        return splits;
+    }
+    
+    /**
+     * Train the machine learning model with all preprocessing stages
+     */
+    private static ModelComponents trainModel(Dataset<Row> trainData) {
+        System.out.println("\n🔧 PROCEDURAL ML STAGES");
+        System.out.println("-".repeat(40));
+        System.out.println("Building stages with:");
+        System.out.println("  • Tokenizer (text → words) - Transformer");
+        System.out.println("  • StopWordsRemover (remove common words) - Transformer");
+        System.out.println("  • HashingTF (words → features) - Transformer");
+        System.out.println("  • IDF (inverse document frequency) - Estimator");
+        System.out.println("  • Linear SVC (classifier) - Estimator");
+        
+        // Define all stages
+        Tokenizer tokenizer = new Tokenizer()
+            .setInputCol("text")
+            .setOutputCol("words");
+
+        StopWordsRemover stopWordsRemover = new StopWordsRemover()
+            .setInputCol("words")
+            .setOutputCol("filtered_words");
+
+        HashingTF hashingTF = new HashingTF()
+            .setInputCol("filtered_words")
+            .setOutputCol("rawFeatures")
+            .setNumFeatures(10000);
+
+        IDF idf = new IDF()
+            .setInputCol("rawFeatures")
+            .setOutputCol("features");
+
+        LinearSVC lsvc = new LinearSVC()
+            .setFeaturesCol("features")
+            .setLabelCol("label")
+            .setMaxIter(50)
+            .setRegParam(0.1);
+
+        // Process training data through stages
+        System.out.println("\n🚀 MODEL TRAINING");
+        System.out.println("-".repeat(40));
+        System.out.println("Processing training data through stages...");
+        
+        Dataset<Row> trainTok = tokenizer.transform(trainData);
+        Dataset<Row> trainFilt = stopWordsRemover.transform(trainTok);
+        Dataset<Row> trainRaw = hashingTF.transform(trainFilt);
+
+        // IDF is an Estimator → fit on TRAIN only
+        System.out.println("Fitting IDF model on training data...");
+        IDFModel idfModel = idf.fit(trainRaw);
+        Dataset<Row> trainFeats = idfModel.transform(trainRaw).cache();
+
+        // Linear SVC is an Estimator → fit on TRAIN features
+        System.out.println("Training Linear SVC classifier...");
+        long startTime = System.currentTimeMillis();
+        LinearSVCModel svcModel = lsvc.fit(trainFeats);
+        long trainingTime = System.currentTimeMillis() - startTime;
+        System.out.printf("✅ Training completed in %.2f seconds\\n", trainingTime / 1000.0);
+        
+        return new ModelComponents(tokenizer, stopWordsRemover, hashingTF, idfModel, svcModel);
+    }
+    
+    /**
+     * Make predictions on test data using trained models
+     */
+    private static Dataset<Row> makePredictions(Dataset<Row> testData, ModelComponents models) {
+        System.out.println("\n🔮 MAKING PREDICTIONS");
+        System.out.println("-".repeat(40));
+        System.out.println("Processing test data through stages...");
+        
+        // Transform test data using the same fitted objects
+        Dataset<Row> testTok = models.tokenizer.transform(testData);
+        Dataset<Row> testFilt = models.stopWordsRemover.transform(testTok);
+        Dataset<Row> testRaw = models.hashingTF.transform(testFilt);
+        Dataset<Row> testFeats = models.idfModel.transform(testRaw);
+
+        long predStartTime = System.currentTimeMillis();
+        Dataset<Row> predictions = models.svcModel.transform(testFeats);
+        long predTime = System.currentTimeMillis() - predStartTime;
+        System.out.printf("✅ Predictions completed in %.2f seconds\\n", predTime / 1000.0);
+        
+        return predictions;
     }
     
     /**
@@ -161,50 +269,6 @@ public class YelpSentimentAnalysisSpark {
         return data;
     }
     
-    /**
-     * Build ML pipeline with text preprocessing and Multinomial Naive Bayes
-     */
-    private static Pipeline buildPipeline() {
-        // Tokenizer - split text into words
-        Tokenizer tokenizer = new Tokenizer()
-            .setInputCol("text")
-            .setOutputCol("words");
-            
-        // StopWordsRemover - remove common words
-        StopWordsRemover stopWordsRemover = new StopWordsRemover()
-            .setInputCol("words")
-            .setOutputCol("filtered_words");
-            
-        // HashingTF - convert words to feature vectors (bag of words)
-        HashingTF hashingTF = new HashingTF()
-            .setInputCol("filtered_words")
-            .setOutputCol("rawFeatures")
-            .setNumFeatures(10000); // Vocabulary size
-            
-        // IDF - calculate inverse document frequency
-        IDF idf = new IDF()
-            .setInputCol("rawFeatures")
-            .setOutputCol("features");
-            
-        // Multinomial Naive Bayes classifier
-        NaiveBayes naiveBayes = new NaiveBayes()
-            .setFeaturesCol("features")
-            .setLabelCol("label")
-            .setModelType("multinomial") // This is the key difference!
-            .setSmoothing(1.0); // Laplace smoothing parameter
-            
-        // Create pipeline
-        Pipeline pipeline = new Pipeline()
-            .setStages(new PipelineStage[]{
-                tokenizer,
-                stopWordsRemover,
-                hashingTF,
-                idf,
-                naiveBayes
-            });
-            
-        return pipeline;
-    }
     
     /**
      * Evaluate model performance with clean, student-friendly output
@@ -312,9 +376,9 @@ public class YelpSentimentAnalysisSpark {
     }
     
     /**
-     * Test sample reviews with clean output
+     * Test sample reviews with clean output using procedural approach
      */
-    private static void testSampleReviews(PipelineModel model, SparkSession spark) {
+    private static void testSampleReviews(ModelComponents models, SparkSession spark) {
         String[][] sampleReviews = {
             {"Great food, excellent service!", "positive"},
             {"Terrible food, bad service", "negative"},
@@ -356,8 +420,12 @@ public class YelpSentimentAnalysisSpark {
                 })
             );
             
-            // Make prediction
-            Dataset<Row> prediction = model.transform(reviewData);
+            // Make prediction using procedural approach
+            Dataset<Row> reviewTok = models.tokenizer.transform(reviewData);
+            Dataset<Row> reviewFilt = models.stopWordsRemover.transform(reviewTok);
+            Dataset<Row> reviewRaw = models.hashingTF.transform(reviewFilt);
+            Dataset<Row> reviewFeats = models.idfModel.transform(reviewRaw);
+            Dataset<Row> prediction = models.svcModel.transform(reviewFeats);
             Row result = prediction.select("prediction").collectAsList().get(0);
             
             // Handle both Integer and Double types from Spark

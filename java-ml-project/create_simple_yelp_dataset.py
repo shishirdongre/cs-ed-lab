@@ -8,8 +8,6 @@ import pandas as pd
 import csv
 import random
 
-N_SAMPLES = 10000
-
 def create_simple_yelp_dataset():
     print("Loading Yelp dataset...")
     
@@ -28,14 +26,15 @@ def create_simple_yelp_dataset():
     
     train_df['sentiment'] = train_df['label'].apply(convert_to_binary_sentiment)
     
-    # Use 50k of each class for balanced dataset
-    print(f"Found {len(train_df)} total reviews")
+    # Filter for shorter reviews (less than 200 characters)
+    train_df['text_length'] = train_df['text'].str.len()
+    short_reviews = train_df[train_df['text_length'] <= 200].copy()
     
-    # Sample 10k of each class
-    pos_reviews = train_df[train_df['sentiment'] == 'positive'].sample(n=N_SAMPLES, random_state=42)
-    neg_reviews = train_df[train_df['sentiment'] == 'negative'].sample(n=N_SAMPLES, random_state=42)
+    print(f"Found {len(short_reviews)} short reviews")
     
-    print(f"Sampled 10k positive and 10k negative reviews")
+    # Sample balanced dataset
+    pos_reviews = short_reviews[short_reviews['sentiment'] == 'positive'].sample(n=5000, random_state=42)
+    neg_reviews = short_reviews[short_reviews['sentiment'] == 'negative'].sample(n=5000, random_state=42)
     
     # Combine and shuffle
     simple_dataset = pd.concat([pos_reviews, neg_reviews]).sample(frac=1, random_state=42).reset_index(drop=True)

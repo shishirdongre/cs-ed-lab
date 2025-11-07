@@ -3,26 +3,59 @@
 
 ---
 
-## Slide 1: Welcome & Workshop Overview
+## Workshop Overview
 
 ### 🎯 Learning Objectives
 - Build a complete machine learning pipeline in Java
-- Implement sentiment analysis on restaurant reviews
-- Use Apache Spark for distributed computing
+- Implement sentiment analysis on restaurant reviews using Apache Spark
 - Apply text preprocessing and feature engineering
 - Evaluate model performance with proper metrics
+- Understand supervised learning through hands-on practice
 
-### 📋 Workshop Agenda (3 Hours)
+### 🌐 Workshop Environment: GitHub Codespaces
+- **Cloud-based development** - No local installation required
+- **Pre-configured** with Java 21, Python 3, and all dependencies
+- **Accessible from any browser** - Just click and start coding
+- **Consistent environment** for all participants
+
+### 📋 Workshop Structure (3 Hours)
 1. **Problem Statement & Dataset** (30 min)
 2. **Environment Setup** (30 min)
 3. **Data Loading & Preprocessing** (45 min)
-4. **Feature Engineering** (30 min)
-5. **Model Training & Evaluation** (45 min)
-6. **Hands-on Exercises** (30 min)
+4. **Feature Engineering** (45 min)
+5. **Model Training & Evaluation** (30 min)
 
 ---
 
-## Slide 2: Problem Statement
+## Slide 2: GitHub Codespaces Features
+
+### 🌐 Why Codespaces for This Workshop?
+
+**Advantages:**
+- **Zero Setup Time** - No local installation needed
+- **Consistent Environment** - Same setup for all participants
+- **Pre-configured Dependencies** - Java 21, Python 3, Git ready
+- **Cloud Storage** - Files persist between sessions
+- **Integrated Terminal** - Full command-line access
+- **VS Code Interface** - Familiar development environment
+
+### 🚀 Getting Started
+1. **Click "Code"** button in repository
+2. **Select "Codespaces"** tab
+3. **Click "Create codespace on main"**
+4. **Wait 2-3 minutes** for environment setup
+5. **Start coding immediately!**
+
+### 💡 Pro Tips
+- **Bookmark your Codespace** for easy access
+- **Use integrated terminal** for all commands
+- **Files auto-save** to cloud storage
+- **Share Codespace** with others if needed
+- **Debug configurations** ready to use
+
+---
+
+## Slide 3: Problem Statement
 
 ### 🍽️ Restaurant Review Classification Challenge
 
@@ -46,7 +79,7 @@
 
 ---
 
-## Slide 3: Understanding the Yelp Dataset
+## Slide 4: Understanding the Yelp Dataset
 
 ### 📊 Dataset Overview
 
@@ -72,7 +105,7 @@ text,sentiment
 
 ---
 
-## Slide 4: Machine Learning Pipeline Overview
+## Slide 5: Machine Learning Pipeline Overview
 
 ### 🔄 Complete ML Workflow
 
@@ -95,34 +128,77 @@ Yelp Reviews → Clean Text → TF-IDF Vectors → Naive Bayes → Metrics
 
 ---
 
-## Slide 5: Workshop Environment Setup
+## Slide 6: GitHub Codespaces Setup
 
-### 🚀 Step 1: VS Code Setup
+### 🌐 Step 1: Accessing GitHub Codespaces
 
-**Prerequisites:**
-- VS Code with Java Extension Pack
-- Java 21 installed
-- Git for cloning repository
+**What is GitHub Codespaces?**
+- Cloud-based development environment
+- Pre-configured with all dependencies
+- No local installation required
+- Accessible from any browser
 
-**Setup Instructions:**
-1. Clone the repository
-2. Open in VS Code
-3. Install recommended extensions
-4. Verify Java installation
+### 🚀 Getting Started with Codespaces
 
-### 📝 Placeholder for Detailed Instructions
-*[Instructor will provide step-by-step VS Code setup guide here]*
+**Option 1: Direct Access**
+1. Go to the repository: `https://github.com/shishirdongre/cs-ed-lab`
+2. Click the **"Code"** button (green)
+3. Select **"Codespaces"** tab
+4. Click **"Create codespace on main"**
 
-**Key Extensions:**
-- Extension Pack for Java
-- Apache Spark Tools
-- GitLens
+**Option 2: Using the Badge**
+1. Look for the **"Open in GitHub Codespaces"** badge
+2. Click the badge to launch directly
+3. Wait for environment setup (2-3 minutes)
+
+### ⚡ Environment Features
+- **Java 21** pre-installed
+- **Apache Spark 4.0.1** ready to setup
+- **Python 3** with required packages
+- **VS Code** with Java extensions
+- **Git** configured and ready
 
 ---
 
-## Slide 6: Setting Up Apache Spark
+## Slide 7: Codespaces Environment Verification
 
-### ⚡ Step 2: Spark Installation
+### 🔍 Step 2: Verify Your Environment
+
+**Check Java Installation:**
+```bash
+java --version
+# Should show: openjdk 21.x.x
+```
+
+**Check Python Installation:**
+```bash
+python3 --version
+# Should show: Python 3.x.x
+```
+
+**Check Available Scripts:**
+```bash
+ls -la *.sh
+# Should show: create_dataset.sh, setup_spark.sh, run_naive_bayes.sh
+```
+
+### 🎯 Codespaces Advantages
+- **No local setup** required
+- **Consistent environment** for all participants
+- **Pre-installed dependencies**
+- **Automatic port forwarding**
+- **Integrated terminal** ready to use
+
+### 📱 Access Methods
+- **Web browser** (recommended)
+- **VS Code Desktop** (with Codespaces extension)
+- **Mobile devices** (limited functionality)
+
+---
+
+## Slide 8: Setting Up Apache Spark in Codespaces
+
+### ⚡ Step 3: Spark Installation
 
 **Why Apache Spark?**
 - Distributed computing for large datasets
@@ -130,9 +206,9 @@ Yelp Reviews → Clean Text → TF-IDF Vectors → Naive Bayes → Metrics
 - Optimized for big data processing
 - Industry standard for ML pipelines
 
-### 🔧 Setup Process
+### 🔧 Setup Process in Codespaces
 ```bash
-# Run the setup script
+# Run the setup script (in Codespaces terminal)
 ./setup_spark.sh
 ```
 
@@ -143,13 +219,19 @@ Yelp Reviews → Clean Text → TF-IDF Vectors → Naive Bayes → Metrics
 4. Cleans up temporary files
 
 ### ⏱️ Time: 5-10 minutes
-*[Students will run this during the workshop]*
+*[Students will run this in their Codespaces terminal]*
+
+### 🌐 Codespaces Benefits
+- **Fast download** with GitHub's CDN
+- **No local storage** concerns
+- **Automatic cleanup** of temporary files
+- **Shared environment** across all participants
 
 ---
 
-## Slide 7: Creating the Dataset
+## Slide 9: Creating the Dataset in Codespaces
 
-### 📊 Step 3: Dataset Generation
+### 📊 Step 4: Dataset Generation
 
 **Why create our own dataset?**
 - Controlled size for workshop
@@ -157,9 +239,9 @@ Yelp Reviews → Clean Text → TF-IDF Vectors → Naive Bayes → Metrics
 - Clean, consistent format
 - Educational purposes
 
-### 🐍 Dataset Creation Script
+### 🐍 Dataset Creation in Codespaces
 ```bash
-# Run the dataset creation script
+# Run the dataset creation script (in Codespaces terminal)
 ./create_dataset.sh
 ```
 
@@ -174,9 +256,15 @@ Yelp Reviews → Clean Text → TF-IDF Vectors → Naive Bayes → Metrics
 - **Average review length:** 50-100 words
 - **Vocabulary size:** ~5,000 unique words
 
+### 🌐 Codespaces Advantages
+- **Python environment** pre-configured
+- **No package installation** needed
+- **Persistent storage** for generated files
+- **Easy file sharing** between participants
+
 ---
 
-## Slide 8: Java Code Structure Overview
+## Slide 10: Java Code Structure Overview
 
 ### 🏗️ Project Architecture
 
@@ -202,7 +290,7 @@ YelpSentimentAnalysisSpark.java
 
 ---
 
-## Slide 9: Data Loading with CSV Library
+## Slide 11: Data Loading with CSV Library
 
 ### 📁 Step 4: Loading Dataset
 
@@ -236,7 +324,7 @@ private static Dataset<Row> loadData(SparkSession spark) {
 
 ---
 
-## Slide 10: Data Preprocessing Pipeline
+## Slide 12: Data Preprocessing Pipeline
 
 ### 🧹 Step 5: Text Cleaning
 
@@ -267,7 +355,7 @@ StopWordsRemover stopWordsRemover = new StopWordsRemover()
 
 ---
 
-## Slide 11: Feature Engineering with TF-IDF
+## Slide 13: Feature Engineering with TF-IDF
 
 ### 🔢 Step 6: Converting Text to Numbers
 
@@ -295,7 +383,7 @@ IDF idf = new IDF()
 
 ---
 
-## Slide 12: Understanding Naive Bayes Algorithm
+## Slide 14: Understanding Naive Bayes Algorithm
 
 ### 🧠 Step 7: Classification Algorithm
 
@@ -318,7 +406,7 @@ P(class|features) = P(class) × P(feature1|class) × P(feature2|class) × ...
 
 ---
 
-## Slide 13: Model Training Implementation
+## Slide 15: Model Training Implementation
 
 ### 🏋️ Step 8: Training the Classifier
 
@@ -353,7 +441,7 @@ PipelineModel model = pipeline.fit(trainData);
 
 ---
 
-## Slide 14: Model Evaluation Metrics
+## Slide 16: Model Evaluation Metrics
 
 ### 📊 Step 9: Measuring Performance
 
@@ -382,7 +470,7 @@ double accuracy = evaluator.evaluate(predictions);
 
 ---
 
-## Slide 15: Confusion Matrix Analysis
+## Slide 17: Confusion Matrix Analysis
 
 ### 🔍 Step 10: Understanding Model Behavior
 
@@ -407,7 +495,7 @@ Positive      FN       TP
 
 ---
 
-## Slide 16: Sample Predictions Testing
+## Slide 18: Sample Predictions Testing
 
 ### 🧪 Step 11: Testing on New Data
 
@@ -438,7 +526,7 @@ private static void testSampleReviews(PipelineModel model, SparkSession spark) {
 
 ---
 
-## Slide 17: Running the Complete Pipeline
+## Slide 19: Running the Complete Pipeline in Codespaces
 
 ### 🚀 Step 12: End-to-End Execution
 
@@ -450,14 +538,27 @@ private static void testSampleReviews(PipelineModel model, SparkSession spark) {
 5. Evaluate performance
 6. Test on sample reviews
 
-### 💻 Execution Command
+### 💻 Execution in Codespaces
 ```bash
-# Compile the Java code
-javac -cp "lib/*" YelpSentimentAnalysisSpark.java
-
-# Run the analysis (with suppressed logs)
+# Option 1: Use the run script (recommended)
 ./run_naive_bayes.sh
+
+# Option 2: Manual execution
+javac -cp "lib/*" YelpSentimentAnalysisSpark.java
+java -cp ".:lib/*" YelpSentimentAnalysisSpark
 ```
+
+### 🎯 Using VS Code Debug Configurations
+1. **Open Run and Debug** (Ctrl+Shift+D)
+2. **Select "Debug: Run Sentiment Analysis"**
+3. **Click play button** or press F5
+4. **Watch output** in integrated terminal
+
+### 🌐 Codespaces Benefits
+- **Integrated terminal** for easy execution
+- **Debug configurations** ready to use
+- **No local Java setup** required
+- **Automatic log suppression** configured
 
 **Note:** The run script automatically suppresses Spark info logs for cleaner output.
 
@@ -484,7 +585,7 @@ F1-Score: 0.776
 
 ---
 
-## Slide 18: Hands-on Exercise 1: Data Exploration
+## Slide 20: Hands-on Exercise 1: Data Exploration
 
 ### 🔍 Exercise: Understanding Your Data
 
@@ -510,7 +611,7 @@ data.select("text").show();
 
 ---
 
-## Slide 19: Hands-on Exercise 2: Feature Engineering
+## Slide 21: Hands-on Exercise 2: Feature Engineering
 
 ### ⚙️ Exercise: Experimenting with Features
 
@@ -538,7 +639,7 @@ NaiveBayes naiveBayes = new NaiveBayes()
 
 ---
 
-## Slide 20: Hands-on Exercise 3: Model Evaluation
+## Slide 22: Hands-on Exercise 3: Model Evaluation
 
 ### 📊 Exercise: Deep Dive into Performance
 
@@ -564,9 +665,35 @@ predictions.groupBy("label", "prediction").count().show();
 
 ---
 
-## Slide 21: Common Issues and Troubleshooting
+## Slide 21: Codespaces Troubleshooting
 
-### 🐛 Debugging Tips
+### 🐛 Common Codespaces Issues
+
+**Environment Problems:**
+1. **Codespace not starting:** Check internet connection
+2. **Missing files:** Verify repository clone
+3. **Permission errors:** Check file permissions
+4. **Memory issues:** Codespace may need restart
+5. **Port conflicts:** Use different port numbers
+
+**Solutions:**
+```bash
+# Restart Codespace
+# Click "Codespaces" → "Restart codespace"
+
+# Check environment
+java --version
+python3 --version
+ls -la
+
+# Fix permissions
+chmod +x *.sh
+
+# Check available memory
+free -h
+```
+
+### 🔧 Application-Specific Issues
 
 **Common Problems:**
 1. **Classpath Issues:** Missing JAR files
@@ -595,6 +722,7 @@ java -Dlog4j.configuration=file:log4j.properties -cp ".:lib/*" YelpSentimentAnal
 - Use try-catch blocks for error handling
 - Monitor memory usage
 - Test with small datasets first
+- Use VS Code debug configurations
 
 ---
 
