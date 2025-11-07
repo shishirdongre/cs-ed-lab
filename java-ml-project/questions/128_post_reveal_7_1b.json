@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 7.1b: Testing Individual Reviews - Making Prediction - Reflection",
+  "code_section": "Testing - Making Prediction on Single Review (Line 360)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L360",
+  "instruction": "Now that you've seen the explanation about making predictions on individual reviews, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1b-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think .transform() was doing when applied to a single review? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1b-b: What do you understand now about applying the model to new data?",
+      "description": "After reading the explanation about the model making a prediction and adding a \"prediction\" column, what do you understand now? How does this relate to how the model was used on the test set?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1b-c: How is using a trained model different from writing explicit rules?",
+      "description": "The explanation showed that the model makes predictions based on what it learned. How does this approach differ from writing explicit if-else rules to classify text?\n[Open text response]"
+    }
+  ]
+}

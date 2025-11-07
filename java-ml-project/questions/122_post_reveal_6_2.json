@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 6.2: Confusion Matrix - Reflection",
+  "code_section": "Evaluation - Confusion Matrix Array (Lines 286-287)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L286-L287",
+  "instruction": "Now that you've seen the explanation about confusion matrix initialization, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this 2x2 array was for? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2b: What do you understand now about how a confusion matrix organizes prediction results?",
+      "description": "After reading the explanation about the 2x2 array storing counts of different prediction outcomes, what do you understand now? How does this structure help visualize model performance?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2c: How does a 2D array help organize this information?",
+      "description": "The explanation showed how a 2D array matches the two classes (negative and positive). How does this structure help organize the prediction results?\n[Open text response]"
+    }
+  ]
+}

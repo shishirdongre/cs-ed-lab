@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 0.1: Understanding Imports - Reflection",
+  "code_section": "Program Imports (Lines 1-30)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L1-L30",
+  "instruction": "Now that you've seen the explanation about what these import statements do, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.1a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think these import statements were doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.1b: What do you understand now about Spark imports?",
+      "description": "After reading the explanation about Apache Spark imports and package names, what do you understand now? What new insights did you gain?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.1c: What questions do you still have about imports?",
+      "description": "What questions do you still have about how imports work in this context, or about Spark in general?\n[Open text response]"
+    }
+  ]
+}

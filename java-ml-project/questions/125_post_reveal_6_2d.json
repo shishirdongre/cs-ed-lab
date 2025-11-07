@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 6.2d: Type Handling in Confusion Matrix - Reflection",
+  "code_section": "Evaluation - Type Handling (Lines 294-306)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L294-L306",
+  "instruction": "Now that you've seen the explanation about type handling, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2d-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think the instanceof check was doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2d-b: What do you understand now about handling different data types?",
+      "description": "After reading the explanation about checking for Integer or Double types and converting accordingly, what do you understand now? Why is this type handling important?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2d-c: How does this make the code more robust?",
+      "description": "The explanation mentioned that handling different types makes the code work regardless of what Spark returns. How does this improve code reliability?\n[Open text response]"
+    }
+  ]
+}

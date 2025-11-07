@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 4.1: Model Training - Reflection",
+  "code_section": "Training - fit() Method (Lines 216-218)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L216-L218",
+  "instruction": "Now that you've seen the explanation about model training, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 4.1a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think .fit() was doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 4.1b: What do you understand now about how the model learns patterns?",
+      "description": "After reading the explanation about the model learning patterns from training examples and building an internal model, what do you understand now? How does this differ from writing explicit rules?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 4.1c: Why do you think measuring training time is useful?",
+      "description": "The explanation mentioned that measuring time helps understand performance. Why do you think this is important, and what might you learn from training time?\n[Open text response]"
+    }
+  ]
+}

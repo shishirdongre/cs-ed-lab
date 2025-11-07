@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 3.2: StopWordsRemover - Reflection",
+  "code_section": "Feature Engineering - StopWordsRemover (Lines 174-176)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L174-L176",
+  "instruction": "Now that you've seen the explanation about stop words, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.2a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think \"stop words\" were? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.2b: What do you understand now about why we remove stop words?",
+      "description": "After reading the explanation about removing common words that don't help distinguish sentiment, what do you understand now? Why does focusing on meaningful words help the model?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.2c: How does removing stop words change what the model focuses on?",
+      "description": "The explanation mentioned that removing stop words helps focus on words that matter for sentiment analysis. How does this filtering step change what information the model uses?\n[Open text response]"
+    }
+  ]
+}

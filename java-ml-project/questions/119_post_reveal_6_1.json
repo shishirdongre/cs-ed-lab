@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 6.1: Accuracy Calculation - Reflection",
+  "code_section": "Evaluation - Evaluator Configuration (Lines 218-220)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L218-L220",
+  "instruction": "Now that you've seen the explanation about evaluator setup, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.1a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think the evaluator was doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.1b: What do you understand now about how evaluation works?",
+      "description": "After reading the explanation about the evaluator knowing which columns contain labels and predictions, what do you understand now? How does this setup help measure model performance?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.1c: Why do you think we need a separate evaluator object?",
+      "description": "The explanation mentioned that the evaluator is a separate object. Why do you think this separation is useful, rather than calculating metrics directly?\n[Open text response]"
+    }
+  ]
+}

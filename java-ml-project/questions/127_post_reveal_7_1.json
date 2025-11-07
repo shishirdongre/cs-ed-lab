@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 7.1: Testing Individual Reviews - Creating DataFrame - Reflection",
+  "code_section": "Testing - Creating DataFrame for Single Review (Lines 351-357)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L351-L357",
+  "instruction": "Now that you've seen the explanation about creating a DataFrame for a single review, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this code was doing when creating a dataset from a single review? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1b: What do you understand now about why we need a DataFrame structure?",
+      "description": "After reading the explanation about creating a dataset with a dummy label, what do you understand now? Why does the model need data in this specific format?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1c: Why do you think a dummy label is needed?",
+      "description": "The explanation mentioned that a dummy label of 0 is needed because the schema requires a label column. Why do you think this is necessary even though we're trying to predict the label?\n[Open text response]"
+    }
+  ]
+}

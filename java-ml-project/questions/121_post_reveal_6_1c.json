@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 6.1c: Multiple Metrics Calculation - Reflection",
+  "code_section": "Evaluation - Multiple Metrics (Lines 222-225)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L222-L225",
+  "instruction": "Now that you've seen the explanation about multiple metrics, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.1c-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think about calculating multiple metrics? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.1c-b: What do you understand now about why we need multiple metrics?",
+      "description": "After reading the explanation about each metric telling us something different, what do you understand now? Why might accuracy alone not be enough?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.1c-c: How do precision, recall, and F1 complement accuracy?",
+      "description": "The explanation mentioned that precision, recall, and F1 provide different perspectives. How do these metrics complement accuracy in understanding model performance?\n[Open text response]"
+    }
+  ]
+}

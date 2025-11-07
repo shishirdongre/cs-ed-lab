@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 7.1d: Testing Individual Reviews - Loop Through Samples - Reflection",
+  "code_section": "Testing - Loop Through Sample Reviews (Lines 346-379)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L346-L379",
+  "instruction": "Now that you've seen the explanation about looping through sample reviews, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1d-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this loop was doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1d-b: What do you understand now about testing the model on multiple examples?",
+      "description": "After reading the explanation about looping through sample reviews and comparing predictions to expected results, what do you understand now? Why is it useful to test on multiple examples?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1d-c: How does this demonstration help understand model performance?",
+      "description": "The explanation mentioned that this demonstrates the model working on real examples. How does seeing predictions on individual reviews help understand how well the model performs?\n[Open text response]"
+    }
+  ]
+}

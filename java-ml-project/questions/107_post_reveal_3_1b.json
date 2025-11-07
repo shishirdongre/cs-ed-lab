@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 3.1b: Understanding Method Chaining - Reflection",
+  "code_section": "Feature Engineering - Method Chaining Pattern (Lines 169-171)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L169-L171",
+  "instruction": "Now that you've seen the explanation about method chaining, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.1b-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you notice about how the methods were called? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.1b-b: What do you understand now about method chaining?",
+      "description": "After reading the explanation about method chaining where each method returns the same object, what do you understand now? How does this pattern make code more compact?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.1b-c: When might you prefer method chaining over separate method calls?",
+      "description": "The explanation showed that method chaining is more compact than calling methods separately. When might you prefer this approach, and what are its advantages?\n[Open text response]"
+    }
+  ]
+}

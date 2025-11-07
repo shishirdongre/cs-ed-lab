@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 4.1b: Time Measurement Pattern - Reflection",
+  "code_section": "Training - Time Measurement (Lines 216-218)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L216-L218",
+  "instruction": "Now that you've seen the explanation about time measurement, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 4.1b-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think System.currentTimeMillis() was doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 4.1b-b: What do you understand now about measuring code execution time?",
+      "description": "After reading the explanation about recording time before and after to calculate duration, what do you understand now? How does this pattern help understand performance?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 4.1b-c: When might you use this time measurement pattern in your own code?",
+      "description": "The explanation showed how to measure execution time. When might you want to use this pattern in your own programming?\n[Open text response]"
+    }
+  ]
+}

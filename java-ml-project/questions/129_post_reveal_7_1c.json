@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 7.1c: Testing Individual Reviews - Extracting Result - Reflection",
+  "code_section": "Testing - Extracting Prediction Result (Lines 361-369)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L361-L369",
+  "instruction": "Now that you've seen the explanation about extracting prediction results, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1c-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this code was doing when extracting the prediction? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1c-b: What do you understand now about extracting data from Spark datasets?",
+      "description": "After reading the explanation about using .select(), .collectAsList(), and .get(0) to extract the prediction value, what do you understand now? Why are these steps necessary?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1c-c: Why is type checking needed when extracting values?",
+      "description": "The explanation mentioned checking for Integer or Double types. Why do you think this type handling is necessary when extracting values from Spark datasets?\n[Open text response]"
+    }
+  ]
+}

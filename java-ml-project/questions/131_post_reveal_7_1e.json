@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 7.1e: Testing Individual Reviews - Comparing Results - Reflection",
+  "code_section": "Testing - Comparing Prediction to Expected (Lines 371-373)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L371-L373",
+  "instruction": "Now that you've seen the explanation about comparing results, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1e-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this code was doing when comparing predictions? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1e-b: What do you understand now about the ternary operator?",
+      "description": "After reading the explanation about the ternary operator being a compact if-else statement, what do you understand now? How does this operator work?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 7.1e-c: Why is it useful to track how many predictions are correct?",
+      "description": "The explanation mentioned incrementing a counter to track correct predictions. Why do you think this tracking is useful when testing the model?\n[Open text response]"
+    }
+  ]
+}

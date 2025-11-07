@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 6.2b: Confusion Matrix - Collecting Results - Reflection",
+  "code_section": "Evaluation - Collecting Predictions (Line 289)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L289",
+  "instruction": "Now that you've seen the explanation about collecting results, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2b-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think .select() and .collectAsList() were doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2b-b: What do you understand now about moving data from distributed to local memory?",
+      "description": "After reading the explanation about collecting data from a distributed dataset into local memory, what do you understand now? Why is this step necessary?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2b-c: How does .select() help focus on specific columns?",
+      "description": "The explanation showed how .select() chooses which columns to keep. How does this help when you only need specific information?\n[Open text response]"
+    }
+  ]
+}

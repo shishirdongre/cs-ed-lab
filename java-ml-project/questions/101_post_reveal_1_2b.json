@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 1.2b: Understanding Features in Raw Dataset - Reflection",
+  "code_section": "Data Loading - Raw Dataset Structure (Lines 143-153)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L153",
+  "instruction": "Now that you've seen the explanation about features in the raw dataset, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.2b-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think \"features\" meant in the context of this dataset? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.2b-b: What do you understand now about the difference between features and labels?",
+      "description": "After reading the explanation about how \"text\" is the feature (input) and \"sentiment\" is the label (what we're predicting), what do you understand now? Why is this distinction important?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.2b-c: Why do you think raw text needs to be processed before the model can use it?",
+      "description": "The explanation mentioned that raw text needs to be processed into a format the computer can work with. Why do you think this is necessary?\n[Open text response]"
+    }
+  ]
+}

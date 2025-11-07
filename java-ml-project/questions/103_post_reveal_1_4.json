@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 1.4: Conditional Logic in Data Transformation - Reflection",
+  "code_section": "Data Loading - Conditional Logic (Lines 157-158)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L157-L158",
+  "instruction": "Now that you've seen the explanation about conditional logic in data transformation, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.4a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this conditional expression was doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.4b: What do you understand now about when().otherwise()?",
+      "description": "After reading the explanation about when().otherwise() being similar to if-else but in a functional style, what do you understand now? How does this functional approach work with data transformations?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.4c: When might you prefer this style over traditional if-else statements?",
+      "description": "The explanation mentioned this is a more compact, functional style. When might you prefer this approach over traditional if-else statements in data processing?\n[Open text response]"
+    }
+  ]
+}

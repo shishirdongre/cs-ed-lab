@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 5.1b: Understanding fit() vs transform() - Reflection",
+  "code_section": "Training vs Prediction - fit() vs transform() (Lines 217 vs 239)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L217 and https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L239",
+  "instruction": "Now that you've seen the explanation about fit() vs transform(), let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 5.1b-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think the difference between .fit() and .transform() was? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 5.1b-b: What do you understand now about the relationship between training and prediction?",
+      "description": "After reading the explanation about .fit() being like \"studying\" and .transform() being like \"taking a test\", what do you understand now? How do these two methods work together?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 5.1b-c: Why must .fit() be called before .transform()?",
+      "description": "The explanation showed that you need to train with .fit() before you can make predictions with .transform(). Why do you think this order is necessary?\n[Open text response]"
+    }
+  ]
+}
