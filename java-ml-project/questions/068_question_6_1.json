@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 6.1a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nMulticlassClassificationEvaluator evaluator = new MulticlassClassificationEvaluator()\n    .setLabelCol(\"label\")\n    .setPredictionCol(\"prediction\");\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L218-L220\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

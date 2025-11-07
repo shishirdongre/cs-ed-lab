@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 1.1: Schema Definition - Reflection",
+  "code_section": "Data Loading - Schema Definition (Lines 143-146)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L146",
+  "instruction": "Now that you've seen the explanation about schema definition, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.1a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this schema code was doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.1b: What do you understand now about schemas?",
+      "description": "After reading the explanation about schemas being blueprints that describe data structure, what do you understand now? Why is it important to define the structure before reading data?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.1c: How does defining a schema compare to other ways of describing data?",
+      "description": "How does defining a schema compare to other ways you've described or structured data in programming?\n[Open text response]"
+    }
+  ]
+}

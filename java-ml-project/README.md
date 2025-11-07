@@ -1,6 +1,6 @@
 # Java Machine Learning Project
 
-A sentiment analysis project using Naive Bayes classification on Yelp reviews, implemented in Java with the Smile library and supporting Python analysis tools.
+A sentiment analysis project using LinearSVC classification on Yelp reviews, implemented in Java with Apache Spark ML and supporting Python analysis tools.
 
 ## 🚀 Quick Start with GitHub Codespaces
 
@@ -114,7 +114,7 @@ python script.py
 
 ### Model Training
 1. **Train-test split** (80/20 with random seed)
-2. **Naive Bayes training** using Smile library
+2. **LinearSVC training** using Apache Spark ML
 3. **Gaussian distribution fitting** for each feature
 4. **Prior probability calculation**
 

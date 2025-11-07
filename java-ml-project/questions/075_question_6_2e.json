@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 6.2e-a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\ndouble sensitivity = (double) truePositives / (truePositives + falseNegatives);\ndouble specificity = (double) trueNegatives / (trueNegatives + falsePositives);\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L269-L270\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

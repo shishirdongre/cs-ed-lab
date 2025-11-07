@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 0.1a: What do you think these import statements are doing?",
-      "description": "Look at the import statements at the top of the Java file:\n\nimport org.apache.spark.sql.*;\nimport org.apache.spark.sql.types.*;\nimport org.apache.spark.ml.*;\nimport org.apache.spark.ml.feature.*;\nimport org.apache.spark.ml.classification.*;\n// ... and more ...\n\nWhat do you think these import statements are doing?"
+      "description": "Look at the import statements at the top of the Java file:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L1-L30\n\nWhat do you think these import statements are doing?"
     },
     {
       "type": "short_answer",

@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 6.2d-a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\n// Get actual label\nif (row.get(0) instanceof Integer) {\n    actual = row.getInt(0);\n} else {\n    actual = ((Double) row.get(0)).intValue();\n}\n\n// Get predicted label\nif (row.get(1) instanceof Integer) {\n    predicted = row.getInt(1);\n} else {\n    predicted = ((Double) row.get(1)).intValue();\n}\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L294-L306\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

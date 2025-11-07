@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 3.6b-a: What do you think the feature extraction code is doing overall?",
-      "description": "Look at all the feature extraction stages we've seen:\n\nTokenizer tokenizer = new Tokenizer()\n    .setInputCol(\"text\")\n    .setOutputCol(\"words\");\n\nStopWordsRemover stopWordsRemover = new StopWordsRemover()\n    .setInputCol(\"words\")\n    .setOutputCol(\"filtered_words\");\n\nHashingTF hashingTF = new HashingTF()\n    .setInputCol(\"filtered_words\")\n    .setOutputCol(\"rawFeatures\")\n    .setNumFeatures(10000);\n\nIDF idf = new IDF()\n    .setInputCol(\"rawFeatures\")\n    .setOutputCol(\"features\");\n\nWhat do you think the feature extraction code is doing overall?"
+      "description": "Look at all the feature extraction stages we've seen:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L177-L192\n\nWhat do you think the feature extraction code is doing overall?"
     },
     {
       "type": "paragraph",

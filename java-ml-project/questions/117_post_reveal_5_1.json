@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 5.1: Prediction on Test Data - Reflection",
+  "code_section": "Making Predictions - transform() (Lines 233-239)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L233-L239",
+  "instruction": "Now that you've seen the explanation about making predictions, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 5.1a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think .transform() was doing when making predictions? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 5.1b: What do you understand now about how predictions are made?",
+      "description": "After reading the explanation about processing test data through the same stages and then making predictions, what do you understand now? How does this relate to the training process?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 5.1c: Why is it important to test on data the model hasn't seen?",
+      "description": "The explanation mentioned that testing on new data is like taking a test after studying. Why do you think it's important to evaluate the model on data it hasn't seen during training?\n[Open text response]"
+    }
+  ]
+}

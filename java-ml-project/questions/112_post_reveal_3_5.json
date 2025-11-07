@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 3.5: LinearSVC Classifier - Reflection",
+  "code_section": "Feature Engineering - LinearSVC Configuration (Lines 194-198)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L194-L198",
+  "instruction": "Now that you've seen the explanation about LinearSVC, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.5a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think a classifier was? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.5b: What do you understand now about how LinearSVC learns patterns?",
+      "description": "After reading the explanation about LinearSVC finding the best line that separates positive and negative reviews, what do you understand now? How does this differ from writing explicit rules?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.5c: What do you think about the parameters maxIter and regParam?",
+      "description": "The explanation mentioned that maxIter limits training steps and regParam prevents overfitting. What do you think about these parameters and why they might be needed?\n[Open text response]"
+    }
+  ]
+}

@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 3.4a: IDF stands for \"Inverse Document Frequency\". What do you think this might mean?",
-      "description": "Look at this code snippet:\n\nIDF idf = new IDF()\n    .setInputCol(\"rawFeatures\")\n    .setOutputCol(\"features\");\n\nIDF stands for \"Inverse Document Frequency\". What do you think this might mean?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L185-L187\n\nIDF stands for \"Inverse Document Frequency\". What do you think this might mean?"
     },
     {
       "type": "short_answer",

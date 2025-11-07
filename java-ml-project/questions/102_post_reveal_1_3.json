@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 1.3: Label Conversion - Reflection",
+  "code_section": "Data Loading - Label Conversion with withColumn (Lines 156-159)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L156-L159",
+  "instruction": "Now that you've seen the explanation about label conversion, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.3a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this code was doing when converting text to numbers? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.3b: What do you understand now about why we convert text labels to numbers?",
+      "description": "After reading the explanation about machine learning algorithms working better with numbers than text, what do you understand now? Why is this conversion necessary?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.3c: How does .withColumn() help transform data?",
+      "description": "The explanation showed how .withColumn() creates a new column. How does this method help in data transformation, and how does it compare to other ways of modifying data?\n[Open text response]"
+    }
+  ]
+}

@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 3.1b-a: What do you notice about how the methods are called?",
-      "description": "Look at this code snippet:\n\nTokenizer tokenizer = new Tokenizer()\n    .setInputCol(\"text\")\n    .setOutputCol(\"words\");\n\nWhat do you notice about how the methods are called?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L169-L171\n\nWhat do you notice about how the methods are called?"
     },
     {
       "type": "short_answer",

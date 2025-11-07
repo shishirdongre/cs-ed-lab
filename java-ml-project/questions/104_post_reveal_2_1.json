@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 2.1: Train/Test Split - Reflection",
+  "code_section": "Data Splitting - randomSplit (Lines 79-81)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L79-L81",
+  "instruction": "Now that you've seen the explanation about train/test split, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 2.1a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this code was doing when splitting the data? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 2.1b: What do you understand now about why we split data into training and test sets?",
+      "description": "After reading the explanation about using 80% for training and 20% for testing, what do you understand now? Why is it important to test on data the model hasn't seen during training?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 2.1c: What do you think about using a random seed?",
+      "description": "The explanation mentioned that RANDOM_SEED ensures reproducible results. What do you think about this approach, and why might reproducibility be important?\n[Open text response]"
+    }
+  ]
+}

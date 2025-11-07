@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 3.1: Tokenizer - Reflection",
+  "code_section": "Feature Engineering - Tokenizer Configuration (Lines 169-171)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L169-L171",
+  "instruction": "Now that you've seen the explanation about tokenization, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.1a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think tokenization meant? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.1b: What do you understand now about how text is split into words?",
+      "description": "After reading the explanation about Tokenizer splitting text into individual words, what do you understand now? Why is this the first step in processing text for machine learning?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.1c: How do input and output columns help organize the transformation?",
+      "description": "The explanation showed how .setInputCol() and .setOutputCol() specify where data comes from and goes. How does this column-based approach help organize data transformations?\n[Open text response]"
+    }
+  ]
+}

@@ -412,13 +412,35 @@ def create_form(service: Any, questions: List[Dict[str, Any]], form_title: str) 
             else:
                 print(f"⚠️  Unknown question type: {question.get('type')} for {question.get('title', 'unknown')}")
         
-        # Batch update the form
+        # Batch update the form in smaller chunks to avoid API limits
         if requests:
-            batch_update = {
-                'requests': requests
-            }
-            service.forms().batchUpdate(formId=form_id, body=batch_update).execute()
-            print(f"? Added {len(requests)} items to the form")
+            batch_size = 20  # Process 20 items at a time
+            total_added = 0
+            for i in range(0, len(requests), batch_size):
+                batch = requests[i:i + batch_size]
+                batch_update = {
+                    'requests': batch
+                }
+                try:
+                    service.forms().batchUpdate(formId=form_id, body=batch_update).execute()
+                    total_added += len(batch)
+                    print(f"? Added batch {i//batch_size + 1} ({len(batch)} items, {total_added}/{len(requests)} total)")
+                except HttpError as error:
+                    print(f"? Error adding batch {i//batch_size + 1}: {error}")
+                    if hasattr(error, 'resp') and error.resp.status == 500:
+                        print(f"   Retrying batch {i//batch_size + 1}...")
+                        import time
+                        time.sleep(2)  # Wait 2 seconds before retry
+                        try:
+                            service.forms().batchUpdate(formId=form_id, body=batch_update).execute()
+                            total_added += len(batch)
+                            print(f"? Successfully added batch {i//batch_size + 1} on retry")
+                        except Exception as retry_error:
+                            print(f"? Retry failed: {retry_error}")
+                            # Continue with next batch
+                    else:
+                        raise  # Re-raise if not a 500 error
+            print(f"? Added {total_added} items to the form")
         
         return form_id
         

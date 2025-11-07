@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 3.3b: Understanding Hashing Concept - Reflection",
+  "code_section": "Feature Engineering - HashingTF Concept (Lines 179-182)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L179-L182",
+  "instruction": "Now that you've seen the explanation about hashing, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.3b-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think \"hashing\" meant? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.3b-b: What do you understand now about the advantages of hashing?",
+      "description": "After reading the explanation about hashing being more efficient than storing a vocabulary list, what do you understand now? What are the trade-offs of using hashing?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.3b-c: What do you think about hash collisions?",
+      "description": "The explanation mentioned that different words might hash to the same number (collisions), but this is usually acceptable. What do you think about this trade-off?\n[Open text response]"
+    }
+  ]
+}

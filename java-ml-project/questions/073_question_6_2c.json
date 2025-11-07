@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 6.2c-a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nfor (Row row : results) {\n    int actual, predicted;\n    // ... code to get actual and predicted values ...\n    matrix[actual][predicted]++;\n}\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L290-L309\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

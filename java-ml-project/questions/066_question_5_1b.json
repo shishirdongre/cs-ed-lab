@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 5.1b-a: What's the difference between `.fit()` and `.transform()`?",
-      "description": "Look at these two code snippets:\n\nTraining:\nLinearSVCModel svcModel = lsvc.fit(trainFeats);\n\nPrediction:\nDataset<Row> predictions = models.svcModel.transform(testFeats);\n\nWhat's the difference between .fit() and .transform()?"
+      "description": "Look at these two code snippets:\n\nTraining: View the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L217\n\nPrediction: View the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L239\n\nWhat's the difference between .fit() and .transform()?"
     },
     {
       "type": "short_answer",

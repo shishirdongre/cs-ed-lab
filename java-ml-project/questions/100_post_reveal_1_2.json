@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 1.2: Reading CSV File - Reflection",
+  "code_section": "Data Loading - CSV Reading (Lines 149-153)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L149-L153",
+  "instruction": "Now that you've seen the explanation about reading CSV files, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.2a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this code was doing when reading the CSV file? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.2b: What do you understand now about the .option() calls?",
+      "description": "After reading the explanation about .option(\"header\", \"true\") and .option(\"inferSchema\", \"false\"), what do you understand now? Why are these options important when reading data?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.2c: How does method chaining work in this context?",
+      "description": "The explanation showed how methods are called one after another. How does this method chaining approach feel to you, and how does it compare to other ways of writing code?\n[Open text response]"
+    }
+  ]
+}

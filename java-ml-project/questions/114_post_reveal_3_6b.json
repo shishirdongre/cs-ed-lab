@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 3.6b: Understanding Feature Extraction Process - Reflection",
+  "code_section": "Feature Engineering - Feature Extraction Stages (Lines 177-192)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L177-L192",
+  "instruction": "Now that you've seen the explanation about feature extraction, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.6b-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think feature extraction was doing overall? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.6b-b: What do you understand now about transforming text to numerical features?",
+      "description": "After reading the explanation about converting raw text into numerical vectors, what do you understand now? Why is this transformation necessary for machine learning algorithms?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.6b-c: How does the final numerical vector represent the original text?",
+      "description": "The explanation mentioned that the final output is a numerical vector representing the text. How do you think this numerical representation captures information from the original text?\n[Open text response]"
+    }
+  ]
+}

@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 7.1a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nDataset<Row> reviewData = spark.createDataFrame(\n    Arrays.asList(RowFactory.create(review, 0)), // dummy label\n    new StructType(new StructField[]{\n        DataTypes.createStructField(\"text\", DataTypes.StringType, false),\n        DataTypes.createStructField(\"label\", DataTypes.IntegerType, false)\n    })\n);\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L351-L357\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

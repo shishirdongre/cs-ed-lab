@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 0.3: Dataset Object Import - Reflection",
+  "code_section": "Dataset Import (Line 1-30, specifically Dataset)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L1-L30",
+  "instruction": "Now that you've seen the explanation about Dataset and Row, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.3a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think Dataset and Row were? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.3b: What do you understand now about Dataset<Row>?",
+      "description": "After reading the explanation about Dataset<Row> representing a table of data, what do you understand now? How does this concept help you think about working with data?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.3c: How is Dataset different from arrays or lists you've used?",
+      "description": "The explanation mentioned that Dataset is similar to arrays or lists but optimized for large data. What do you think this means, and how does it change how you think about data structures?\n[Open text response]"
+    }
+  ]
+}

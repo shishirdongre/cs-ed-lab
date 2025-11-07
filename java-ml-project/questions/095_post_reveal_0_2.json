@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 0.2: Program Initialization - Reflection",
+  "code_section": "Program Initialization (Lines 38-60)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L38-L60",
+  "instruction": "Now that you've seen the explanation about program initialization, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.2a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this initialization code was doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.2b: What do you understand now about Spark initialization?",
+      "description": "After reading the explanation about Apache Spark initialization, what do you understand now? What does it mean to \"set up the environment\" for data processing?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.2c: How does this initialization relate to other setup code you've seen?",
+      "description": "How does this Spark initialization relate to or differ from other setup or initialization code you've encountered in programming?\n[Open text response]"
+    }
+  ]
+}

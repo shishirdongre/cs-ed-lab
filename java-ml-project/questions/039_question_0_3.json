@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 0.3a: What do you think `Dataset` and `Row` might be?",
-      "description": "Look at this import statement:\n\nimport org.apache.spark.sql.Dataset;\nimport org.apache.spark.sql.Row;\n\nWhat do you think Dataset and Row might be?"
+      "description": "Look at this import statement:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L1-L30\n\nWhat do you think Dataset and Row might be?"
     },
     {
       "type": "short_answer",

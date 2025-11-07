@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "=== Yelp Sentiment Analysis with Multinomial Naive Bayes ==="
+echo "=== Yelp Sentiment Analysis with LinearSVC ==="
 echo "Using Apache Spark 4.0.1 with Java 21"
 echo ""
 
@@ -22,7 +22,7 @@ fi
 if [ $? -eq 0 ]; then
     echo "Compilation successful!"
     echo ""
-    echo "Running Multinomial Naive Bayes sentiment analysis..."
+    echo "Running LinearSVC sentiment analysis..."
     echo "=================================================="
     
     # Run the program with local JARs (suppress Spark logs)

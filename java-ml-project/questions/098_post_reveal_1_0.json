@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 1.0: Understanding the Dataset - Reflection",
+  "code_section": "Dataset Overview - Sample Data",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/simple_yelp_reviews.csv",
+  "instruction": "Now that you've seen the explanation about features and labels in the dataset, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.0a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think about the dataset structure and what \"features\" meant? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.0b: What do you understand now about features and labels?",
+      "description": "After reading the explanation about features (input variables) and labels (the answer we're trying to predict), what do you understand now? How does this distinction help you think about machine learning?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 1.0c: How does this change how you think about building a classification model?",
+      "description": "Now that you understand the difference between features and labels, how does this change how you think about building a model to classify reviews?\n[Open text response]"
+    }
+  ]
+}

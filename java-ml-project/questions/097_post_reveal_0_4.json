@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 0.4: Dataset Object Creation - Reflection",
+  "code_section": "Dataset Creation - Reading Data (Lines 149-153)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L149-L153",
+  "instruction": "Now that you've seen the explanation about creating a Dataset from a CSV file, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.4a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this code was doing when reading the CSV file? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.4b: What do you understand now about reading data into a Dataset?",
+      "description": "After reading the explanation about how spark.read().csv() creates a Dataset<Row> object, what do you understand now? What does it mean for data to be \"organized in rows and columns\"?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 0.4c: How does this way of reading files compare to other methods?",
+      "description": "How does this Spark way of reading CSV files compare to other file reading methods you've used in Java or other programming languages?\n[Open text response]"
+    }
+  ]
+}

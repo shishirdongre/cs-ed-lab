@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 7.1c-a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nRow result = prediction.select(\"prediction\").collectAsList().get(0);\n\n// Handle both Integer and Double types from Spark\nint predictedLabel;\nif (result.get(0) instanceof Integer) {\n    predictedLabel = result.getInt(0);\n} else {\n    predictedLabel = ((Double) result.get(0)).intValue();\n}\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L361-L369\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

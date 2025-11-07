@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 6.2c: Confusion Matrix - Counting in Loop - Reflection",
+  "code_section": "Evaluation - Counting Predictions (Lines 290-309)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L290-L309",
+  "instruction": "Now that you've seen the explanation about counting in the loop, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2c-a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think this loop was doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2c-b: What do you understand now about how the confusion matrix is populated?",
+      "description": "After reading the explanation about incrementing counts at matrix[actual][predicted], what do you understand now? How does this process build the confusion matrix?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 6.2c-c: How does using array indices to count work?",
+      "description": "The explanation showed how actual and predicted values are used as array indices. How does this indexing approach help organize the counts?\n[Open text response]"
+    }
+  ]
+}

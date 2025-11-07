@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 3.6: Processing Stages Sequentially - Reflection",
+  "code_section": "Feature Engineering - Sequential Stage Processing (Lines 205-218)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L205-L218",
+  "instruction": "Now that you've seen the explanation about sequential processing, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.6a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think about how these processing stages worked together? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.6b: What do you understand now about the pipeline approach?",
+      "description": "After reading the explanation about data flowing through stages like an assembly line, what do you understand now? Why does the order of processing matter?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.6c: How does the difference between .fit() and .transform() work in the pipeline?",
+      "description": "The explanation mentioned that some stages use .fit() to learn, then .transform() to apply. How does this two-step process work in the context of the pipeline?\n[Open text response]"
+    }
+  ]
+}

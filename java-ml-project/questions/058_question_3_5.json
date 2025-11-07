@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 3.5a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nLinearSVC lsvc = new LinearSVC()\n    .setFeaturesCol(\"features\")\n    .setLabelCol(\"label\")\n    .setMaxIter(50)\n    .setRegParam(0.1);\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L194-L198\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

@@ -119,7 +119,7 @@ VS Code has a special feature called the **Debugger** that lets you run programs
 
 1. **"Create Dataset"** - Creates the data file with restaurant reviews
 2. **"Setup Spark"** - Downloads and sets up the machine learning library  
-3. **"Run Sentiment Analysis"** - Runs the main program (Note: This runs Naive Bayes, but the code structure is the same)
+3. **"Run Sentiment Analysis"** - Runs the main program using LinearSVC classifier
 
 ### Step 8: Running Script 1 - Create Dataset
 
@@ -199,7 +199,7 @@ The program will print lots of information to the terminal. Here's what each sec
   - StopWordsRemover: removes common words like "the", "and"
   - HashingTF: converts words to numbers
   - IDF: calculates word importance
-  - Multinomial Naive Bayes: the learning algorithm
+  - LinearSVC: the learning algorithm
 
 #### ?? MODEL TRAINING
 - Shows how long it took to train the model

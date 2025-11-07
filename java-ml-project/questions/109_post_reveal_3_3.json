@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 3.3: HashingTF - Reflection",
+  "code_section": "Feature Engineering - HashingTF Configuration (Lines 179-182)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L179-L182",
+  "instruction": "Now that you've seen the explanation about HashingTF, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.3a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think HashingTF was doing? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.3b: What do you understand now about converting words to numbers?",
+      "description": "After reading the explanation about HashingTF converting words into numerical vectors, what do you understand now? Why is it necessary to represent text as numbers for machine learning?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.3c: How does the number 10000 relate to the feature space?",
+      "description": "The explanation mentioned that .setNumFeatures(10000) creates space for up to 10,000 different features. What do you think this means for how the model represents words?\n[Open text response]"
+    }
+  ]
+}

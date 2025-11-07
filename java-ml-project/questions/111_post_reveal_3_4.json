@@ -1,0 +1,24 @@
+{
+  "type": "group",
+  "title": "Post-Reveal Question 3.4: IDF - Reflection",
+  "code_section": "Feature Engineering - IDF (Lines 185-187)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L185-L187",
+  "instruction": "Now that you've seen the explanation about IDF, let's reflect on your understanding.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.4a: How was your initial understanding different from the explanation?",
+      "description": "Before seeing the explanation, what did you think \"Inverse Document Frequency\" meant? How was your initial understanding similar to or different from what was revealed?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.4b: What do you understand now about how IDF adjusts word importance?",
+      "description": "After reading the explanation about IDF giving lower weights to common words and higher weights to rare words, what do you understand now? Why does this help the model focus on distinctive words?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Post-Reveal 3.4c: How does IDF help distinguish between positive and negative reviews?",
+      "description": "The explanation mentioned that IDF helps focus on words that distinguish positive from negative reviews. How does adjusting word weights based on frequency help with classification?\n[Open text response]"
+    }
+  ]
+}

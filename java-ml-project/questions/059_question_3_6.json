@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 3.6a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nDataset<Row> trainTok = tokenizer.transform(trainData);\nDataset<Row> trainFilt = stopWordsRemover.transform(trainTok);\nDataset<Row> trainRaw = hashingTF.transform(trainFilt);\n\n// IDF is an Estimator → fit on TRAIN only\nIDFModel idfModel = idf.fit(trainRaw);\nDataset<Row> trainFeats = idfModel.transform(trainRaw).cache();\n\n// Linear SVC is an Estimator → fit on TRAIN features\nLinearSVCModel svcModel = lsvc.fit(trainFeats);\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L205-L218\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

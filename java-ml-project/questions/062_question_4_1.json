@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 4.1a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nlong startTime = System.currentTimeMillis();\nLinearSVCModel svcModel = lsvc.fit(trainFeats);\nlong trainingTime = System.currentTimeMillis() - startTime;\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L216-L218\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

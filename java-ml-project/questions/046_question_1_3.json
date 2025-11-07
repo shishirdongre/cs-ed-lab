@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 1.3a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\ndata = data.withColumn(\"label\", \n    when(col(\"sentiment\").equalTo(\"positive\"), 1)\n    .otherwise(0)\n).select(\"text\", \"label\");\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L156-L159\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",
