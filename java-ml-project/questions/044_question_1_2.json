@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 1.2: Reading CSV File",
+  "code_section": "Data Loading - CSV Reading (Lines 149-153)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L149-L153",
+  "instruction": "This code reads data from a file. Think about what happens when you open a spreadsheet file - the program needs to know how to interpret the file format.",
+  "reveal": "This code reads the CSV file into a Dataset (a structured collection of data). The `.option(\"header\", \"true\")` tells Spark that the first row contains column names. The `.option(\"inferSchema\", \"false\")` means \"don't guess the data types - use the schema we defined instead.\" The `.schema(schema)` applies the schema we created earlier, and `.csv(CSV_FILE)` specifies which file to read.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 1.2a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nDataset<Row> data = spark.read()\n    .option(\"header\", \"true\")\n    .option(\"inferSchema\", \"false\")\n    .schema(schema)\n    .csv(CSV_FILE);\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 1.2b: What do you think the `.option()` calls are for?",
+      "description": "What do you think the .option() calls are for?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 1.2c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.2d: How is this different from or similar to how you might read a file in other programming you've done?",
+      "description": "How is this different from or similar to how you might read a file in other programming you've done?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.2e: Method chaining",
+      "description": "What do you notice about how these methods are called one after another? How does this way of writing code feel to you?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

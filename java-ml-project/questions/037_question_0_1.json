@@ -1,0 +1,45 @@
+{
+  "type": "group",
+  "title": "Question 0.1: Understanding Imports",
+  "code_section": "Program Imports (Lines 1-30)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L1-L30",
+  "instruction": "Import statements tell Java where to find the classes and libraries that the program will use. These imports bring in functionality from the Apache Spark framework.",
+  "reveal": "These import statements load classes from the Apache Spark library. The package names like `org.apache.spark.sql` indicate these are from the Spark SQL module (for working with structured data), `org.apache.spark.ml` is for machine learning, and `org.apache.spark.ml.feature` contains tools for processing features (like text). These imports allow the program to use Spark's data processing and machine learning capabilities.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 0.1a: What do you think these import statements are doing?",
+      "description": "Look at the import statements at the top of the Java file:\n\nimport org.apache.spark.sql.*;\nimport org.apache.spark.sql.types.*;\nimport org.apache.spark.ml.*;\nimport org.apache.spark.ml.feature.*;\nimport org.apache.spark.ml.classification.*;\n// ... and more ...\n\nWhat do you think these import statements are doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 0.1b: What do you notice about the package names (org.apache.spark...)?",
+      "description": "What do you notice about the package names (org.apache.spark...)?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 0.1c: Which imports look familiar or unfamiliar to you?",
+      "description": "Which imports look familiar or unfamiliar to you?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 0.1d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 0.1e: How are these imports similar to or different from imports you've seen in other Java programs?",
+      "description": "How are these imports similar to or different from imports you've seen in other Java programs?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 0.1f: Understanding Spark imports",
+      "description": "When you see these Spark imports, what comes to mind from your previous Java experience? How are you making sense of these imports?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

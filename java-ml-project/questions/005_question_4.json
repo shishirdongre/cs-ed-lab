@@ -1,0 +1,10 @@
+{
+  "type": "multiple_choice",
+  "title": "Question 4: How long ago did you complete your first programming course?",
+  "options": [
+    "Less than 6 months ago",
+    "6-12 months ago",
+    "1-2 years ago",
+    "More than 2 years ago"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "type": "group",
+  "title": "Question 3.6b: Understanding Feature Extraction Process",
+  "code_section": "Feature Engineering - Feature Extraction Stages (Lines 177-192)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L177-L192",
+  "instruction": "Feature extraction is the process of converting raw data (like text) into a numerical format that machine learning algorithms can process. This code transforms text through multiple stages.",
+  "reveal": "The feature extraction code is transforming raw text into numerical features that the LinearSVC classifier can use. It starts with raw text, splits it into words (Tokenizer), removes common words (StopWordsRemover), converts words to numbers (HashingTF), and then adjusts the importance of words (IDF). The final output is a numerical vector (a list of numbers) that represents the text in a way the computer can analyze. This is necessary because machine learning algorithms like LinearSVC work with numbers, not text - they need numerical features to learn patterns and make predictions.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 3.6b-a: What do you think the feature extraction code is doing overall?",
+      "description": "Look at all the feature extraction stages we've seen:\n\nTokenizer tokenizer = new Tokenizer()\n    .setInputCol(\"text\")\n    .setOutputCol(\"words\");\n\nStopWordsRemover stopWordsRemover = new StopWordsRemover()\n    .setInputCol(\"words\")\n    .setOutputCol(\"filtered_words\");\n\nHashingTF hashingTF = new HashingTF()\n    .setInputCol(\"filtered_words\")\n    .setOutputCol(\"rawFeatures\")\n    .setNumFeatures(10000);\n\nIDF idf = new IDF()\n    .setInputCol(\"rawFeatures\")\n    .setOutputCol(\"features\");\n\nWhat do you think the feature extraction code is doing overall?"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.6b-b: How do you think the features change from the raw dataset to after feature extraction?",
+      "description": "How do you think the features change from the raw dataset to after feature extraction?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.6b-c: Why do you think we need to transform the raw text into numerical features?",
+      "description": "Why do you think we need to transform the raw text into numerical features?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 3.6b-d: How confident do you feel that you understood what the feature extraction code is doing?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.6b-e: How is this process of transforming text to numbers similar to or different from data transformations you've done in other programming contexts?",
+      "description": "How is this process of transforming text to numbers similar to or different from data transformations you've done in other programming contexts?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.6b-f: Understanding feature extraction",
+      "description": "What does this process of converting text to numerical features remind you of? How are you thinking about why we need to transform the data this way?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

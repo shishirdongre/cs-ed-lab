@@ -1,0 +1,12 @@
+{
+  "type": "multiple_choice",
+  "title": "Question 12: When you see code you don't understand, what do you usually do first?",
+  "options": [
+    "Try to trace through it step by step",
+    "Look up documentation or explanations",
+    "Ask someone for help",
+    "Try modifying it to see what happens",
+    "Skip it and come back later",
+    "Other: _______________"
+  ]
+}

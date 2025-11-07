@@ -1,0 +1,35 @@
+{
+  "type": "group",
+  "title": "Question 3.3b: Understanding Hashing Concept",
+  "code_section": "Feature Engineering - HashingTF Concept (Lines 179-182)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L179-L182",
+  "instruction": "Hashing is a technique that converts data into a fixed-size value. Think about how this might help when dealing with many different words.",
+  "reveal": "Hashing converts each word into a number between 0 and 9999 using a hash function. This is more efficient than keeping a list of all possible words because: (1) we don't need to store the vocabulary, (2) we can handle new words we haven't seen before, and (3) it's faster. The trade-off is that different words might hash to the same number (called a collision), but this is usually acceptable for machine learning.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 3.3b-a: The name includes \"Hashing\" - what do you think \"hashing\" means in programming?",
+      "description": "Look at this code snippet:\n\nHashingTF hashingTF = new HashingTF()\n    .setInputCol(\"filtered_words\")\n    .setOutputCol(\"rawFeatures\")\n    .setNumFeatures(10000);\n\nThe name includes \"Hashing\" - what do you think \"hashing\" means in programming?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.3b-b: Why do you think we use hashing here instead of just creating a list of all words?",
+      "description": "Why do you think we use hashing here instead of just creating a list of all words?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 3.3b-c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.3b-d: What advantages or disadvantages do you see in using hashing versus keeping a list of all words?",
+      "description": "What advantages or disadvantages do you see in using hashing versus keeping a list of all words?\n[Open text response]"
+    }
+  ]
+}

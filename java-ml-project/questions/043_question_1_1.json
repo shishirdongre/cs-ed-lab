@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 1.1: Schema Definition",
+  "code_section": "Data Loading - Schema Definition (Lines 143-146)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L146",
+  "instruction": "Before we can work with data in a program, we need to tell the computer what structure to expect. This code defines the \"shape\" of the data file.",
+  "reveal": "This code creates a schema (a blueprint) that describes the structure of the CSV file. It tells Java that the file has two columns: \"text\" (which contains strings) and \"sentiment\" (which also contains strings). The `false` parameter means these columns cannot be empty. This is similar to defining the columns in a spreadsheet before you start entering data.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 1.1a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nStructType schema = new StructType(new StructField[]{\n    DataTypes.createStructField(\"text\", DataTypes.StringType, false),\n    DataTypes.createStructField(\"sentiment\", DataTypes.StringType, false)\n});\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 1.1b: Which parts look familiar or new to you?",
+      "description": "Which parts look familiar or new to you?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 1.1c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.1d: What do you notice about how Java describes data types?",
+      "description": "What do you notice about how Java describes data types compared to how you might describe them in everyday language?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.1e: Understanding schema definition",
+      "description": "What does defining a schema remind you of? How are you making sense of this way of describing data?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

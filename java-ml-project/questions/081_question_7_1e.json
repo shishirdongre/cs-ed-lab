@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 7.1e: Testing Individual Reviews - Comparing Results",
+  "code_section": "Testing - Comparing Prediction to Expected (Lines 371-373)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L371-L373",
+  "instruction": "After making a prediction, we compare it to the expected answer to see if the model was right.",
+  "reveal": "This code converts the numeric prediction (0 or 1) back to text (\"negative\" or \"positive\"), compares it to the expected answer, and marks it with ✅ if correct or ❌ if wrong. It also increments a counter (`correct++`) to keep track of how many predictions were correct. This is a ternary operator (`condition ? valueIfTrue : valueIfFalse`) - a compact way to write an if-else statement.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 7.1e-a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nString predicted = (predictedLabel == 1) ? \"positive\" : \"negative\";\nString status = expected.equals(predicted) ? \"✅\" : \"❌\";\nif (expected.equals(predicted)) correct++;\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 7.1e-b: What does the `?` operator do?",
+      "description": "What does the ? operator do?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 7.1e-c: Why do you think the code counts how many are correct?",
+      "description": "Why do you think the code counts how many are correct?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 7.1e-d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 7.1e-e: Have you seen the `?` operator before? How is it different from a regular if-else statement?",
+      "description": "Have you seen the ? operator before? How is it different from a regular if-else statement?\n[Open text response]"
+    }
+  ]
+}

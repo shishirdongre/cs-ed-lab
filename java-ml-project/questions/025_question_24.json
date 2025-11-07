@@ -1,0 +1,10 @@
+{
+  "type": "scale",
+  "title": "Question 24: On a scale from 1 (not interested) to 5 (very interested), how interested are you in learning about machine learning?",
+  "scale_min": 1,
+  "scale_max": 5,
+  "scale_labels": {
+    "low": "Not interested",
+    "high": "Very interested"
+  }
+}

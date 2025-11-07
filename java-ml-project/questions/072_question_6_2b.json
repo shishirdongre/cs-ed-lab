@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 6.2b: Confusion Matrix - Collecting Results",
+  "code_section": "Evaluation - Collecting Predictions (Line 289)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L289",
+  "instruction": "This code extracts specific columns from the predictions and brings them into memory as a regular Java list.",
+  "reveal": "This code selects only the \"label\" (actual answer) and \"prediction\" (model's guess) columns from the predictions dataset, then collects all the rows into a regular Java List. The `.select()` chooses which columns to keep, and `.collectAsList()` brings the data from the distributed dataset into local memory so we can loop through it with a regular for loop.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 6.2b-a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nList<Row> results = predictions.select(\"label\", \"prediction\").collectAsList();\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.2b-b: What do you think `.select()` does?",
+      "description": "What do you think .select() does?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.2b-c: What do you think `.collectAsList()` does?",
+      "description": "What do you think .collectAsList() does?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 6.2b-d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 6.2b-e: Why do you think we need to collect the data into a list instead of working with it directly?",
+      "description": "Why do you think we need to collect the data into a list instead of working with it directly?\n[Open text response]"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "type": "group",
+  "title": "Question 4.1: Model Training - The fit() Method",
+  "code_section": "Training - fit() Method (Lines 216-218)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L216-L218",
+  "instruction": "This is where the actual learning happens. The computer looks at all the training examples and figures out patterns.",
+  "reveal": "The `.fit()` method trains the LinearSVC classifier by having it learn patterns from the training features. It goes through all the training examples, analyzes the relationships between word features and sentiments, and builds an internal model that can make predictions. The time measurement helps us understand how long the learning process takes. This is different from writing explicit rules - the computer discovers the patterns on its own.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 4.1a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nlong startTime = System.currentTimeMillis();\nLinearSVCModel svcModel = lsvc.fit(trainFeats);\nlong trainingTime = System.currentTimeMillis() - startTime;\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 4.1b: What do you think `.fit()` does?",
+      "description": "What do you think .fit() does?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 4.1c: Why do you think the code measures time?",
+      "description": "Why do you think the code measures time?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 4.1d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 4.1e: How is this process of \"fitting\" or \"training\" different from how you might write a program that classifies text using if-else statements?",
+      "description": "How is this process of \"fitting\" or \"training\" different from how you might write a program that classifies text using if-else statements?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 4.1f: Understanding model training",
+      "description": "What does \"training\" or \"fitting\" a model remind you of? How are you thinking about what happens when .fit() is called?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

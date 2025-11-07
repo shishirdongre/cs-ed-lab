@@ -1,0 +1,10 @@
+{
+  "type": "scale",
+  "title": "Question 8: On a scale from 1 (not confident) to 5 (very confident), how confident do you feel about writing Java code from scratch?",
+  "scale_min": 1,
+  "scale_max": 5,
+  "scale_labels": {
+    "low": "Not confident",
+    "high": "Very confident"
+  }
+}

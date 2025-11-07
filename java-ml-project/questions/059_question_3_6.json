@@ -1,0 +1,45 @@
+{
+  "type": "group",
+  "title": "Question 3.6: Processing Stages Sequentially",
+  "code_section": "Feature Engineering - Sequential Stage Processing (Lines 205-218)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L205-L218",
+  "instruction": "This code processes the data through all the feature extraction stages in sequence, then trains the classifier.",
+  "reveal": "This code processes the training data through all the stages in order. Data flows through: Tokenizer → StopWordsRemover → HashingTF → IDF → LinearSVC. Each `.transform()` call takes the output from the previous step and transforms it. IDF and LinearSVC use `.fit()` first to learn from the training data, then `.transform()` to apply what they learned. This is like an assembly line where raw text goes in one end and a trained model comes out the other end. The order matters - you can't remove stop words before you've split the text into words!",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 3.6a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nDataset<Row> trainTok = tokenizer.transform(trainData);\nDataset<Row> trainFilt = stopWordsRemover.transform(trainTok);\nDataset<Row> trainRaw = hashingTF.transform(trainFilt);\n\n// IDF is an Estimator → fit on TRAIN only\nIDFModel idfModel = idf.fit(trainRaw);\nDataset<Row> trainFeats = idfModel.transform(trainRaw).cache();\n\n// Linear SVC is an Estimator → fit on TRAIN features\nLinearSVCModel svcModel = lsvc.fit(trainFeats);\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.6b: Why do you think these components are processed in this order?",
+      "description": "Why do you think these components are processed in this order?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.6c: What do you notice about the difference between `.transform()` and `.fit()`?",
+      "description": "What do you notice about the difference between .transform() and .fit()?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 3.6d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.6e: How is this pipeline approach similar to or different from how you might organize code in a regular Java program?",
+      "description": "How is this pipeline approach similar to or different from how you might organize code in a regular Java program?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.6f: Understanding sequential processing",
+      "description": "What does putting these steps together in a Pipeline remind you of? How are you thinking about how data flows through these steps?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

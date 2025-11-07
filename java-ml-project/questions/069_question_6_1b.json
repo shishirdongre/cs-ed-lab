@@ -1,0 +1,45 @@
+{
+  "type": "group",
+  "title": "Question 6.1b: Accuracy Calculation - evaluate() Method",
+  "code_section": "Evaluation - Calculating Accuracy (Line 222)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L222",
+  "instruction": "After making predictions, we need to check how good they are. This code calculates a measure of correctness.",
+  "reveal": "This code uses the evaluator to calculate accuracy. `.setMetricName(\"accuracy\")` tells it which metric to calculate, and `.evaluate(predictions)` does the actual calculation by comparing predictions to actual labels. Accuracy is the percentage of predictions that were correct. For example, if the model correctly predicted 8,000 out of 10,000 reviews, the accuracy would be 80%.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 6.1b-a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\ndouble accuracy = evaluator.setMetricName(\"accuracy\").evaluate(predictions);\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.1b-b: What do you think \"accuracy\" means in this context?",
+      "description": "What do you think \"accuracy\" means in this context?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.1b-c: What do you think `.evaluate()` does?",
+      "description": "What do you think .evaluate() does?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 6.1b-d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 6.1b-e: What other ways might you measure if a program is working correctly?",
+      "description": "What other ways might you measure if a program is working correctly?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 6.1b-f: Understanding evaluation",
+      "description": "What does checking if predictions are correct remind you of? How are you thinking about how to know if a program is working?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

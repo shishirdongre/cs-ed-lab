@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 6.1: Accuracy Calculation - Evaluator Setup",
+  "code_section": "Evaluation - Evaluator Configuration (Lines 218-220)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L218-L220",
+  "instruction": "This code sets up a tool that will compare predictions to actual answers.",
+  "reveal": "This creates an evaluator object that knows which columns contain the actual answers (\"label\") and which contain the model's predictions (\"prediction\"). The evaluator will use these columns to calculate various metrics that tell us how well the model performed.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 6.1a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nMulticlassClassificationEvaluator evaluator = new MulticlassClassificationEvaluator()\n    .setLabelCol(\"label\")\n    .setPredictionCol(\"prediction\");\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.1b: What do you think \"evaluator\" means in this context?",
+      "description": "What do you think \"evaluator\" means in this context?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.1c: Why do you think the code specifies \"label\" and \"prediction\" columns?",
+      "description": "Why do you think the code specifies \"label\" and \"prediction\" columns?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 6.1d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 6.1e: Why do you think we need a separate evaluator object instead of just calculating accuracy directly?",
+      "description": "Why do you think we need a separate evaluator object instead of just calculating accuracy directly?\n[Open text response]"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 0.2: Program Initialization",
+  "code_section": "Program Initialization (Lines 38-60)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L38-L60",
+  "instruction": "This code sets up the environment and tools needed to run the program. The specific details aren't important right now - just focus on understanding the general purpose.",
+  "reveal": "This code initializes Apache Spark, which is a framework for processing data. It's setting up the environment so the program can work with data. Think of it like starting up a tool or engine that the rest of the program will use. The specific configuration settings control how Spark runs, but the main idea is that this prepares Spark to process our data.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 0.2a: What do you think this code is doing?",
+      "description": "Look at this code snippet from the beginning of the main method:\n\nSparkConf conf = new SparkConf()\n    .setAppName(\"YelpSentimentAnalysis\")\n    .setMaster(\"local[*]\")\n    // ... more configuration settings ...\n\nSparkSession spark = SparkSession.builder()\n    .config(conf)\n    .getOrCreate();\n\nWhat do you think this code is doing? (Don't worry about understanding all the details - just focus on the overall purpose)"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 0.2b: What do you think might be getting set up or initialized here?",
+      "description": "What do you think might be getting set up or initialized here?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 0.2c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 0.2d: How is this initialization similar to or different from setup code you've seen in other programs?",
+      "description": "How is this initialization similar to or different from setup code you've seen in other programs?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 0.2e: Object creation and configuration",
+      "description": "What do you notice about how this code creates and configures objects? Does anything feel familiar or different from what you've seen before?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

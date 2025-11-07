@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 6.2: Confusion Matrix - Array Initialization",
+  "code_section": "Evaluation - Confusion Matrix Array (Lines 286-287)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L286-L287",
+  "instruction": "This code creates a two-dimensional array to store counts of different prediction outcomes.",
+  "reveal": "This creates a 2x2 two-dimensional array (an array of arrays). It has 2 rows and 2 columns, creating 4 cells total. This will store counts of: [0][0] = actual negative, predicted negative; [0][1] = actual negative, predicted positive; [1][0] = actual positive, predicted negative; [1][1] = actual positive, predicted positive. The 2x2 size matches our two classes: negative (0) and positive (1).",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 6.2a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nlong[][] matrix = new long[2][2];\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.2b: Why do you think it's a 2x2 array?",
+      "description": "Why do you think it's a 2x2 array?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.2c: What do you think will be stored in this array?",
+      "description": "What do you think will be stored in this array?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 6.2d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 6.2e: How is a 2D array different from a regular 1D array you might have used before?",
+      "description": "How is a 2D array different from a regular 1D array you might have used before?\n[Open text response]"
+    }
+  ]
+}

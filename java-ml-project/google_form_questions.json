@@ -1,0 +1,380 @@
+{
+  "form_title": "Java Sentiment Analysis Lab - Pre/Post Survey",
+  "items": [
+    {
+      "type": "section",
+      "title": "PRE-SURVEY SECTION"
+    },
+    {
+      "type": "checkbox",
+      "title": "Question 1: What programming languages have you used before? (Check all that apply)",
+      "options": [
+        "Java",
+        "Python",
+        "C/C++",
+        "JavaScript",
+        "Other: _______________"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 2: How many programming courses have you completed?",
+      "options": [
+        "1 course",
+        "2 courses",
+        "3 courses",
+        "4 or more courses"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 3: What was the most recent programming course you completed?",
+      "options": [
+        "CS 46A (Introduction to Programming) or equivalent",
+        "CS 46B (Data Structures) or equivalent",
+        "CS 146 (Data Structures and Algorithms) or equivalent",
+        "Other: _______________"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 4: How long ago did you complete your first programming course?",
+      "options": [
+        "Less than 6 months ago",
+        "6-12 months ago",
+        "1-2 years ago",
+        "More than 2 years ago"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 5: Have you worked with machine learning or artificial intelligence before?",
+      "options": [
+        "Yes, extensively (multiple projects or courses)",
+        "Yes, a little bit (one project or brief exposure)",
+        "No, never"
+      ]
+    },
+    {
+      "type": "checkbox",
+      "title": "Question 6: If you have experience with machine learning, what was it? (Check all that apply)",
+      "options": [
+        "Used pre-built ML tools (like TensorFlow, scikit-learn)",
+        "Took a machine learning course",
+        "Worked on an ML project",
+        "Read about ML concepts",
+        "Used AI tools (like ChatGPT, image generators)",
+        "No experience",
+        "Other: _______________"
+      ]
+    },
+    {
+      "type": "scale",
+      "title": "Question 7: On a scale from 1 (not confident) to 5 (very confident), how confident do you feel about reading and understanding Java code?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "Not confident",
+        "high": "Very confident"
+      }
+    },
+    {
+      "type": "scale",
+      "title": "Question 8: On a scale from 1 (not confident) to 5 (very confident), how confident do you feel about writing Java code from scratch?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "Not confident",
+        "high": "Very confident"
+      }
+    },
+    {
+      "type": "checkbox",
+      "title": "Question 9: Which Java concepts are you most comfortable with? (Check all that apply)",
+      "options": [
+        "Variables and data types",
+        "Loops (for, while)",
+        "Conditionals (if-else)",
+        "Methods/functions",
+        "Classes and objects",
+        "Arrays and collections",
+        "File I/O",
+        "Exception handling",
+        "None of the above"
+      ]
+    },
+    {
+      "type": "checkbox",
+      "title": "Question 10: Which Java concepts do you find most challenging? (Check all that apply)",
+      "options": [
+        "Variables and data types",
+        "Loops (for, while)",
+        "Conditionals (if-else)",
+        "Methods/functions",
+        "Classes and objects",
+        "Arrays and collections",
+        "File I/O",
+        "Exception handling",
+        "None of the above"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 11: How do you typically approach learning new programming concepts?",
+      "options": [
+        "I read code examples first",
+        "I try to write code myself first",
+        "I watch videos or tutorials",
+        "I ask questions and discuss with others",
+        "I combine multiple approaches",
+        "Other: _______________"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 12: When you see code you don't understand, what do you usually do first?",
+      "options": [
+        "Try to trace through it step by step",
+        "Look up documentation or explanations",
+        "Ask someone for help",
+        "Try modifying it to see what happens",
+        "Skip it and come back later",
+        "Other: _______________"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 13: Have you worked with data files (like CSV files) in your programming courses?",
+      "options": [
+        "Yes, frequently",
+        "Yes, occasionally",
+        "Yes, but only once or twice",
+        "No, never"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 14: Have you worked with text processing in your programming courses (like splitting strings, searching text, etc.)?",
+      "options": [
+        "Yes, frequently",
+        "Yes, occasionally",
+        "Yes, but only once or twice",
+        "No, never"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 15: What do you think \"machine learning\" means? (Write 2-3 sentences in your own words)",
+      "predict": "",
+      "instruction": "",
+      "reveal": "",
+      "reflect": []
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 16: What do you think \"artificial intelligence\" means? (Write 2-3 sentences in your own words)",
+      "predict": "",
+      "instruction": "",
+      "reveal": "",
+      "reflect": []
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 17: Can you think of any examples of machine learning or AI that you've encountered in everyday life?",
+      "predict": "",
+      "instruction": "",
+      "reveal": "",
+      "reflect": []
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 18: How do you think a computer program might learn to classify text as positive or negative? (Write 2-3 sentences)",
+      "predict": "",
+      "instruction": "",
+      "reveal": "",
+      "reflect": []
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 19: In traditional programming, you write explicit rules (like \"if the word is 'great', then it's positive\"). How do you think machine learning might be different?",
+      "predict": "",
+      "instruction": "",
+      "reveal": "",
+      "reflect": []
+    },
+    {
+      "type": "checkbox",
+      "title": "Question 20: When you think about machine learning, which Java concepts do you think might be similar or related? (Check all that apply)",
+      "options": [
+        "Variables and data types",
+        "Loops (for, while)",
+        "Conditionals (if-else)",
+        "Methods/functions",
+        "Classes and objects",
+        "Arrays and collections",
+        "File I/O",
+        "Exception handling",
+        "I'm not sure yet",
+        "Other: _______________"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 21: How do you think your experience with Java programming might help you understand machine learning? (Write 2-3 sentences)",
+      "predict": "",
+      "instruction": "",
+      "reveal": "",
+      "reflect": []
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 22: How do you think your experience with Java programming might make it harder to understand machine learning? (Write 2-3 sentences)",
+      "predict": "",
+      "instruction": "",
+      "reveal": "",
+      "reflect": []
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 23: In Java, you typically write code that follows a specific sequence of steps. How do you think machine learning might be similar or different in terms of how the program works?",
+      "predict": "",
+      "instruction": "",
+      "reveal": "",
+      "reflect": []
+    },
+    {
+      "type": "scale",
+      "title": "Question 24: On a scale from 1 (not interested) to 5 (very interested), how interested are you in learning about machine learning?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "Not interested",
+        "high": "Very interested"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 25: What are your expectations for this workshop? What do you hope to learn?",
+      "predict": "",
+      "instruction": "",
+      "reveal": "",
+      "reflect": []
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 26: What concerns or worries do you have about learning machine learning concepts?",
+      "predict": "",
+      "instruction": "",
+      "reveal": "",
+      "reflect": []
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 27: Have you used GitHub or similar code hosting platforms before?",
+      "options": [
+        "Yes, frequently",
+        "Yes, occasionally",
+        "Yes, but only once or twice",
+        "No, never"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 28: Have you used cloud-based development environments (like GitHub Codespaces, Google Colab, Replit) before?",
+      "options": [
+        "Yes, frequently",
+        "Yes, occasionally",
+        "Yes, but only once or twice",
+        "No, never"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 29: What is your major or intended major?",
+      "options": [
+        "Computer Science",
+        "Software Engineering",
+        "Computer Engineering",
+        "Other: _______________"
+      ]
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 30: What year are you in your program?",
+      "options": [
+        "First year",
+        "Second year",
+        "Third year",
+        "Fourth year or higher",
+        "Graduate student"
+      ]
+    },
+    {
+      "type": "scale",
+      "title": "Question 31: On a scale from 1 (not confident) to 5 (very confident), how confident do you feel about your overall programming abilities?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "Not confident",
+        "high": "Very confident"
+      }
+    },
+    {
+      "type": "multiple_choice",
+      "title": "Question 32: When learning programming, do you prefer:",
+      "options": [
+        "Visual/graphical tools (like drag-and-drop interfaces)",
+        "Writing code directly",
+        "A combination of both",
+        "No preference"
+      ]
+    },
+    {
+      "type": "checkbox",
+      "title": "Question 33: How do you typically debug code when something doesn't work?",
+      "options": [
+        "Add print statements to see what's happening",
+        "Use a debugger",
+        "Read error messages carefully",
+        "Ask for help",
+        "Search online for solutions",
+        "Other: _______________"
+      ]
+    },
+    {
+      "type": "checkbox",
+      "title": "Question 34: What motivates you to learn programming? (Check all that apply)",
+      "options": [
+        "It's required for my major",
+        "I find it interesting",
+        "I want to build things",
+        "Career opportunities",
+        "Problem-solving is satisfying",
+        "Other: _______________"
+      ]
+    },
+    {
+      "type": "section",
+      "title": "STAGE 0: PROGRAM INITIALIZATION"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 0.1: Understanding Imports",
+      "code_section": "Program Imports (Lines 1-30)",
+      "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L1-L30",
+      "predict": "Look at the import statements at the top of the Java file:\n```java\nimport org.apache.spark.sql.*;\nimport org.apache.spark.sql.types.*;\nimport org.apache.spark.ml.*;\nimport org.apache.spark.ml.feature.*;\nimport org.apache.spark.ml.classification.*;\n// ... and more ...\n```\n\n**What do you think these import statements are doing?**\n[Open text response - minimum 2 sentences]\n\n**What do you notice about the package names (org.apache.spark...)?**\n[Open text response]\n\n**Which imports look familiar or unfamiliar to you?**\n[Open text response]",
+      "instruction": "Import statements tell Java where to find the classes and libraries that the program will use. These imports bring in functionality from the Apache Spark framework.",
+      "reveal": "These import statements load classes from the Apache Spark library. The package names like `org.apache.spark.sql` indicate these are from the Spark SQL module (for working with structured data), `org.apache.spark.ml` is for machine learning, and `org.apache.spark.ml.feature` contains tools for processing features (like text). These imports allow the program to use Spark's data processing and machine learning capabilities.",
+      "reflect": [
+        "**On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what this code did?**",
+        "- [ ] 1 - Not confident",
+        "- [ ] 2",
+        "- [ ] 3",
+        "- [ ] 4",
+        "- [ ] 5 - Very confident",
+        "**How are these imports similar to or different from imports you've seen in other Java programs?**\n[Open text response]",
+        "**CONCEPTUAL TRANSFER:** When you see these Spark imports, what comes to mind from your previous Java experience? How are you making sense of these imports?\n[Open text response - minimum 2 sentences]"
+      ]
+    }
+  ]
+}

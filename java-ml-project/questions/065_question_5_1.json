@@ -1,0 +1,45 @@
+{
+  "type": "group",
+  "title": "Question 5.1: Prediction on Test Data - transform() Method",
+  "code_section": "Making Predictions - transform() (Lines 233-239)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L233-L239",
+  "instruction": "Now that the model has learned, we test it on data it hasn't seen before to see how well it performs.",
+  "reveal": "The `.transform()` method uses the trained models to make predictions on new data. The test data is processed through all the same stages (Tokenizer, StopWordsRemover, HashingTF, IDF) that were used during training, then the LinearSVC model makes predictions. This is like taking a test after studying - you're applying what you learned to new problems. The time measurement shows how quickly the model can make predictions.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 5.1a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nDataset<Row> testTok = models.tokenizer.transform(testData);\nDataset<Row> testFilt = models.stopWordsRemover.transform(testTok);\nDataset<Row> testRaw = models.hashingTF.transform(testFilt);\nDataset<Row> testFeats = models.idfModel.transform(testRaw);\n\nlong predStartTime = System.currentTimeMillis();\nDataset<Row> predictions = models.svcModel.transform(testFeats);\nlong predTime = System.currentTimeMillis() - predStartTime;\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 5.1b: What do you think `.transform()` does?",
+      "description": "What do you think .transform() does?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 5.1c: What's the difference between `.fit()` and `.transform()`?",
+      "description": "What's the difference between .fit() and .transform()?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 5.1d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 5.1e: Why do you think we test on data the model hasn't seen before?",
+      "description": "Why do you think we test on data the model hasn't seen before?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 5.1f: Understanding predictions",
+      "description": "What does making predictions on new data remind you of? How are you thinking about the difference between training and making predictions?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

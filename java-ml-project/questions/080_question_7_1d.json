@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 7.1d: Testing Individual Reviews - Loop Through Samples",
+  "code_section": "Testing - Loop Through Sample Reviews (Lines 346-379)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L346-L379",
+  "instruction": "This code tests the model on multiple example reviews to demonstrate how it works.",
+  "reveal": "This loop goes through each review in the `sampleReviews` array. For each review, it extracts the review text (`sampleReviews[i][0]`) and the expected sentiment (`sampleReviews[i][1]`), makes a prediction, and compares the prediction to the expected result. This demonstrates the model working on real examples and shows how many it gets right.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 7.1d-a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nfor (int i = 0; i < sampleReviews.length; i++) {\n    String review = sampleReviews[i][0];\n    String expected = sampleReviews[i][1];\n    // ... code to make prediction and compare ...\n}\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 7.1d-b: Why do you think the code loops through multiple sample reviews?",
+      "description": "Why do you think the code loops through multiple sample reviews?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 7.1d-c: What do you think `sampleReviews[i][0]` and `sampleReviews[i][1]` represent?",
+      "description": "What do you think sampleReviews[i][0] and sampleReviews[i][1] represent?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 7.1d-d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 7.1d-e: How is this loop similar to or different from loops you've written in other Java programs?",
+      "description": "How is this loop similar to or different from loops you've written in other Java programs?\n[Open text response]"
+    }
+  ]
+}

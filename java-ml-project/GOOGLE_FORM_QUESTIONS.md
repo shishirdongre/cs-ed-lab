@@ -397,6 +397,75 @@ This code reads a CSV file and creates a `Dataset<Row>` object called `data`. Th
 
 ## STAGE 1: DATA LOADING & PREPARATION
 
+### Question 1.0: Understanding the Dataset
+**Code Section:** Dataset Overview - Sample Data
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/simple_yelp_reviews.csv`
+
+**Predict:**
+Look at these example rows from the dataset:
+
+| text | sentiment |
+|------|-----------|
+| "The chicken shwarma is awesome! The fries are hand cut and really good. Service is quick and the prices are reasonable. May have found my new lunch spot!" | positive |
+| "poor service and 1/2 of the menu was 'out of stock'. Meh indeed" | negative |
+| "I always in the Kalbi Plate with Kim Chi. Chicken Katsu has too much breading on it." | positive |
+| "Great service and my Chai was great!" | positive |
+| "Don Rafa has closed due to economic reasons. :(" | negative |
+
+**What do you notice about this dataset?**
+[Open text response - minimum 2 sentences]
+
+**How many features (columns) are there in this dataset?**
+[Open text response]
+
+**What do you think each column represents?**
+[Open text response]
+
+**What do you think "features" means in the context of machine learning?**
+[Open text response - minimum 2 sentences]
+
+**Instruction:**
+This dataset contains restaurant reviews with their sentiment labels. Understanding the data structure is the first step in building a machine learning model.
+
+**Reveal:**
+This dataset has 2 columns (features): "text" (the review) and "sentiment" (the label: positive or negative). In machine learning, "features" are the input variables that the model uses to make predictions. Here, the "text" column is our feature - it's what we'll use to predict the "sentiment". The "sentiment" column is the label (the answer we're trying to predict). The dataset contains thousands of restaurant reviews, each labeled as either positive or negative.
+
+**If you had to classify a review as positive or negative yourself, what words or phrases would you look for?**
+[Open text response - minimum 3 sentences]
+
+**Test Your Intuition:** Look at this review: "The food was okay, nothing special. The service was friendly but slow. I probably won't come back, but it wasn't terrible either."
+
+**How would you classify this review - positive or negative? Why?**
+[Open text response - minimum 2 sentences]
+
+**What makes this classification difficult or easy?**
+[Open text response]
+
+**How do you think a computer program might classify these reviews? What approach would you take?**
+[Open text response - minimum 2 sentences]
+
+**If you were to build a model to classify these reviews, what steps would you take? Think about:**
+- How would you process the text?
+- What would the model need to learn?
+- How would you know if the model is working correctly?
+[Open text response - minimum 3 sentences]
+
+**Reflect:**
+**On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understand what this dataset contains?**
+- [ ] 1 - Not confident
+- [ ] 2
+- [ ] 3
+- [ ] 4
+- [ ] 5 - Very confident
+
+**What challenges do you think a computer might face when trying to classify text reviews compared to how you would do it?**
+[Open text response]
+
+**CONCEPTUAL TRANSFER:** How is this dataset similar to or different from other data you've worked with in programming? What does it remind you of?
+[Open text response - minimum 2 sentences]
+
+---
+
 ### Question 1.1: Schema Definition
 **Code Section:** Data Loading - Schema Definition (Lines 143-146)
 **Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L146`
@@ -476,6 +545,52 @@ This code reads the CSV file into a Dataset (a structured collection of data). T
 [Open text response]
 
 **CONCEPTUAL TRANSFER:** What do you notice about how these methods are called one after another? How does this way of writing code feel to you?
+[Open text response - minimum 2 sentences]
+
+---
+
+### Question 1.2b: Understanding Features in Raw Dataset
+**Code Section:** Data Loading - Raw Dataset Structure (Lines 143-153)
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L153`
+
+**Predict:**
+Look at the schema definition and the data that was just loaded:
+```java
+StructType schema = new StructType(new StructField[]{
+    DataTypes.createStructField("text", DataTypes.StringType, false),
+    DataTypes.createStructField("sentiment", DataTypes.StringType, false)
+});
+```
+
+The CSV file contains two columns: "text" (the review text) and "sentiment" (positive or negative).
+
+**What do you think "features" means in the context of this raw dataset?**
+[Open text response - minimum 2 sentences]
+
+**What are the features in this dataset before any processing?**
+[Open text response]
+
+**What do you think makes something a "feature" in machine learning?**
+[Open text response]
+
+**Instruction:**
+In machine learning, "features" are the input data that the algorithm uses to make predictions. In the raw dataset, features are the columns or attributes that describe each example.
+
+**Reveal:**
+In this raw dataset, the "features" are the columns: "text" (the review text) and "sentiment" (the label). However, "text" is the actual feature we'll use for prediction, while "sentiment" is the label (the answer we're trying to predict). In machine learning, features are the input variables that the model uses to learn patterns and make predictions. Right now, our feature is just raw text - we'll need to process it into a format the computer can work with.
+
+**Reflect:**
+**On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what features are in the raw dataset?**
+- [ ] 1 - Not confident
+- [ ] 2
+- [ ] 3
+- [ ] 4
+- [ ] 5 - Very confident
+
+**How are features in this dataset similar to or different from features you might use in other programming contexts (like variables or parameters)?**
+[Open text response]
+
+**CONCEPTUAL TRANSFER:** What does the term "feature" remind you of? How are you thinking about what makes something a feature in this context?
 [Open text response - minimum 2 sentences]
 
 ---
@@ -851,17 +966,23 @@ IDF idf = new IDF()
     .setOutputCol("features");
 ```
 
-**What do you think this code is doing?**
+**IDF stands for "Inverse Document Frequency". What do you think this might mean?**
 [Open text response - minimum 2 sentences]
 
-**What do you think "IDF" might stand for, and what might it do?**
+**What do you think "Inverse" and "Document Frequency" might refer to in the context of text processing?**
 [Open text response]
+
+**What do you think this code is doing?**
+[Open text response - minimum 2 sentences]
 
 **Instruction:**
 Not all words are equally important. Some words appear in many documents, while others are rare. This code adjusts the importance of words based on how common or rare they are.
 
 **Reveal:**
-IDF stands for Inverse Document Frequency. It adjusts the weight (importance) of words based on how frequently they appear across all documents. Words that appear in many reviews (like "food" or "service") get lower weights because they're not very distinctive. Words that appear in only a few reviews get higher weights because they're more unique and informative. This helps the model focus on words that actually help distinguish positive from negative reviews.
+IDF (Inverse Document Frequency) adjusts the weight (importance) of words based on how frequently they appear across all documents. "Document Frequency" refers to how many documents contain a particular word. "Inverse" means we do the opposite - words that appear in many reviews (like "food" or "service") get lower weights because they're not very distinctive. Words that appear in only a few reviews get higher weights because they're more unique and informative. This helps the model focus on words that actually help distinguish positive from negative reviews.
+
+**Why do you think IDF might be needed in this machine learning pipeline?**
+[Open text response - minimum 2 sentences]
 
 **Reflect:**
 **On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what this code did?**
@@ -876,18 +997,18 @@ IDF stands for Inverse Document Frequency. It adjusts the weight (importance) of
 
 ---
 
-### Question 3.5: NaiveBayes Classifier - Configuration
-**Code Section:** Feature Engineering - NaiveBayes Configuration (Lines 190-194)
-**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L190-L194`
+### Question 3.5: LinearSVC Classifier - Configuration
+**Code Section:** Feature Engineering - LinearSVC Configuration (Lines 194-198)
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L194-L198`
 
 **Predict:**
 Look at this code snippet:
 ```java
-NaiveBayes naiveBayes = new NaiveBayes()
+LinearSVC lsvc = new LinearSVC()
     .setFeaturesCol("features")
     .setLabelCol("label")
-    .setModelType("multinomial")
-    .setSmoothing(1.0);
+    .setMaxIter(50)
+    .setRegParam(0.1);
 ```
 
 **What do you think this code is doing?**
@@ -896,14 +1017,20 @@ NaiveBayes naiveBayes = new NaiveBayes()
 **What do you think a "classifier" does?**
 [Open text response]
 
-**What do you think "smoothing" might mean?**
+**What do you think "LinearSVC" or "SVC" might stand for?**
+[Open text response]
+
+**What do you think `setMaxIter(50)` might mean?**
+[Open text response]
+
+**What do you think `setRegParam(0.1)` might mean?**
 [Open text response]
 
 **Instruction:**
 This code sets up the learning algorithm - the part that will figure out patterns in the data.
 
 **Reveal:**
-This creates a Naive Bayes classifier, which is a machine learning algorithm that learns patterns from examples. It uses the "features" (the processed word counts) to predict the "label" (positive or negative). The "multinomial" model type is designed for counting data (like word frequencies). The "smoothing" parameter (1.0) helps handle words that the algorithm hasn't seen before - it prevents the algorithm from being completely certain about something it's never encountered.
+This creates a Linear Support Vector Classifier (LinearSVC), which is a machine learning algorithm that learns patterns from examples. It uses the "features" (the processed word counts) to predict the "label" (positive or negative). LinearSVC finds the best line (or hyperplane) that separates positive and negative reviews based on their features. The `setMaxIter(50)` sets the maximum number of iterations (training steps) the algorithm will perform. The `setRegParam(0.1)` sets the regularization parameter, which helps prevent the model from overfitting to the training data.
 
 **Reflect:**
 **On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what this code did?**
@@ -916,106 +1043,44 @@ This creates a Naive Bayes classifier, which is a machine learning algorithm tha
 **How is this different from writing an if-else statement to classify reviews?**
 [Open text response]
 
----
-
-### Question 3.5b: Understanding ModelType Parameter
-**Code Section:** Feature Engineering - NaiveBayes ModelType (Line 193)
-**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L193`
-
-**Predict:**
-Look at this code snippet:
-```java
-.setModelType("multinomial")
-```
-
-**What do you think "multinomial" means?**
-[Open text response]
-
-**Why do you think the code specifies a model type?**
-[Open text response]
-
-**Instruction:**
-Different types of data require different mathematical approaches. This parameter tells the algorithm which approach to use.
-
-**Reveal:**
-"Multinomial" refers to a type of probability distribution that's good for counting data - like how many times each word appears. There are other model types (like "bernoulli" or "gaussian") that work better for different kinds of data. By specifying "multinomial", we're telling the algorithm that our features are word counts, not just whether words are present or absent.
-
-**Reflect:**
-**On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what this code did?**
-- [ ] 1 - Not confident
-- [ ] 2
-- [ ] 3
-- [ ] 4
-- [ ] 5 - Very confident
-
-**Why do you think it matters what type of data distribution we use?**
+**Why do you think we might need to limit the number of iterations or use regularization?**
 [Open text response]
 
 ---
 
-### Question 3.5c: Understanding Smoothing Parameter
-**Code Section:** Feature Engineering - NaiveBayes Smoothing (Line 194)
-**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L194`
+### Question 3.6: Processing Stages Sequentially
+**Code Section:** Feature Engineering - Sequential Stage Processing (Lines 205-218)
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L205-L218`
 
 **Predict:**
 Look at this code snippet:
 ```java
-.setSmoothing(1.0);
-```
+Dataset<Row> trainTok = tokenizer.transform(trainData);
+Dataset<Row> trainFilt = stopWordsRemover.transform(trainTok);
+Dataset<Row> trainRaw = hashingTF.transform(trainFilt);
 
-**What do you think "smoothing" means in this context?**
-[Open text response]
+// IDF is an Estimator → fit on TRAIN only
+IDFModel idfModel = idf.fit(trainRaw);
+Dataset<Row> trainFeats = idfModel.transform(trainRaw).cache();
 
-**What problem do you think smoothing might solve?**
-[Open text response]
-
-**Instruction:**
-When working with data, sometimes we encounter things we haven't seen before. Smoothing helps handle these cases gracefully.
-
-**Reveal:**
-Smoothing (also called Laplace smoothing) adds a small amount to every count to prevent zero probabilities. For example, if a word never appeared in positive reviews during training, without smoothing, the algorithm would think "if I see this word, it's impossible for the review to be positive." Smoothing says "even if we haven't seen it, it's still possible, just unlikely." This makes the model more robust to new words it hasn't encountered.
-
-**Reflect:**
-**On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what this code did?**
-- [ ] 1 - Not confident
-- [ ] 2
-- [ ] 3
-- [ ] 4
-- [ ] 5 - Very confident
-
-**What might happen if we set smoothing to 0.0 instead of 1.0?**
-[Open text response]
-
----
-
-### Question 3.6: Pipeline Assembly
-**Code Section:** Feature Engineering - Pipeline Assembly (Lines 197-204)
-**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L197-L204`
-
-**Predict:**
-Look at this code snippet:
-```java
-Pipeline pipeline = new Pipeline()
-    .setStages(new PipelineStage[]{
-        tokenizer,
-        stopWordsRemover,
-        hashingTF,
-        idf,
-        naiveBayes
-    });
+// Linear SVC is an Estimator → fit on TRAIN features
+LinearSVCModel svcModel = lsvc.fit(trainFeats);
 ```
 
 **What do you think this code is doing?**
 [Open text response - minimum 2 sentences]
 
-**Why do you think these components are put together in this order?**
+**Why do you think these components are processed in this order?**
+[Open text response]
+
+**What do you notice about the difference between `.transform()` and `.fit()`?**
 [Open text response]
 
 **Instruction:**
-This code connects all the processing steps we've set up into a single workflow.
+This code processes the data through all the feature extraction stages in sequence, then trains the classifier.
 
 **Reveal:**
-This creates a Pipeline that chains together all the processing steps in order. Data flows through: Tokenizer ? StopWordsRemover ? HashingTF ? IDF ? NaiveBayes. Each step takes the output from the previous step and transforms it. This is like an assembly line where raw text goes in one end and predictions come out the other end. The order matters - you can't remove stop words before you've split the text into words!
+This code processes the training data through all the stages in order. Data flows through: Tokenizer → StopWordsRemover → HashingTF → IDF → LinearSVC. Each `.transform()` call takes the output from the previous step and transforms it. IDF and LinearSVC use `.fit()` first to learn from the training data, then `.transform()` to apply what they learned. This is like an assembly line where raw text goes in one end and a trained model comes out the other end. The order matters - you can't remove stop words before you've split the text into words!
 
 **Reflect:**
 **On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what this code did?**
@@ -1033,17 +1098,73 @@ This creates a Pipeline that chains together all the processing steps in order. 
 
 ---
 
+### Question 3.6b: Understanding Feature Extraction Process
+**Code Section:** Feature Engineering - Feature Extraction Stages (Lines 177-192)
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L177-L192`
+
+**Predict:**
+Look at all the feature extraction stages we've seen:
+```java
+Tokenizer tokenizer = new Tokenizer()
+    .setInputCol("text")
+    .setOutputCol("words");
+
+StopWordsRemover stopWordsRemover = new StopWordsRemover()
+    .setInputCol("words")
+    .setOutputCol("filtered_words");
+
+HashingTF hashingTF = new HashingTF()
+    .setInputCol("filtered_words")
+    .setOutputCol("rawFeatures")
+    .setNumFeatures(10000);
+
+IDF idf = new IDF()
+    .setInputCol("rawFeatures")
+    .setOutputCol("features");
+```
+
+**What do you think the feature extraction code is doing overall?**
+[Open text response - minimum 3 sentences]
+
+**How do you think the features change from the raw dataset to after feature extraction?**
+[Open text response - minimum 2 sentences]
+
+**Why do you think we need to transform the raw text into numerical features?**
+[Open text response]
+
+**Instruction:**
+Feature extraction is the process of converting raw data (like text) into a numerical format that machine learning algorithms can process. This code transforms text through multiple stages.
+
+**Reveal:**
+The feature extraction code is transforming raw text into numerical features that the LinearSVC classifier can use. It starts with raw text, splits it into words (Tokenizer), removes common words (StopWordsRemover), converts words to numbers (HashingTF), and then adjusts the importance of words (IDF). The final output is a numerical vector (a list of numbers) that represents the text in a way the computer can analyze. This is necessary because machine learning algorithms like LinearSVC work with numbers, not text - they need numerical features to learn patterns and make predictions.
+
+**Reflect:**
+**On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what the feature extraction code is doing?**
+- [ ] 1 - Not confident
+- [ ] 2
+- [ ] 3
+- [ ] 4
+- [ ] 5 - Very confident
+
+**How is this process of transforming text to numbers similar to or different from data transformations you've done in other programming contexts?**
+[Open text response]
+
+**CONCEPTUAL TRANSFER:** What does this process of converting text to numerical features remind you of? How are you thinking about why we need to transform the data this way?
+[Open text response - minimum 2 sentences]
+
+---
+
 ## STAGE 4: TRAINING
 
 ### Question 4.1: Model Training - The fit() Method
-**Code Section:** Training - fit() Method (Lines 105-107)
-**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L105-L107`
+**Code Section:** Training - fit() Method (Lines 216-218)
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L216-L218`
 
 **Predict:**
 Look at this code snippet:
 ```java
 long startTime = System.currentTimeMillis();
-PipelineModel model = pipeline.fit(trainData);
+LinearSVCModel svcModel = lsvc.fit(trainFeats);
 long trainingTime = System.currentTimeMillis() - startTime;
 ```
 
@@ -1060,7 +1181,7 @@ long trainingTime = System.currentTimeMillis() - startTime;
 This is where the actual learning happens. The computer looks at all the training examples and figures out patterns.
 
 **Reveal:**
-The `.fit()` method trains the model by having it learn patterns from the training data. It goes through all the training examples, analyzes the relationships between words and sentiments, and builds an internal model that can make predictions. The time measurement helps us understand how long the learning process takes. This is different from writing explicit rules - the computer discovers the patterns on its own.
+The `.fit()` method trains the LinearSVC classifier by having it learn patterns from the training features. It goes through all the training examples, analyzes the relationships between word features and sentiments, and builds an internal model that can make predictions. The time measurement helps us understand how long the learning process takes. This is different from writing explicit rules - the computer discovers the patterns on its own.
 
 **Reflect:**
 **On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what this code did?**
@@ -1079,14 +1200,14 @@ The `.fit()` method trains the model by having it learn patterns from the traini
 ---
 
 ### Question 4.1b: Time Measurement Pattern
-**Code Section:** Training - Time Measurement (Lines 104-107)
-**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L104-L107`
+**Code Section:** Training - Time Measurement (Lines 216-218)
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L216-L218`
 
 **Predict:**
 Look at this code snippet:
 ```java
 long startTime = System.currentTimeMillis();
-PipelineModel model = pipeline.fit(trainData);
+LinearSVCModel svcModel = lsvc.fit(trainFeats);
 long trainingTime = System.currentTimeMillis() - startTime;
 ```
 
@@ -1118,14 +1239,19 @@ This code measures how long an operation takes. Think about why you might want t
 ## STAGE 5: MAKING PREDICTIONS
 
 ### Question 5.1: Prediction on Test Data - transform() Method
-**Code Section:** Making Predictions - transform() (Lines 114-116)
-**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L114-L116`
+**Code Section:** Making Predictions - transform() (Lines 233-239)
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L233-L239`
 
 **Predict:**
 Look at this code snippet:
 ```java
+Dataset<Row> testTok = models.tokenizer.transform(testData);
+Dataset<Row> testFilt = models.stopWordsRemover.transform(testTok);
+Dataset<Row> testRaw = models.hashingTF.transform(testFilt);
+Dataset<Row> testFeats = models.idfModel.transform(testRaw);
+
 long predStartTime = System.currentTimeMillis();
-Dataset<Row> predictions = model.transform(testData);
+Dataset<Row> predictions = models.svcModel.transform(testFeats);
 long predTime = System.currentTimeMillis() - predStartTime;
 ```
 
@@ -1142,7 +1268,7 @@ long predTime = System.currentTimeMillis() - predStartTime;
 Now that the model has learned, we test it on data it hasn't seen before to see how well it performs.
 
 **Reveal:**
-The `.transform()` method uses the trained model to make predictions on new data. It takes the test data (which the model hasn't seen during training), processes it through the pipeline, and produces predictions. This is like taking a test after studying - you're applying what you learned to new problems. The time measurement shows how quickly the model can make predictions.
+The `.transform()` method uses the trained models to make predictions on new data. The test data is processed through all the same stages (Tokenizer, StopWordsRemover, HashingTF, IDF) that were used during training, then the LinearSVC model makes predictions. This is like taking a test after studying - you're applying what you learned to new problems. The time measurement shows how quickly the model can make predictions.
 
 **Reflect:**
 **On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what this code did?**
@@ -1161,33 +1287,33 @@ The `.transform()` method uses the trained model to make predictions on new data
 ---
 
 ### Question 5.1b: Understanding fit() vs transform()
-**Code Section:** Training vs Prediction - fit() vs transform() (Lines 105 vs 114)
-**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L105` and `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L114`
+**Code Section:** Training vs Prediction - fit() vs transform() (Lines 217 vs 239)
+**Code Link:** `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L217` and `https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L239`
 
 **Predict:**
 Look at these two code snippets:
 
 Training:
 ```java
-PipelineModel model = pipeline.fit(trainData);
+LinearSVCModel svcModel = lsvc.fit(trainFeats);
 ```
 
 Prediction:
 ```java
-Dataset<Row> predictions = model.transform(testData);
+Dataset<Row> predictions = models.svcModel.transform(testFeats);
 ```
 
 **What's the difference between `.fit()` and `.transform()`?**
 [Open text response - minimum 2 sentences]
 
-**Why do you think we call `.fit()` on the pipeline but `.transform()` on the model?**
+**Why do you think we call `.fit()` during training but `.transform()` during prediction?**
 [Open text response]
 
 **Instruction:**
 These two methods serve different purposes in machine learning. One learns from data, the other applies what was learned.
 
 **Reveal:**
-`.fit()` is called on the pipeline to train/learn from the training data. It creates a trained model. `.transform()` is called on the trained model to apply it to new data and make predictions. You can think of `.fit()` as "studying" and `.transform()` as "taking a test". Once a model is trained with `.fit()`, you use `.transform()` to make predictions on new data.
+`.fit()` is called on the LinearSVC classifier to train/learn from the training data. It creates a trained model. `.transform()` is called on the trained model to apply it to new data and make predictions. You can think of `.fit()` as "studying" and `.transform()` as "taking a test". Once a model is trained with `.fit()`, you use `.transform()` to make predictions on new data.
 
 **Reflect:**
 **On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what this code did?**
@@ -1798,8 +1924,10 @@ This code converts the numeric prediction (0 or 1) back to text ("negative" or "
 - Question 0.4: Dataset Object Creation (Lines 149-153)
 
 **STAGE 1: DATA LOADING & PREPARATION**
+- Question 1.0: Understanding the Dataset (Dataset Overview)
 - Question 1.1: Schema Definition (Lines 143-146)
 - Question 1.2: Reading CSV File (Lines 149-153)
+- Question 1.2b: Understanding Features in Raw Dataset (Lines 143-153)
 - Question 1.3: Label Conversion - withColumn (Lines 156-159)
 - Question 1.4: Conditional Logic (Lines 157-158)
 
@@ -1814,19 +1942,17 @@ This code converts the numeric prediction (0 or 1) back to text ("negative" or "
 - Question 3.3: HashingTF - Converting Words (Lines 179-182)
 - Question 3.3b: Understanding Hashing Concept (Lines 179-182)
 - Question 3.4: IDF (Lines 185-187)
-- Question 3.5: NaiveBayes Configuration (Lines 190-194)
-- Question 3.5b: ModelType Parameter (Line 193)
-- Question 3.5c: Smoothing Parameter (Line 194)
-- Question 3.6: Pipeline Assembly - Array of Stages (Lines 197-204)
-- Question 3.6b: PipelineStage Array (Lines 198-204)
+- Question 3.5: LinearSVC Configuration (Lines 194-198)
+- Question 3.6: Processing Stages Sequentially (Lines 205-218)
+- Question 3.6b: Understanding Feature Extraction Process (Lines 177-192)
 
 **STAGE 4: TRAINING**
-- Question 4.1: Model Training - fit() Method (Lines 105-107)
-- Question 4.1b: Time Measurement Pattern (Lines 104-107)
+- Question 4.1: Model Training - fit() Method (Lines 216-218)
+- Question 4.1b: Time Measurement Pattern (Lines 216-218)
 
 **STAGE 5: MAKING PREDICTIONS**
-- Question 5.1: Prediction - transform() Method (Lines 114-116)
-- Question 5.1b: Understanding fit() vs transform() (Lines 105 vs 114)
+- Question 5.1: Prediction - transform() Method (Lines 233-239)
+- Question 5.1b: Understanding fit() vs transform() (Lines 217 vs 239)
 
 **STAGE 6: EVALUATION**
 - Question 6.1: Accuracy - Evaluator Setup (Lines 218-220)

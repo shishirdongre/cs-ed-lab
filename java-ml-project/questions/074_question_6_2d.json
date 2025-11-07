@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 6.2d: Type Handling in Confusion Matrix",
+  "code_section": "Evaluation - Type Handling (Lines 294-306)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L294-L306",
+  "instruction": "Sometimes data can come in different types. This code handles both possibilities to make the code more robust.",
+  "reveal": "This code checks what type the data is (Integer or Double) and extracts the integer value accordingly. Spark can return numbers as either Integer or Double depending on the context. The `instanceof` check determines the type, then we either use `.getInt()` directly for Integers or convert a Double to int using `.intValue()`. This makes the code work regardless of which type Spark returns.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 6.2d-a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\n// Get actual label\nif (row.get(0) instanceof Integer) {\n    actual = row.getInt(0);\n} else {\n    actual = ((Double) row.get(0)).intValue();\n}\n\n// Get predicted label\nif (row.get(1) instanceof Integer) {\n    predicted = row.getInt(1);\n} else {\n    predicted = ((Double) row.get(1)).intValue();\n}\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.2d-b: Why do you think the code checks `instanceof Integer`?",
+      "description": "Why do you think the code checks instanceof Integer?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.2d-c: What do you think `.intValue()` does?",
+      "description": "What do you think .intValue() does?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 6.2d-d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 6.2d-e: Why do you think it's important to handle different data types like this?",
+      "description": "Why do you think it's important to handle different data types like this?\n[Open text response]"
+    }
+  ]
+}

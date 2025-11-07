@@ -1,0 +1,35 @@
+{
+  "type": "group",
+  "title": "Question 5.1b: Understanding fit() vs transform()",
+  "code_section": "Training vs Prediction - fit() vs transform() (Lines 217 vs 239)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L217 and https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L239",
+  "instruction": "These two methods serve different purposes in machine learning. One learns from data, the other applies what was learned.",
+  "reveal": "`.fit()` is called on the LinearSVC classifier to train/learn from the training data. It creates a trained model. `.transform()` is called on the trained model to apply it to new data and make predictions. You can think of `.fit()` as \"studying\" and `.transform()` as \"taking a test\". Once a model is trained with `.fit()`, you use `.transform()` to make predictions on new data.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 5.1b-a: What's the difference between `.fit()` and `.transform()`?",
+      "description": "Look at these two code snippets:\n\nTraining:\nLinearSVCModel svcModel = lsvc.fit(trainFeats);\n\nPrediction:\nDataset<Row> predictions = models.svcModel.transform(testFeats);\n\nWhat's the difference between .fit() and .transform()?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 5.1b-b: Why do you think we call `.fit()` during training but `.transform()` during prediction?",
+      "description": "Why do you think we call .fit() during training but .transform() during prediction?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 5.1b-c: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 5.1b-d: What would happen if you tried to call `.fit()` twice on the same data? What about calling `.transform()` before `.fit()`?",
+      "description": "What would happen if you tried to call .fit() twice on the same data? What about calling .transform() before .fit()?\n[Open text response]"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 3.1: Tokenizer - Setting Input and Output Columns",
+  "code_section": "Feature Engineering - Tokenizer Configuration (Lines 169-171)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L169-L171",
+  "instruction": "Computers need to break down text into smaller pieces to analyze it. This code sets up a tool to do that transformation.",
+  "reveal": "A Tokenizer splits text into individual words (tokens). For example, \"Great food!\" becomes [\"Great\", \"food\"]. The `.setInputCol(\"text\")` tells it to read from the \"text\" column, and `.setOutputCol(\"words\")` tells it to put the result in a new column called \"words\". This is the first step in converting text into a format the computer can analyze.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 3.1a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\nTokenizer tokenizer = new Tokenizer()\n    .setInputCol(\"text\")\n    .setOutputCol(\"words\");\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.1b: What do you think \"tokenize\" means in the context of text processing?",
+      "description": "What do you think \"tokenize\" means in the context of text processing?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 3.1c: What do you think `.setInputCol()` and `.setOutputCol()` are doing?",
+      "description": "What do you think .setInputCol() and .setOutputCol() are doing?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 3.1d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 3.1e: What challenges do you think might arise when splitting text into words?",
+      "description": "What challenges do you think might arise when splitting text into words? (Think about punctuation, spaces, etc.)\n[Open text response]"
+    }
+  ]
+}

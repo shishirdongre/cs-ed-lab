@@ -1,0 +1,10 @@
+{
+  "type": "multiple_choice",
+  "title": "Question 28: Have you used cloud-based development environments (like GitHub Codespaces, Google Colab, Replit) before?",
+  "options": [
+    "Yes, frequently",
+    "Yes, occasionally",
+    "Yes, but only once or twice",
+    "No, never"
+  ]
+}

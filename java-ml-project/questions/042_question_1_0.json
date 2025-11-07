@@ -1,0 +1,75 @@
+{
+  "type": "group",
+  "title": "Question 1.0: Understanding the Dataset",
+  "code_section": "Dataset Overview - Sample Data",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/simple_yelp_reviews.csv",
+  "instruction": "This dataset contains restaurant reviews with their sentiment labels. Understanding the data structure is the first step in building a machine learning model.",
+  "reveal": "This dataset has 2 columns (features): \"text\" (the review) and \"sentiment\" (the label: positive or negative). In machine learning, \"features\" are the input variables that the model uses to make predictions. Here, the \"text\" column is our feature - it's what we'll use to predict the \"sentiment\". The \"sentiment\" column is the label (the answer we're trying to predict). The dataset contains thousands of restaurant reviews, each labeled as either positive or negative.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 1.0a: What do you notice about this dataset?",
+      "description": "Look at these example rows from the dataset:\n\n| text | sentiment |\n|------|-----------|\n| \"The chicken shwarma is awesome! The fries are hand cut and really good. Service is quick and the prices are reasonable. May have found my new lunch spot!\" | positive |\n| \"poor service and 1/2 of the menu was 'out of stock'. Meh indeed\" | negative |\n| \"I always in the Kalbi Plate with Kim Chi. Chicken Katsu has too much breading on it.\" | positive |\n| \"Great service and my Chai was great!\" | positive |\n| \"Don Rafa has closed due to economic reasons. :(\" | negative |\n\nWhat do you notice about this dataset?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 1.0b: How many features (columns) are there in this dataset?",
+      "description": "How many features (columns) are there in this dataset?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 1.0c: What do you think each column represents?",
+      "description": "What do you think each column represents?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.0d: What do you think \"features\" means in the context of machine learning?",
+      "description": "What do you think \"features\" means in the context of machine learning?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.0e: If you had to classify a review as positive or negative yourself, what words or phrases would you look for?",
+      "description": "If you had to classify a review as positive or negative yourself, what words or phrases would you look for?\n[Open text response - minimum 3 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.0f: Test Your Intuition - Classify this review",
+      "description": "Test Your Intuition: Look at this review: \"The food was okay, nothing special. The service was friendly but slow. I probably won't come back, but it wasn't terrible either.\"\n\nHow would you classify this review - positive or negative? Why?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 1.0g: What makes this classification difficult or easy?",
+      "description": "What makes this classification difficult or easy?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.0h: How do you think a computer program might classify these reviews?",
+      "description": "How do you think a computer program might classify these reviews? What approach would you take?\n[Open text response - minimum 2 sentences]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.0i: If you were to build a model to classify these reviews, what steps would you take?",
+      "description": "If you were to build a model to classify these reviews, what steps would you take? Think about:\n- How would you process the text?\n- What would the model need to learn?\n- How would you know if the model is working correctly?\n[Open text response - minimum 3 sentences]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 1.0j: How confident do you feel that you understand what this dataset contains?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.0k: What challenges do you think a computer might face when trying to classify text reviews?",
+      "description": "What challenges do you think a computer might face when trying to classify text reviews compared to how you would do it?\n[Open text response]"
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 1.0l: Understanding the dataset",
+      "description": "How is this dataset similar to or different from other data you've worked with in programming? What does it remind you of?\n[Open text response - minimum 2 sentences]"
+    }
+  ]
+}

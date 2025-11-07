@@ -1,0 +1,40 @@
+{
+  "type": "group",
+  "title": "Question 6.1c: Multiple Metrics Calculation",
+  "code_section": "Evaluation - Multiple Metrics (Lines 222-225)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L222-L225",
+  "instruction": "Different metrics tell us different things about how the model performs. This code calculates several metrics to get a complete picture.",
+  "reveal": "This code calculates four different metrics: accuracy (overall correctness), precision (how reliable positive predictions are), recall (how many positive cases were found), and F1 (a combined measure). Each metric tells us something different. For example, a model might have high accuracy but poor recall (missing many positive reviews), so we need multiple metrics to understand the full picture.",
+  "questions": [
+    {
+      "type": "paragraph",
+      "title": "Question 6.1c-a: What do you think this code is doing?",
+      "description": "Look at this code snippet:\n\ndouble accuracy = evaluator.setMetricName(\"accuracy\").evaluate(predictions);\ndouble precision = evaluator.setMetricName(\"weightedPrecision\").evaluate(predictions);\ndouble recall = evaluator.setMetricName(\"weightedRecall\").evaluate(predictions);\ndouble f1 = evaluator.setMetricName(\"f1\").evaluate(predictions);\n\nWhat do you think this code is doing?"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.1c-b: Why do you think the code calculates multiple different metrics (accuracy, precision, recall, f1)?",
+      "description": "Why do you think the code calculates multiple different metrics (accuracy, precision, recall, f1)?\n[Open text response]"
+    },
+    {
+      "type": "short_answer",
+      "title": "Question 6.1c-c: What do you think \"precision\" and \"recall\" might measure?",
+      "description": "What do you think \"precision\" and \"recall\" might measure?\n[Open text response]"
+    },
+    {
+      "type": "scale",
+      "title": "Question 6.1c-d: How confident do you feel that you understood what this code did?",
+      "scale_min": 1,
+      "scale_max": 5,
+      "scale_labels": {
+        "low": "1 - Not confident",
+        "high": "5 - Very confident"
+      }
+    },
+    {
+      "type": "paragraph",
+      "title": "Question 6.1c-e: Why might accuracy alone not be enough to understand how well a model works?",
+      "description": "Why might accuracy alone not be enough to understand how well a model works?\n[Open text response]"
+    }
+  ]
+}
