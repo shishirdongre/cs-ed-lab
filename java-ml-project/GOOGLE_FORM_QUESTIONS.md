@@ -897,17 +897,23 @@ IDF idf = new IDF()
     .setOutputCol("features");
 ```
 
-**What do you think this code is doing?**
+**IDF stands for "Inverse Document Frequency". What do you think this might mean?**
 [Open text response - minimum 2 sentences]
 
-**What do you think "IDF" might stand for, and what might it do?**
+**What do you think "Inverse" and "Document Frequency" might refer to in the context of text processing?**
 [Open text response]
+
+**What do you think this code is doing?**
+[Open text response - minimum 2 sentences]
 
 **Instruction:**
 Not all words are equally important. Some words appear in many documents, while others are rare. This code adjusts the importance of words based on how common or rare they are.
 
 **Reveal:**
-IDF stands for Inverse Document Frequency. It adjusts the weight (importance) of words based on how frequently they appear across all documents. Words that appear in many reviews (like "food" or "service") get lower weights because they're not very distinctive. Words that appear in only a few reviews get higher weights because they're more unique and informative. This helps the model focus on words that actually help distinguish positive from negative reviews.
+IDF (Inverse Document Frequency) adjusts the weight (importance) of words based on how frequently they appear across all documents. "Document Frequency" refers to how many documents contain a particular word. "Inverse" means we do the opposite - words that appear in many reviews (like "food" or "service") get lower weights because they're not very distinctive. Words that appear in only a few reviews get higher weights because they're more unique and informative. This helps the model focus on words that actually help distinguish positive from negative reviews.
+
+**Why do you think IDF might be needed in this machine learning pipeline?**
+[Open text response - minimum 2 sentences]
 
 **Reflect:**
 **On a scale from 1 (not confident) to 5 (very confident), how confident do you feel that you understood what this code did?**
