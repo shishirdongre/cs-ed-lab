@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 5.1a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nDataset<Row> testTok = models.tokenizer.transform(testData);\nDataset<Row> testFilt = models.stopWordsRemover.transform(testTok);\nDataset<Row> testRaw = models.hashingTF.transform(testFilt);\nDataset<Row> testFeats = models.idfModel.transform(testRaw);\n\nlong predStartTime = System.currentTimeMillis();\nDataset<Row> predictions = models.svcModel.transform(testFeats);\nlong predTime = System.currentTimeMillis() - predStartTime;\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L233-L239\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

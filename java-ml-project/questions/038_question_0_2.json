@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 0.2a: What do you think this code is doing?",
-      "description": "Look at this code snippet from the beginning of the main method:\n\nSparkConf conf = new SparkConf()\n    .setAppName(\"YelpSentimentAnalysis\")\n    .setMaster(\"local[*]\")\n    // ... more configuration settings ...\n\nSparkSession spark = SparkSession.builder()\n    .config(conf)\n    .getOrCreate();\n\nWhat do you think this code is doing? (Don't worry about understanding all the details - just focus on the overall purpose)"
+      "description": "Look at this code snippet from the beginning of the main method:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L38-L60\n\nWhat do you think this code is doing? (Don't worry about understanding all the details - just focus on the overall purpose)"
     },
     {
       "type": "short_answer",

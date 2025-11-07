@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 7.1d-a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nfor (int i = 0; i < sampleReviews.length; i++) {\n    String review = sampleReviews[i][0];\n    String expected = sampleReviews[i][1];\n    // ... code to make prediction and compare ...\n}\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L346-L379\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 1.2b-a: What do you think \"features\" means in the context of this raw dataset?",
-      "description": "Look at the schema definition and the data that was just loaded:\n\nStructType schema = new StructType(new StructField[]{\n    DataTypes.createStructField(\"text\", DataTypes.StringType, false),\n    DataTypes.createStructField(\"sentiment\", DataTypes.StringType, false)\n});\n\nThe CSV file contains two columns: \"text\" (the review text) and \"sentiment\" (positive or negative).\n\nWhat do you think \"features\" means in the context of this raw dataset?"
+      "description": "Look at the schema definition and the data that was just loaded:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L153\n\nThe CSV file contains two columns: \"text\" (the review text) and \"sentiment\" (positive or negative).\n\nWhat do you think \"features\" means in the context of this raw dataset?"
     },
     {
       "type": "short_answer",

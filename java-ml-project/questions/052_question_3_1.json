@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 3.1a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nTokenizer tokenizer = new Tokenizer()\n    .setInputCol(\"text\")\n    .setOutputCol(\"words\");\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L169-L171\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

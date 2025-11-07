@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 6.1c-a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\ndouble accuracy = evaluator.setMetricName(\"accuracy\").evaluate(predictions);\ndouble precision = evaluator.setMetricName(\"weightedPrecision\").evaluate(predictions);\ndouble recall = evaluator.setMetricName(\"weightedRecall\").evaluate(predictions);\ndouble f1 = evaluator.setMetricName(\"f1\").evaluate(predictions);\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L222-L225\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

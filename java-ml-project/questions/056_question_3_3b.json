@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 3.3b-a: The name includes \"Hashing\" - what do you think \"hashing\" means in programming?",
-      "description": "Look at this code snippet:\n\nHashingTF hashingTF = new HashingTF()\n    .setInputCol(\"filtered_words\")\n    .setOutputCol(\"rawFeatures\")\n    .setNumFeatures(10000);\n\nThe name includes \"Hashing\" - what do you think \"hashing\" means in programming?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L179-L182\n\nThe name includes \"Hashing\" - what do you think \"hashing\" means in programming?"
     },
     {
       "type": "short_answer",

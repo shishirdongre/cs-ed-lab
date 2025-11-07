@@ -9,7 +9,7 @@
     {
       "type": "paragraph",
       "title": "Question 2.2a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nDataset<Row> trainData = splits[0];\nDataset<Row> testData = splits[1];\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L80-L81\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",
