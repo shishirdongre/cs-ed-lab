@@ -1,15 +1,15 @@
 {
   "type": "group",
   "title": "Question 3.1: Tokenizer - Setting Input and Output Columns",
-  "code_section": "Feature Engineering - Tokenizer Configuration (Lines 169-171)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L169-L171",
+  "code_section": "Feature Engineering - Tokenizer Configuration (Lines 177-179)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L177-L179",
   "instruction": "Computers need to break down text into smaller pieces to analyze it. This code sets up a tool to do that transformation.",
   "reveal": "A Tokenizer splits text into individual words (tokens). For example, \"Great food!\" becomes [\"Great\", \"food\"]. The `.setInputCol(\"text\")` tells it to read from the \"text\" column, and `.setOutputCol(\"words\")` tells it to put the result in a new column called \"words\". This is the first step in converting text into a format the computer can analyze.",
   "questions": [
     {
       "type": "paragraph",
       "title": "Question 3.1a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L169-L171\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L177-L179\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

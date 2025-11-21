@@ -1,0 +1,1222 @@
+---
+theme: seriph
+background: https://cover.sli.dev
+title: "Spark ML Java: Yelp Sentiment Analysis"
+info: |
+  ## Spark ML Java: Yelp Sentiment Analysis
+  A comprehensive walkthrough of Apache Spark MLlib implementation for text classification.
+
+  Learn more at [Sli.dev](https://sli.dev)
+class: text-center
+drawings:
+  persist: false
+transition: slide-left
+mdc: true
+duration: 45min
+---
+
+# Spark ML Java: Yelp Sentiment Analysis
+
+A comprehensive walkthrough of Apache Spark MLlib implementation for text classification
+
+<div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
+  Press Space for next page <carbon:arrow-right />
+</div>
+
+<div class="abs-br m-6 text-xl">
+  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="slidev-icon-btn">
+    <carbon:edit />
+  </button>
+  <a href="https://github.com/slidevjs/slidev" target="_blank" class="slidev-icon-btn">
+    <carbon:logo-github />
+  </a>
+</div>
+
+---
+transition: fade-out
+---
+
+# Introduction
+
+Understanding Spark ML Pipeline Components
+
+This presentation breaks down the **YelpSentimentAnalysisSpark** Java implementation, explaining each method and component of the machine learning pipeline.
+
+We'll explore how Apache Spark MLlib processes text data through **transformers** and **estimators** to build a sentiment classification model using **Linear SVC (Support Vector Classifier)**.
+
+The pipeline includes:
+- **Data Loading**: Reading CSV files with Spark SQL
+- **Text Preprocessing**: Tokenization, stop word removal, feature extraction
+- **Model Training**: Linear SVC classifier with TF-IDF features
+- **Evaluation**: Metrics, confusion matrix, and performance analysis
+
+---
+layout: two-cols
+layoutClass: gap-16
+---
+
+# Project Overview
+
+The **Yelp Sentiment Analysis** project uses Apache Spark MLlib to classify restaurant reviews as **positive** or **negative**.
+
+**Key Components:**
+- **Tokenizer**: Splits text into individual words
+- **StopWordsRemover**: Removes common words (the, a, an, etc.)
+- **HashingTF**: Converts words to numerical features
+- **IDF**: Applies inverse document frequency weighting
+- **LinearSVC**: Trains a support vector classifier
+
+**Data Flow:**
+```
+CSV File → Spark DataFrame → Preprocessing → Features → Model → Predictions
+```
+
+::right::
+
+# Architecture
+
+```
+┌─────────────┐
+│  CSV File   │
+│ (reviews)   │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Load Data   │
+│ (Spark SQL) │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Preprocess  │
+│ (Tokenize,  │
+│  Filter)    │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│  Features   │
+│ (TF-IDF)    │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│   Model     │
+│ (LinearSVC) │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Predictions │
+└─────────────┘
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Main Method - Entry Point
+
+The `main` method orchestrates the entire machine learning pipeline. It follows a **sequential workflow**: initialize Spark, load data, split into train/test sets, train the model, make predictions, evaluate performance, and test on sample reviews.
+
+**Key Steps:**
+1. Initialize Spark session with optimized configuration
+2. Load and prepare data from CSV
+3. Split data into training (80%) and test (20%) sets
+4. Train the model with all preprocessing stages
+5. Make predictions on test data
+6. Evaluate model performance
+7. Test on sample reviews
+
+**Error Handling:** Wrapped in try-catch to ensure Spark session is properly closed even if errors occur.
+
+::right::
+
+```java
+public static void main(String[] args) {
+    System.out.println("\n" + "=".repeat(70));
+    System.out.println("🤖 YELP SENTIMENT ANALYSIS WITH APACHE SPARK MLlib");
+    System.out.println("   Linear SVC Text Classification");
+    System.out.println("=".repeat(70));
+    
+    // Initialize Spark
+    SparkSession spark = initializeSpark();
+    
+    try {
+        // Step 1: Load and prepare data
+        Dataset<Row> data = loadAndPrepareData(spark);
+        
+        // Step 2: Split data into train/test
+        Dataset<Row>[] splits = splitData(data);
+        Dataset<Row> trainData = splits[0];
+        Dataset<Row> testData = splits[1];
+        
+        // Step 3: Train the model
+        ModelComponents model = trainModel(trainData);
+        
+        // Step 4: Make predictions on test data
+        Dataset<Row> predictions = makePredictions(testData, model);
+        
+        // Step 5: Evaluate the model
+        evaluateModel(predictions);
+        
+        // Step 6: Test on sample reviews
+        testSampleReviews(model, spark);
+        
+    } catch (Exception e) {
+        System.err.println("\n❌ ERROR: " + e.getMessage());
+        e.printStackTrace();
+    } finally {
+        spark.stop();  // Always close Spark session
+    }
+}
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Initialize Spark - Configuration
+
+The `initializeSpark()` method sets up the Spark session with optimized settings for local development. It configures Spark to run on all available CPU cores (`local[*]`) and disables adaptive query execution for more predictable behavior.
+
+**Configuration Choices:**
+- **`setMaster("local[*]")`**: Uses all CPU cores on the local machine
+- **`setAppName(...)`**: Identifies the application in Spark UI
+- **Adaptive execution disabled**: Ensures consistent partitioning behavior
+- **Log level set to WARN**: Reduces console output noise
+
+**Why these settings?**
+- Local mode is ideal for development and small datasets
+- Disabling adaptive features makes the pipeline behavior more predictable
+- Reduced logging keeps output focused on results
+
+::right::
+
+```java
+private static SparkSession initializeSpark() {
+    System.out.println("\n🔧 INITIALIZING SPARK");
+    System.out.println("-".repeat(40));
+    
+    SparkConf conf = new SparkConf()
+        .setAppName("YelpSentimentAnalysis")
+        .setMaster("local[*]")  // Use all CPU cores
+        .set("spark.sql.adaptive.enabled", "false")
+        .set("spark.sql.adaptive.coalescePartitions.enabled", "false")
+        .set("spark.ui.showConsoleProgress", "false")
+        .set("spark.sql.adaptive.skewJoin.enabled", "false");
+        
+    SparkSession spark = SparkSession.builder()
+        .config(conf)
+        .getOrCreate();
+        
+    // Suppress Spark logs
+    spark.sparkContext().setLogLevel("WARN");
+    
+    System.out.println("✅ Spark initialized successfully");
+    return spark;
+}
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Load Data - CSV Reading
+
+The `loadData()` method reads the CSV file using Spark SQL's DataFrame API. It defines an explicit schema to ensure type safety and converts the string sentiment labels ("positive"/"negative") to integer labels (1/0) required by MLlib classifiers.
+
+**Schema Definition:**
+- **`text`**: StringType - the review text
+- **`sentiment`**: StringType - original label ("positive"/"negative")
+
+**Label Conversion:**
+- Uses Spark SQL's `when().otherwise()` to map:
+  - "positive" → 1
+  - "negative" → 0
+
+**Why explicit schema?**
+- Prevents Spark from inferring types (can be slow)
+- Ensures consistent data types across runs
+- Catches schema mismatches early
+
+::right::
+
+```java
+private static Dataset<Row> loadData(SparkSession spark) throws IOException {
+    // Define schema for CSV with sentiment column
+    StructType schema = new StructType(new StructField[]{
+        DataTypes.createStructField("text", DataTypes.StringType, false),
+        DataTypes.createStructField("sentiment", DataTypes.StringType, false)
+    });
+    
+    // Read CSV file
+    Dataset<Row> data = spark.read()
+        .option("header", "true")
+        .option("inferSchema", "false")
+        .schema(schema)
+        .csv(CSV_FILE);
+        
+    // Convert sentiment string to label integer
+    // positive=1, negative=0
+    data = data.withColumn("label", 
+        when(col("sentiment").equalTo("positive"), 1)
+        .otherwise(0)
+    ).select("text", "label");
+        
+    return data;
+}
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Load and Prepare Data - Orchestration
+
+The `loadAndPrepareData()` method orchestrates data loading and provides initial insights. It calls `loadData()` to read the CSV, counts total samples, and displays the class distribution to help understand data balance.
+
+**What it does:**
+1. Calls `loadData()` to read CSV into DataFrame
+2. Counts total number of samples
+3. Shows class distribution (how many positive vs negative reviews)
+4. Returns the prepared DataFrame
+
+**Why show class distribution?**
+- Helps identify class imbalance issues
+- Important for understanding model performance
+- Guides decisions about sampling strategies
+
+**Output Example:**
+```
+✅ Loaded 1000 samples
+📈 CLASS DISTRIBUTION:
++------+-----+
+| label|count|
++------+-----+
+|     0|  500|
+|     1|  500|
++------+-----+
+```
+
+::right::
+
+```java
+private static Dataset<Row> loadAndPrepareData(SparkSession spark) throws IOException {
+    System.out.println("\n📊 DATA LOADING & PREPARATION");
+    System.out.println("-".repeat(40));
+    System.out.println("Loading dataset from: " + CSV_FILE);
+    
+    Dataset<Row> data = loadData(spark);
+    long totalSamples = data.count();
+    System.out.println("✅ Loaded " + totalSamples + " samples");
+    
+    // Show class distribution
+    System.out.println("\n📈 CLASS DISTRIBUTION:");
+    data.groupBy("label").count().show();
+    
+    return data;
+}
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Split Data - Train/Test Split
+
+The `splitData()` method divides the dataset into training and test sets using Spark's `randomSplit()` method. It uses a fixed random seed (42) to ensure reproducible splits across runs.
+
+**Split Strategy:**
+- **Training set**: 80% of data (1.0 - TEST_SIZE)
+- **Test set**: 20% of data (TEST_SIZE)
+- **Random seed**: 42 (ensures reproducibility)
+
+**Why split the data?**
+- **Training set**: Used to learn model parameters
+- **Test set**: Used to evaluate model performance on unseen data
+- Prevents overfitting by testing on data the model hasn't seen
+
+**Output:**
+```
+✂️  DATA SPLITTING
+Training samples: 800 (80.0%)
+Test samples:    200 (20.0%)
+```
+
+::right::
+
+```java
+private static Dataset<Row>[] splitData(Dataset<Row> data) {
+    System.out.println("\n✂️  DATA SPLITTING");
+    System.out.println("-".repeat(40));
+    
+    Dataset<Row>[] splits = data.randomSplit(
+        new double[]{1.0 - TEST_SIZE, TEST_SIZE}, 
+        RANDOM_SEED
+    );
+    Dataset<Row> trainData = splits[0];
+    Dataset<Row> testData = splits[1];
+    
+    long totalSamples = data.count();
+    long trainCount = trainData.count();
+    long testCount = testData.count();
+    
+    System.out.printf("Training samples: %d (%.1f%%)\n", 
+        trainCount, (double)trainCount/totalSamples*100);
+    System.out.printf("Test samples:    %d (%.1f%%)\n", 
+        testCount, (double)testCount/totalSamples*100);
+    
+    return splits;
+}
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Train Model - Stage 1: Tokenizer
+
+The `trainModel()` method builds the complete ML pipeline. The first stage is the **Tokenizer**, which splits text into individual words (tokens).
+
+**Tokenizer Configuration:**
+- **Input column**: `"text"` (the review text)
+- **Output column**: `"words"` (array of words)
+
+**How it works:**
+- Splits text on whitespace and punctuation
+- Converts to lowercase
+- Returns an array of strings
+
+**Example:**
+```
+Input:  "Great food, excellent service!"
+Output: ["great", "food", "excellent", "service"]
+```
+
+**Why tokenize?**
+- Breaks text into analyzable units
+- First step in converting text to numerical features
+
+::right::
+
+```java
+// Define all stages
+Tokenizer tokenizer = new Tokenizer()
+    .setInputCol("text")
+    .setOutputCol("words");
+
+// Process training data through stages
+Dataset<Row> trainTok = tokenizer.transform(trainData);
+
+// Before transformation:
+// +----------------------------+------+
+// | text                       | label|
+// +----------------------------+------+
+// | "Great food!"             | 1    |
+// +----------------------------+------+
+
+// After transformation:
+// +----------------------------+------+-------------------+
+// | text                       | label| words            |
+// +----------------------------+------+-------------------+
+// | "Great food!"             | 1    | [great, food]    |
+// +----------------------------+------+-------------------+
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Train Model - Stage 2: StopWordsRemover
+
+The second preprocessing stage is **StopWordsRemover**, which filters out common words that don't carry much meaning (e.g., "the", "a", "an", "is", "are").
+
+**StopWordsRemover Configuration:**
+- **Input column**: `"words"` (from tokenizer)
+- **Output column**: `"filtered_words"` (words without stop words)
+
+**Why remove stop words?**
+- Reduces feature space (fewer words to process)
+- Focuses on meaningful words
+- Improves model efficiency and sometimes accuracy
+
+**Example:**
+```
+Input:  ["great", "food", "the", "service", "is", "excellent"]
+Output: ["great", "food", "service", "excellent"]
+        (removed: "the", "is")
+```
+
+**Default stop words:** Includes common English words like "the", "a", "an", "and", "or", "but", etc.
+
+::right::
+
+```java
+StopWordsRemover stopWordsRemover = new StopWordsRemover()
+    .setInputCol("words")
+    .setOutputCol("filtered_words");
+
+// Apply to tokenized data
+Dataset<Row> trainFilt = stopWordsRemover.transform(trainTok);
+
+// Before:
+// +----------------------------+------+-------------------+
+// | text                       | label| words            |
+// +----------------------------+------+-------------------+
+// | "Great food!"             | 1    | [great, food]    |
+// +----------------------------+------+-------------------+
+
+// After:
+// +----------------------------+------+-------------------+------------------+
+// | text                       | label| words            | filtered_words   |
+// +----------------------------+------+-------------------+------------------+
+// | "Great food!"             | 1    | [great, food]    | [great, food]    |
+// +----------------------------+------+-------------------+------------------+
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Train Model - Stage 3: HashingTF
+
+**HashingTF (Term Frequency)** converts words into numerical features using a hash function. It counts how many times each word appears in a document and maps words to feature indices using hashing.
+
+**HashingTF Configuration:**
+- **Input column**: `"filtered_words"` (array of words)
+- **Output column**: `"rawFeatures"` (sparse vector)
+- **Number of features**: 10000 (hash space size)
+
+**How it works:**
+1. Each word is hashed to a number between 0 and 9999
+2. Counts occurrences of each word in the document
+3. Creates a sparse vector with word frequencies
+
+**Why hashing?**
+- Avoids maintaining a vocabulary dictionary
+- Fast and memory-efficient
+- Handles new words automatically
+
+**Example:**
+```
+Input:  ["great", "food", "great", "service"]
+Output: SparseVector(10000, {hash("great"): 2, 
+                              hash("food"): 1, 
+                              hash("service"): 1})
+```
+
+::right::
+
+```java
+HashingTF hashingTF = new HashingTF()
+    .setInputCol("filtered_words")
+    .setOutputCol("rawFeatures")
+    .setNumFeatures(10000);  // Hash space size
+
+// Apply to filtered words
+Dataset<Row> trainRaw = hashingTF.transform(trainFilt);
+
+// Before:
+// +------------------+
+// | filtered_words   |
+// +------------------+
+// | [great, food]    |
+// +------------------+
+
+// After:
+// +------------------+-------------------+
+// | filtered_words   | rawFeatures       |
+// +------------------+-------------------+
+// | [great, food]    | (10000,[...],[...])|
+// +------------------+-------------------+
+//                    ^
+//                    Sparse vector with word frequencies
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Train Model - Stage 4: IDF (Estimator)
+
+**IDF (Inverse Document Frequency)** is an **Estimator** that must be **fitted** on training data. It weights features by how rare/common they are across all documents. Common words get lower weights, rare words get higher weights.
+
+**IDF Configuration:**
+- **Input column**: `"rawFeatures"` (from HashingTF)
+- **Output column**: `"features"` (TF-IDF weighted features)
+
+**How it works:**
+1. **Fit phase**: Analyzes all training documents to compute IDF scores
+2. **Transform phase**: Applies IDF weights to term frequencies
+
+**IDF Formula:**
+```
+IDF(word) = log(total_documents / documents_containing_word)
+TF-IDF = TF(word) × IDF(word)
+```
+
+**Why IDF?**
+- Reduces importance of common words (e.g., "the", "food")
+- Increases importance of distinctive words
+- Improves classification accuracy
+
+**Note:** IDF is an **Estimator** - it must be fitted on training data only!
+
+::right::
+
+```java
+IDF idf = new IDF()
+    .setInputCol("rawFeatures")
+    .setOutputCol("features");
+
+// IDF is an Estimator → fit on TRAIN only
+System.out.println("Fitting IDF model on training data...");
+IDFModel idfModel = idf.fit(trainRaw);  // ← FIT on training data
+Dataset<Row> trainFeats = idfModel.transform(trainRaw).cache();
+
+// Before (raw features):
+// +-------------------+
+// | rawFeatures       |
+// +-------------------+
+// | (10000,[...],[...])|
+// +-------------------+
+
+// After (TF-IDF features):
+// +-------------------+
+// | features          |
+// +-------------------+
+// | (10000,[...],[...])|
+// +-------------------+
+//   ^
+//   Same structure, but values are TF-IDF weighted
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Train Model - Stage 5: LinearSVC (Estimator)
+
+**LinearSVC (Linear Support Vector Classifier)** is the final **Estimator** that learns to classify reviews as positive or negative. It uses a linear decision boundary to separate classes.
+
+**LinearSVC Configuration:**
+- **Features column**: `"features"` (TF-IDF vectors)
+- **Label column**: `"label"` (0=negative, 1=positive)
+- **Max iterations**: 50 (training iterations)
+- **Regularization parameter**: 0.1 (prevents overfitting)
+
+**How it works:**
+1. **Fit phase**: Learns optimal weights for features
+2. Finds a hyperplane that best separates positive and negative reviews
+3. Uses hinge loss function for optimization
+
+**Why LinearSVC?**
+- Fast training and prediction
+- Works well with high-dimensional sparse features (like text)
+- Good baseline for text classification
+
+**Training Process:**
+- Iteratively adjusts feature weights
+- Minimizes classification error
+- Stops after max iterations or convergence
+
+::right::
+
+```java
+LinearSVC lsvc = new LinearSVC()
+    .setFeaturesCol("features")
+    .setLabelCol("label")
+    .setMaxIter(50)        // Maximum training iterations
+    .setRegParam(0.1);     // Regularization strength
+
+// Linear SVC is an Estimator → fit on TRAIN features
+System.out.println("Training Linear SVC classifier...");
+long startTime = System.currentTimeMillis();
+LinearSVCModel svcModel = lsvc.fit(trainFeats);  // ← FIT on training features
+long trainingTime = System.currentTimeMillis() - startTime;
+System.out.printf("✅ Training completed in %.2f seconds\n", 
+    trainingTime / 1000.0);
+
+// Returns trained model that can make predictions
+return new ModelComponents(
+    tokenizer, stopWordsRemover, hashingTF, 
+    idfModel, svcModel
+);
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# ModelComponents - Container Class
+
+The `ModelComponents` inner class holds all the trained/prepared model stages. This allows passing the entire pipeline between methods without losing any components.
+
+**Why use a container class?**
+- **Organized**: Groups related model components together
+- **Convenient**: Single object to pass around
+- **Type-safe**: Ensures all components are present
+
+**Components stored:**
+1. **Tokenizer**: Already configured (no training needed)
+2. **StopWordsRemover**: Already configured (no training needed)
+3. **HashingTF**: Already configured (no training needed)
+4. **IDFModel**: Fitted on training data (contains IDF weights)
+5. **LinearSVCModel**: Trained classifier (contains learned weights)
+
+**Usage:**
+- Passed from `trainModel()` to `makePredictions()`
+- Used in `testSampleReviews()` for inference
+- All components needed for the full prediction pipeline
+
+::right::
+
+```java
+/**
+ * Container class to hold all model components 
+ * for easy passing between methods
+ */
+private static class ModelComponents {
+    public final Tokenizer tokenizer;
+    public final StopWordsRemover stopWordsRemover;
+    public final HashingTF hashingTF;
+    public final IDFModel idfModel;
+    public final LinearSVCModel svcModel;
+    
+    public ModelComponents(
+        Tokenizer tokenizer, 
+        StopWordsRemover stopWordsRemover, 
+        HashingTF hashingTF, 
+        IDFModel idfModel, 
+        LinearSVCModel svcModel
+    ) {
+        this.tokenizer = tokenizer;
+        this.stopWordsRemover = stopWordsRemover;
+        this.hashingTF = hashingTF;
+        this.idfModel = idfModel;
+        this.svcModel = svcModel;
+    }
+}
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Make Predictions - Inference Pipeline
+
+The `makePredictions()` method applies the trained model to test data. It follows the same preprocessing pipeline used during training, but uses the **fitted** models (IDFModel, LinearSVCModel) instead of fitting new ones.
+
+**Key Principle:**
+- **Training**: Fit estimators on training data
+- **Prediction**: Transform using fitted models (no fitting!)
+
+**Pipeline Steps:**
+1. Tokenize test text
+2. Remove stop words
+3. Convert to TF features (HashingTF)
+4. Apply IDF weights (using fitted IDFModel)
+5. Make predictions (using fitted LinearSVCModel)
+
+**Why same pipeline?**
+- Ensures test data is processed identically to training data
+- Maintains feature consistency
+- Critical for accurate predictions
+
+**Output:**
+- Adds `"prediction"` column with predicted labels (0 or 1)
+
+::right::
+
+```java
+private static Dataset<Row> makePredictions(
+    Dataset<Row> testData, 
+    ModelComponents models
+) {
+    System.out.println("\n🔮 MAKING PREDICTIONS");
+    System.out.println("-".repeat(40));
+    System.out.println("Processing test data through stages...");
+    
+    // Transform test data using the same fitted objects
+    Dataset<Row> testTok = models.tokenizer.transform(testData);
+    Dataset<Row> testFilt = models.stopWordsRemover.transform(testTok);
+    Dataset<Row> testRaw = models.hashingTF.transform(testFilt);
+    Dataset<Row> testFeats = models.idfModel.transform(testRaw);  // ← Use fitted IDF
+    
+    long predStartTime = System.currentTimeMillis();
+    Dataset<Row> predictions = models.svcModel.transform(testFeats);  // ← Use fitted SVC
+    long predTime = System.currentTimeMillis() - predStartTime;
+    System.out.printf("✅ Predictions completed in %.2f seconds\n", 
+        predTime / 1000.0);
+    
+    return predictions;  // Contains original columns + "prediction" column
+}
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Evaluate Model - Metrics Overview
+
+The `evaluateModel()` method computes comprehensive performance metrics using Spark's `MulticlassClassificationEvaluator`. It calculates accuracy, precision, recall, and F1-score.
+
+**Metrics Explained:**
+- **Accuracy**: Overall correctness (correct predictions / total)
+- **Precision**: Of predicted positives, how many were actually positive?
+- **Recall**: Of actual positives, how many were correctly predicted?
+- **F1-Score**: Harmonic mean of precision and recall
+
+**Why multiple metrics?**
+- Accuracy alone can be misleading with imbalanced data
+- Precision/Recall trade-off shows model strengths/weaknesses
+- F1-score balances precision and recall
+
+**Performance Interpretation:**
+- **≥ 80%**: Excellent
+- **≥ 70%**: Good
+- **≥ 60%**: Fair
+- **< 60%**: Poor
+
+**Output Format:**
+- Clean table with metrics and percentages
+- Performance interpretation message
+- Detailed confusion matrix
+
+::right::
+
+```java
+private static void evaluateModel(Dataset<Row> predictions) {
+    System.out.println("\n" + "=".repeat(60));
+    System.out.println("📊 MODEL EVALUATION RESULTS");
+    System.out.println("=".repeat(60));
+    
+    // Calculate metrics
+    MulticlassClassificationEvaluator evaluator = 
+        new MulticlassClassificationEvaluator()
+            .setLabelCol("label")
+            .setPredictionCol("prediction");
+            
+    double accuracy = evaluator.setMetricName("accuracy").evaluate(predictions);
+    double precision = evaluator.setMetricName("weightedPrecision").evaluate(predictions);
+    double recall = evaluator.setMetricName("weightedRecall").evaluate(predictions);
+    double f1 = evaluator.setMetricName("f1").evaluate(predictions);
+    
+    // Display metrics in a clean format
+    System.out.println("\n🎯 CLASSIFICATION METRICS:");
+    System.out.println("┌─────────────────┬─────────────┬─────────────┐");
+    System.out.println("│ Metric          │ Value       │ Percentage  │");
+    System.out.println("├─────────────────┼─────────────┼─────────────┤");
+    System.out.printf("│ Accuracy        │ %-11.4f │ %-11.2f%% │\n", 
+        accuracy, accuracy * 100);
+    // ... similar for precision, recall, f1
+}
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Evaluate Model - Confusion Matrix
+
+The confusion matrix shows detailed classification results in a 2×2 grid. It reveals how many predictions were correct/incorrect for each class.
+
+**Confusion Matrix Structure:**
+```
+                Predicted
+              Negative  Positive
+Actual Negative   TN      FP
+       Positive   FN      TP
+```
+
+**Terminology:**
+- **TP (True Positives)**: Correctly predicted positive
+- **TN (True Negatives)**: Correctly predicted negative
+- **FP (False Positives)**: Incorrectly predicted positive (Type I error)
+- **FN (False Negatives)**: Incorrectly predicted negative (Type II error)
+
+**Derived Metrics:**
+- **Sensitivity (Recall)**: TP / (TP + FN) - How well we catch positives
+- **Specificity**: TN / (TN + FP) - How well we catch negatives
+
+**Why it matters:**
+- Shows where model makes mistakes
+- Helps identify class-specific issues
+- Guides model improvement strategies
+
+::right::
+
+```java
+// Confusion Matrix
+System.out.println("\n🔢 CONFUSION MATRIX:");
+System.out.println("   (Rows = Actual, Columns = Predicted)");
+System.out.println("   ┌─────────────┬─────────────┬─────────────┐");
+System.out.println("   │             │ Negative    │ Positive    │");
+System.out.println("   ├─────────────┼─────────────┼─────────────┤");
+
+// Get confusion matrix data
+long[][] confusionMatrix = getConfusionMatrix(predictions);
+System.out.printf("   │ Negative     │ %-11d │ %-11d │\n", 
+    confusionMatrix[0][0], confusionMatrix[0][1]);
+System.out.printf("   │ Positive     │ %-11d │ %-11d │\n", 
+    confusionMatrix[1][0], confusionMatrix[1][1]);
+System.out.println("   └─────────────┴─────────────┴─────────────┘");
+
+// Calculate additional metrics
+long trueNegatives = confusionMatrix[0][0];
+long falsePositives = confusionMatrix[0][1];
+long falseNegatives = confusionMatrix[1][0];
+long truePositives = confusionMatrix[1][1];
+
+double sensitivity = (double) truePositives / (truePositives + falseNegatives);
+double specificity = (double) trueNegatives / (trueNegatives + falsePositives);
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Get Confusion Matrix - Implementation
+
+The `getConfusionMatrix()` method manually computes the confusion matrix by iterating through predictions and counting matches/mismatches between actual and predicted labels.
+
+**How it works:**
+1. Collects all (label, prediction) pairs from DataFrame
+2. Iterates through results
+3. Increments appropriate cell in 2×2 matrix
+4. Handles type conversion (Integer vs Double from Spark)
+
+**Matrix Structure:**
+```
+matrix[actual][predicted]++
+```
+
+**Type Handling:**
+- Spark may return Integer or Double types
+- Method handles both to ensure compatibility
+- Converts to int for indexing
+
+**Why manual calculation?**
+- More control over output format
+- Can handle type variations
+- Educational to see the computation
+
+**Output:**
+- Returns `long[2][2]` matrix
+- `[0][0]` = True Negatives
+- `[0][1]` = False Positives
+- `[1][0]` = False Negatives
+- `[1][1]` = True Positives
+
+::right::
+
+```java
+private static long[][] getConfusionMatrix(Dataset<Row> predictions) {
+    long[][] matrix = new long[2][2];
+    
+    List<Row> results = predictions
+        .select("label", "prediction")
+        .collectAsList();
+    
+    for (Row row : results) {
+        // Handle both Integer and Double types from Spark
+        int actual, predicted;
+        
+        // Get actual label
+        if (row.get(0) instanceof Integer) {
+            actual = row.getInt(0);
+        } else {
+            actual = ((Double) row.get(0)).intValue();
+        }
+        
+        // Get predicted label
+        if (row.get(1) instanceof Integer) {
+            predicted = row.getInt(1);
+        } else {
+            predicted = ((Double) row.get(1)).intValue();
+        }
+        
+        matrix[actual][predicted]++;  // Increment appropriate cell
+    }
+    
+    return matrix;
+}
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Test Sample Reviews - Inference on New Data
+
+The `testSampleReviews()` method demonstrates how to use the trained model for inference on new, unseen reviews. It processes 19 sample reviews through the complete pipeline and compares predictions to expected labels.
+
+**Process:**
+1. Creates a DataFrame for each sample review
+2. Applies the full preprocessing pipeline
+3. Makes predictions using the trained model
+4. Compares predictions to expected labels
+5. Displays results in a formatted table
+
+**Key Points:**
+- Shows how to use the model in production
+- Demonstrates end-to-end inference
+- Provides visual feedback on model performance
+- Calculates sample accuracy
+
+**Output Format:**
+- Table with review text, expected label, predicted label
+- Checkmarks (✅) for correct predictions
+- Cross marks (❌) for incorrect predictions
+- Summary accuracy on sample reviews
+
+**Why test on samples?**
+- Validates model works on new data
+- Provides intuitive understanding of model behavior
+- Helps identify edge cases
+
+::right::
+
+```java
+private static void testSampleReviews(
+    ModelComponents models, 
+    SparkSession spark
+) {
+    String[][] sampleReviews = {
+        {"Great food, excellent service!", "positive"},
+        {"Terrible food, bad service", "negative"},
+        // ... more samples
+    };
+    
+    System.out.println("Testing model on sample reviews:\n");
+    System.out.println("┌─────┬─────────────────────────────────────┬──────────┬──────────┐");
+    System.out.println("│ #   │ Review Text                         │ Expected │ Predicted│");
+    System.out.println("├─────┼─────────────────────────────────────┼──────────┼──────────┤");
+    
+    int correct = 0;
+    for (int i = 0; i < sampleReviews.length; i++) {
+        String review = sampleReviews[i][0];
+        String expected = sampleReviews[i][1];
+        
+        // Create DataFrame with single review
+        Dataset<Row> reviewData = spark.createDataFrame(
+            Arrays.asList(RowFactory.create(review, 0)),
+            new StructType(new StructField[]{
+                DataTypes.createStructField("text", DataTypes.StringType, false),
+                DataTypes.createStructField("label", DataTypes.IntegerType, false)
+            })
+        );
+        
+        // Make prediction using procedural approach
+        Dataset<Row> reviewTok = models.tokenizer.transform(reviewData);
+        Dataset<Row> reviewFilt = models.stopWordsRemover.transform(reviewTok);
+        Dataset<Row> reviewRaw = models.hashingTF.transform(reviewFilt);
+        Dataset<Row> reviewFeats = models.idfModel.transform(reviewRaw);
+        Dataset<Row> prediction = models.svcModel.transform(reviewFeats);
+        
+        // Extract prediction and compare
+        Row result = prediction.select("prediction").collectAsList().get(0);
+        int predictedLabel = /* extract from result */;
+        String predicted = (predictedLabel == 1) ? "positive" : "negative";
+        String status = expected.equals(predicted) ? "✅" : "❌";
+        if (expected.equals(predicted)) correct++;
+        
+        System.out.printf("│ %-3d │ %-35s │ %-8s │ %-8s │ %s\n", 
+            i+1, displayReview, expected, predicted, status);
+    }
+    
+    System.out.printf("\n📊 Sample Accuracy: %d/%d (%.1f%%)\n", 
+        correct, sampleReviews.length, (double)correct/sampleReviews.length*100);
+}
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Spark ML Concepts: Transformers vs Estimators
+
+Understanding the difference between **Transformers** and **Estimators** is crucial for building Spark ML pipelines.
+
+**Transformers:**
+- **What**: Already fitted/prepared objects
+- **Method**: `transform()` - applies transformation
+- **Examples**: Tokenizer, StopWordsRemover, HashingTF, IDFModel, LinearSVCModel
+- **Usage**: Same on training and test data
+
+**Estimators:**
+- **What**: Need to be fitted on data first
+- **Methods**: 
+  - `fit()` - learns from data, returns Transformer
+  - `transform()` - applies learned transformation
+- **Examples**: IDF (becomes IDFModel), LinearSVC (becomes LinearSVCModel)
+- **Usage**: Fit on training data only, then transform test data
+
+**Key Principle:**
+- **Fit estimators on training data only**
+- **Use fitted models (transformers) on both training and test data**
+- This prevents data leakage and ensures proper evaluation
+
+**In our code:**
+- IDF: `IDFModel idfModel = idf.fit(trainRaw)` ← Fit once
+- LinearSVC: `LinearSVCModel svcModel = lsvc.fit(trainFeats)` ← Fit once
+- Then use `idfModel.transform()` and `svcModel.transform()` for all data
+
+::right::
+
+```java
+// TRANSFORMERS (no fitting needed)
+Tokenizer tokenizer = new Tokenizer()
+    .setInputCol("text")
+    .setOutputCol("words");
+// Just configure and use
+Dataset<Row> tokens = tokenizer.transform(data);
+
+// ESTIMATORS (must fit first)
+IDF idf = new IDF()
+    .setInputCol("rawFeatures")
+    .setOutputCol("features");
+
+// Step 1: FIT on training data (learns IDF weights)
+IDFModel idfModel = idf.fit(trainData);  // ← Returns Transformer
+
+// Step 2: TRANSFORM using fitted model
+Dataset<Row> trainFeatures = idfModel.transform(trainData);
+Dataset<Row> testFeatures = idfModel.transform(testData);  // ← Use same fitted model!
+
+// ESTIMATOR → FIT → TRANSFORMER
+//   IDF    → fit() → IDFModel
+// LinearSVC → fit() → LinearSVCModel
+```
+
+---
+layout: two-cols
+layoutClass: gap-8 text-xs
+---
+
+# Pipeline Execution Flow
+
+Understanding the complete data flow through the pipeline helps visualize how text becomes predictions.
+
+**Training Phase:**
+1. Load CSV → DataFrame with text and labels
+2. Split into train/test sets
+3. **Train pipeline:**
+   - Tokenize → words array
+   - Remove stop words → filtered words
+   - HashingTF → raw features (term frequencies)
+   - **IDF.fit()** → learns IDF weights from training data
+   - **IDF.transform()** → applies IDF to get TF-IDF features
+   - **LinearSVC.fit()** → learns classifier weights
+4. Save fitted models
+
+**Prediction Phase:**
+1. Load new text data
+2. **Apply same pipeline:**
+   - Tokenize → words array
+   - Remove stop words → filtered words
+   - HashingTF → raw features
+   - **IDFModel.transform()** → applies learned IDF weights
+   - **LinearSVCModel.transform()** → makes predictions
+3. Output predictions
+
+**Critical Point:**
+- Same preprocessing steps for training and prediction
+- Use fitted models (not refit) for prediction
+- Ensures consistency and prevents data leakage
+
+::right::
+
+```
+TRAINING PHASE:
+┌──────────┐
+│ CSV Data │
+└────┬─────┘
+     │
+     ▼
+┌──────────┐     ┌──────────┐     ┌──────────┐
+│ Tokenize │ ──▶ │ StopWords│ ──▶ │ HashingTF│
+└──────────┘     └──────────┘     └────┬─────┘
+                                       │
+                                       ▼
+                              ┌─────────────────┐
+                              │ IDF.fit(train)  │ ← Learn weights
+                              └────────┬────────┘
+                                       │
+                                       ▼
+                              ┌─────────────────┐
+                              │ LinearSVC.fit() │ ← Learn classifier
+                              └─────────────────┘
+
+PREDICTION PHASE:
+┌──────────┐
+│ New Text │
+└────┬─────┘
+     │
+     ▼ (same preprocessing)
+┌──────────┐     ┌──────────┐     ┌──────────┐
+│ Tokenize │ ──▶ │ StopWords│ ──▶ │ HashingTF│
+└──────────┘     └──────────┘     └────┬─────┘
+                                       │
+                                       ▼
+                              ┌─────────────────┐
+                              │ IDFModel.transform()│ ← Use learned weights
+                              └────────┬────────┘
+                                       │
+                                       ▼
+                              ┌─────────────────┐
+                              │ LinearSVCModel.transform()│ ← Make prediction
+                              └─────────────────┘
+```
+
+---
+layout: center
+class: text-center
+---
+
+# Key Takeaways
+
+**Spark ML Pipeline Components:**
+- **Transformers**: Apply transformations (Tokenizer, StopWordsRemover, HashingTF)
+- **Estimators**: Learn from data, become Transformers (IDF, LinearSVC)
+
+**Text Preprocessing:**
+- Tokenization → Stop word removal → Feature extraction (TF-IDF)
+
+**Model Training:**
+- Fit estimators on training data only
+- Use fitted models for predictions
+
+**Evaluation:**
+- Multiple metrics (accuracy, precision, recall, F1)
+- Confusion matrix for detailed analysis
+
+**Best Practices:**
+- Same preprocessing for training and prediction
+- Never fit on test data
+- Use explicit schemas for data loading
+
+---
+
+# Thank You!
+
+Questions & Discussion

@@ -1,15 +1,15 @@
 {
   "type": "group",
   "title": "Question 1.1: Schema Definition",
-  "code_section": "Data Loading - Schema Definition (Lines 143-146)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L146",
+  "code_section": "Data Loading - Schema Definition (Lines 251-254)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L251-L254",
   "instruction": "Before we can work with data in a program, we need to tell the computer what structure to expect. This code defines the \"shape\" of the data file.",
   "reveal": "This code creates a schema (a blueprint) that describes the structure of the CSV file. It tells Java that the file has two columns: \"text\" (which contains strings) and \"sentiment\" (which also contains strings). The `false` parameter means these columns cannot be empty. This is similar to defining the columns in a spreadsheet before you start entering data.",
   "questions": [
     {
       "type": "paragraph",
       "title": "Question 1.1a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L146\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L251-L254\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

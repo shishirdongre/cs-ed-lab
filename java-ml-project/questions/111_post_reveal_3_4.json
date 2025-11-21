@@ -1,8 +1,8 @@
 {
   "type": "group",
   "title": "Post-Reveal Question 3.4: IDF - Reflection",
-  "code_section": "Feature Engineering - IDF (Lines 185-187)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L185-L187",
+  "code_section": "Feature Engineering - IDF (Lines 190-192)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L190-L192",
   "instruction": "Now that you've seen the explanation about IDF, let's reflect on your understanding.",
   "questions": [
     {

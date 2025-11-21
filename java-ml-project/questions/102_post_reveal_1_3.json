@@ -1,8 +1,8 @@
 {
   "type": "group",
   "title": "Post-Reveal Question 1.3: Label Conversion - Reflection",
-  "code_section": "Data Loading - Label Conversion with withColumn (Lines 156-159)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L156-L159",
+  "code_section": "Data Loading - Label Conversion with withColumn (Lines 264-267)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L264-L267",
   "instruction": "Now that you've seen the explanation about label conversion, let's reflect on your understanding.",
   "questions": [
     {

@@ -1,8 +1,8 @@
 {
   "type": "group",
   "title": "Post-Reveal Question 3.1b: Understanding Method Chaining - Reflection",
-  "code_section": "Feature Engineering - Method Chaining Pattern (Lines 169-171)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L169-L171",
+  "code_section": "Feature Engineering - Method Chaining Pattern (Lines 177-179)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L177-L179",
   "instruction": "Now that you've seen the explanation about method chaining, let's reflect on your understanding.",
   "questions": [
     {

@@ -1,15 +1,15 @@
 {
   "type": "group",
   "title": "Question 2.1: Train/Test Split - randomSplit Method",
-  "code_section": "Data Splitting - randomSplit (Lines 79-81)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L79-L81",
+  "code_section": "Data Splitting - randomSplit (Line 149)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L149",
   "instruction": "When learning, it's important to have some examples to study and some examples to test yourself on. This code divides the data into two groups.",
   "reveal": "This code randomly splits the dataset into two parts. The first part (80% of the data) becomes `trainData` - this is what the computer will use to learn patterns. The second part (20% of the data) becomes `testData` - this is what we'll use later to check if the computer learned correctly. The `RANDOM_SEED` ensures we get the same split every time we run the program, which makes results reproducible.",
   "questions": [
     {
       "type": "paragraph",
       "title": "Question 2.1a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L79-L81\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L149\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",

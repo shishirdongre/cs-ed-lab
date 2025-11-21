@@ -1,15 +1,15 @@
 {
   "type": "group",
   "title": "Question 3.4: IDF",
-  "code_section": "Feature Engineering - IDF (Lines 185-187)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L185-L187",
+  "code_section": "Feature Engineering - IDF (Lines 190-192)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L190-L192",
   "instruction": "Not all words are equally important. Some words appear in many documents, while others are rare. This code adjusts the importance of words based on how common or rare they are.",
   "reveal": "IDF (Inverse Document Frequency) adjusts the weight (importance) of words based on how frequently they appear across all documents. \"Document Frequency\" refers to how many documents contain a particular word. \"Inverse\" means we do the opposite - words that appear in many reviews (like \"food\" or \"service\") get lower weights because they're not very distinctive. Words that appear in only a few reviews get higher weights because they're more unique and informative. This helps the model focus on words that actually help distinguish positive from negative reviews.",
   "questions": [
     {
       "type": "paragraph",
       "title": "Question 3.4a: IDF stands for \"Inverse Document Frequency\". What do you think this might mean?",
-      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L185-L187\n\nIDF stands for \"Inverse Document Frequency\". What do you think this might mean?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L190-L192\n\nIDF stands for \"Inverse Document Frequency\". What do you think this might mean?"
     },
     {
       "type": "short_answer",

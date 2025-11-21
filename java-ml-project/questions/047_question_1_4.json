@@ -1,15 +1,15 @@
 {
   "type": "group",
   "title": "Question 1.4: Conditional Logic in Data Transformation",
-  "code_section": "Data Loading - Conditional Logic (Lines 157-158)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L157-L158",
+  "code_section": "Data Loading - Conditional Logic (Lines 264-267)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L264-L267",
   "instruction": "This code uses conditional logic to make decisions based on data values. Think about how you might check a condition and assign a value.",
   "reveal": "This is a conditional expression that works like an if-else statement. It checks if the \"sentiment\" column equals \"positive\", and if so, returns 1. Otherwise, it returns 0. This is similar to `if (sentiment.equals(\"positive\")) { return 1; } else { return 0; }` but written in a more compact, functional style that works with data transformations.",
   "questions": [
     {
       "type": "paragraph",
       "title": "Question 1.4a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L157-L158\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L264-L267\n\nWhat do you think this code is doing?"
     },
     {
       "type": "paragraph",
