@@ -1,9 +1,0 @@
-{
-  "type": "multiple_choice",
-  "title": "Question 5: Have you worked with machine learning or artificial intelligence before?",
-  "options": [
-    "Yes, extensively (multiple projects or courses)",
-    "Yes, a little bit (one project or brief exposure)",
-    "No, never"
-  ]
-}

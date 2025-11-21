@@ -1,8 +1,8 @@
 {
   "type": "group",
   "title": "Post-Reveal Question 1.1: Schema Definition - Reflection",
-  "code_section": "Data Loading - Schema Definition (Lines 143-146)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L143-L146",
+  "code_section": "Data Loading - Schema Definition (Lines 251-254)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L251-L254",
   "instruction": "Now that you've seen the explanation about schema definition, let's reflect on your understanding.",
   "questions": [
     {

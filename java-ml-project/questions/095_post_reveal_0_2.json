@@ -1,8 +1,8 @@
 {
   "type": "group",
   "title": "Post-Reveal Question 0.2: Program Initialization - Reflection",
-  "code_section": "Program Initialization (Lines 38-60)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L38-L60",
+  "code_section": "Program Initialization (Lines 100-121)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L100-L121",
   "instruction": "Now that you've seen the explanation about program initialization, let's reflect on your understanding.",
   "questions": [
     {

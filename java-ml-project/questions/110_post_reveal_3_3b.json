@@ -1,8 +1,8 @@
 {
   "type": "group",
   "title": "Post-Reveal Question 3.3b: Understanding Hashing Concept - Reflection",
-  "code_section": "Feature Engineering - HashingTF Concept (Lines 179-182)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L179-L182",
+  "code_section": "Feature Engineering - HashingTF Concept (Lines 185-188)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L185-L188",
   "instruction": "Now that you've seen the explanation about hashing, let's reflect on your understanding.",
   "questions": [
     {

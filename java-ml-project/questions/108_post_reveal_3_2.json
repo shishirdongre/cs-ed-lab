@@ -1,8 +1,8 @@
 {
   "type": "group",
   "title": "Post-Reveal Question 3.2: StopWordsRemover - Reflection",
-  "code_section": "Feature Engineering - StopWordsRemover (Lines 174-176)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L174-L176",
+  "code_section": "Feature Engineering - StopWordsRemover (Lines 181-183)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L181-L183",
   "instruction": "Now that you've seen the explanation about stop words, let's reflect on your understanding.",
   "questions": [
     {

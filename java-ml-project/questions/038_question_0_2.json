@@ -1,15 +1,15 @@
 {
   "type": "group",
   "title": "Question 0.2: Program Initialization",
-  "code_section": "Program Initialization (Lines 38-60)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L38-L60",
+  "code_section": "Program Initialization (Lines 100-121)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L100-L121",
   "instruction": "This code sets up the environment and tools needed to run the program. The specific details aren't important right now - just focus on understanding the general purpose.",
   "reveal": "This code initializes Apache Spark, which is a framework for processing data. It's setting up the environment so the program can work with data. Think of it like starting up a tool or engine that the rest of the program will use. The specific configuration settings control how Spark runs, but the main idea is that this prepares Spark to process our data.",
   "questions": [
     {
       "type": "paragraph",
       "title": "Question 0.2a: What do you think this code is doing?",
-      "description": "Look at this code snippet from the beginning of the main method:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L38-L60\n\nWhat do you think this code is doing? (Don't worry about understanding all the details - just focus on the overall purpose)"
+      "description": "Look at this code snippet that initializes Spark:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L100-L121\n\nWhat do you think this code is doing? (Don't worry about understanding all the details - just focus on the overall purpose)"
     },
     {
       "type": "short_answer",

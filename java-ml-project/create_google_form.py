@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script to create a Google Form from the GOOGLE_FORM_QUESTIONS.md file
+Script to create a Google Form from JSON question files in the questions/ directory
 using the Google Forms API.
 
 Requirements:
@@ -60,7 +60,7 @@ def clean_description(text: str) -> str:
     return text
 
 # Scopes required for Google Forms API
-SCOPES = ['https://www.googleapis.com/auth/forms.body']
+SCOPES = ['https://www.googleapis.com/auth/forms.body', 'https://www.googleapis.com/auth/drive.file']
 
 # Google Forms API version
 FORMS_API_VERSION = 'v1'
@@ -348,6 +348,68 @@ def authenticate_service_account(service_account_info: Dict[str, Any]) -> Any:
         raise
 
 
+def make_form_public(credentials, form_id: str) -> bool:
+    """Make the form publicly accessible via Drive API (helps with anonymous access)."""
+    try:
+        from googleapiclient.discovery import build as drive_build
+        drive_service = drive_build('drive', 'v3', credentials=credentials)
+        
+        # Make the form publicly accessible (anyone with the link can view)
+        permission = {
+            'type': 'anyone',
+            'role': 'reader'
+        }
+        drive_service.permissions().create(
+            fileId=form_id,
+            body=permission,
+            fields='id'
+        ).execute()
+        return True
+    except Exception as e:
+        print(f"   Note: Could not set public access via Drive API: {e}")
+        return False
+
+
+def update_form_settings(service: Any, form_id: str, require_login: bool = False, credentials=None) -> bool:
+    """Update form settings to make it anonymous or require login.
+    
+    Note: The 'requireLogin' setting is not available in Google Forms API v1.
+    This function attempts to make the form publicly accessible via Drive API,
+    but the 'Require sign-in' checkbox must be manually disabled in the Forms UI.
+    """
+    # The Forms API v1 doesn't support requireLogin setting directly
+    # We can only update emailCollectionType
+    try:
+        settings_update = {
+            'requests': [{
+                'updateSettings': {
+                    'settings': {
+                        'emailCollectionType': 'DO_NOT_COLLECT' if not require_login else 'COLLECT'
+                    },
+                    'updateMask': 'emailCollectionType'
+                }
+            }]
+        }
+        service.forms().batchUpdate(formId=form_id, body=settings_update).execute()
+        
+        # Also try to make it publicly accessible via Drive API
+        if credentials and not require_login:
+            make_form_public(credentials, form_id)
+        
+        return True
+    except Exception as e:
+        print(f"⚠️  Error updating form settings: {e}")
+        # Check if it's the requireLogin error
+        if 'requireLogin' in str(e):
+            print("   Note: The 'Require sign-in' setting is not available via API.")
+            print("   You need to manually disable it in the form settings:")
+            print(f"   1. Go to: https://docs.google.com/forms/d/{form_id}/edit")
+            print("   2. Click the Settings (gear) icon")
+            print("   3. Uncheck 'Require sign-in to view this form'")
+            print("   4. Save the form")
+        return False
+
+
 def expand_question_groups(questions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Expand question groups into individual questions."""
     expanded = []
@@ -382,6 +444,29 @@ def create_form(service: Any, questions: List[Dict[str, Any]], form_title: str) 
         form_id = created_form['formId']
         print(f"? Form created: {created_form['responderUri']}")
         print(f"   Form ID: {form_id}")
+        
+        # Set form to anonymous (no sign-in required)
+        print("? Setting form to anonymous (no sign-in required)...")
+        # Get credentials for Drive API access
+        creds_for_drive = None
+        try:
+            from google.oauth2.credentials import Credentials
+            token_file = 'token.json'
+            if Path(token_file).exists():
+                creds_for_drive = Credentials.from_authorized_user_file(token_file, SCOPES)
+        except:
+            pass
+        
+        if update_form_settings(service, form_id, require_login=False, credentials=creds_for_drive):
+            print("? Form settings updated (email collection disabled)")
+            print("⚠️  IMPORTANT: The 'Require sign-in' setting must be manually disabled:")
+            print(f"   1. Go to: https://docs.google.com/forms/d/{form_id}/edit")
+            print("   2. Click the Settings (gear) icon at the top")
+            print("   3. Under 'Responses', uncheck 'Require sign-in to view this form'")
+            print("   4. Click 'Save'")
+        else:
+            print("⚠️  Warning: Could not update all form settings")
+            print("   Please manually disable 'Require sign-in' in the form settings")
         
         # Expand question groups into individual questions
         expanded_questions = expand_question_groups(questions)
@@ -472,12 +557,83 @@ def main():
     parser = argparse.ArgumentParser(description='Create Google Form from JSON question files')
     parser.add_argument('--credentials', help='Path to OAuth client credentials JSON file')
     parser.add_argument('--use-embedded', action='store_true', 
-                       help='Use embedded service account key (may not work with Forms API)')
+                       help='[DEPRECATED] Use embedded service account key - no longer supported for security reasons')
     parser.add_argument('--questions-dir', default='questions', help='Directory containing JSON question files')
-    parser.add_argument('--title', default='Java Sentiment Analysis Lab - Pre/Post Survey', 
+    parser.add_argument('--title', default='Java Sentiment Analysis Lab', 
                        help='Form title')
+    parser.add_argument('--update-form-id', help='Update settings for an existing form (form ID)')
+    parser.add_argument('--require-login', action='store_true', 
+                       help='Require login (default: anonymous, no login required)')
     
     args = parser.parse_args()
+    
+    # If updating an existing form, just update settings and exit
+    if args.update_form_id:
+        # Determine authentication method
+        use_oauth = False
+        service_account_info = None
+        credentials_file = None
+        
+        if args.use_embedded:
+            print("⚠️  Error: --use-embedded flag is no longer supported for security reasons.")
+            print("   Please provide a credentials file using --credentials instead.")
+            return
+        elif args.credentials:
+            if not Path(args.credentials).exists():
+                print(f"? Credentials file not found: {args.credentials}")
+                return
+            with open(args.credentials, 'r') as f:
+                creds_data = json.load(f)
+            
+            if 'installed' in creds_data or 'web' in creds_data:
+                use_oauth = True
+                credentials_file = args.credentials
+            elif creds_data.get('type') == 'service_account':
+                service_account_info = creds_data
+            else:
+                print("? Could not determine credential type.")
+                return
+        else:
+            print("? Either provide --credentials file or use --use-embedded flag")
+            return
+        
+        print("\n?? Authenticating with Google...")
+        try:
+            if use_oauth:
+                service = authenticate_oauth(credentials_file)
+            else:
+                service = authenticate_service_account(service_account_info)
+            print("? Authentication successful")
+        except Exception as e:
+            print(f"? Authentication failed: {e}")
+            return
+        
+        print(f"\n?? Updating form settings for: {args.update_form_id}")
+        require_login = args.require_login
+        status = "require login" if require_login else "anonymous (no login required)"
+        print(f"   Setting form to {status}...")
+        
+        # Get credentials for Drive API
+        creds_for_drive = None
+        try:
+            from google.oauth2.credentials import Credentials
+            token_file = 'token.json'
+            if Path(token_file).exists():
+                creds_for_drive = Credentials.from_authorized_user_file(token_file, SCOPES)
+        except:
+            pass
+        
+        if update_form_settings(service, args.update_form_id, require_login=require_login, credentials=creds_for_drive):
+            print(f"? Form settings updated")
+            if not require_login:
+                print("⚠️  IMPORTANT: Manually disable 'Require sign-in' in form settings:")
+                print(f"   1. Go to: https://docs.google.com/forms/d/{args.update_form_id}/edit")
+                print("   2. Click Settings (gear) icon")
+                print("   3. Uncheck 'Require sign-in to view this form'")
+            print(f"   View form: https://docs.google.com/forms/d/{args.update_form_id}/edit")
+        else:
+            print(f"? Failed to update form settings")
+        return
     
     # Check if questions directory exists
     if not Path(args.questions_dir).exists():
@@ -490,20 +646,9 @@ def main():
     credentials_file = None
     
     if args.use_embedded:
-        # Use embedded service account key
-        service_account_info = {
-            "type": "service_account",
-            "project_id": "cs-ed-lab",
-            "private_key_id": "5ca0f7694b10e9524d60505c40f6988798c8c85c",
-            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC4O2QREcszXF17\n5fHwJCiDc6d9gC9ZZRKUsSdHSYMxS3WG3XpqMSxmvy4lOfKnXbjrY0nuwv0WLKfW\nd3TaONLwBht26eYOsGiYFVACWplKnLFEWkPpmT1Mg4nwb2dGxQrWdNrTTw8ZZD7k\nyag1IE8e7SSov78xlltOrNjQc9onBd54LBcZj/4E3OJ0e96wpQs7lqkA1RO3O57J\nNE7th8VtK2iQSMvO/FS+sXORsyikzwhGhBhgCsuu3QowooNpw6rJoucf1JXoomQg\nIq8KgFW1iqtI/pljxfdIYZ/Wo4siH6WvgPILAIHioV8zbJdp0NH4ed3NpxmEqZMc\nzOK7i66XAgMBAAECggEAA0iLsAIxLOkogVzHww/h6PXWtlXigiVa/2to18xnmilO\nHukzlVDrCam+mMs/l9wDv641UxwGhq6lDx1x57G7kKuLMcNZZkmek5dNpb0XnkzM\nm/s/2pnwjbyKaM6TeJ9qYggTHlD6Y+l1dX5ikQ/SWSrAzIEeVzPmzLAn7Q8jhC5+\n0J0w05xWGtgqP0e/naU5NK6LCJNv7smPZV7FIaUJFFyCyAlNN03cmfLzrwBPtHo6\n61WQJ06jmOLruf2vmJXD3oP/ruVbVo6K7c5qBejPkj2v3guhWwym7/L9IPOfCrVJ\nPE/hXlrlMuKl3oUrvejSgErayNg7IpxTLof63gH0AQKBgQDwX9Q4oQGIig5KjghE\nywRBZDO5fvxUdqVCZm934vAJdcOp+s4UP8WsxLwsFIRGnpbzNdx1rDjlOIVHyIqA\nKTei4FnokhE4YO3zkZVEFFzmohGuod5xUjv4JfXoznpTZHcsTLBM9JAuqkFFmzna\n+mn58dd2rNrkcfMLR6eRzhZV4QKBgQDENUYE3uB+bSinzXdZl2qvH1T4d6lLCedq\npc0PD2DH7yqP/4sZnlHa3gBRlNsAiU1Bbzvphn7aStT+sy51mozO3QpEDmlzd4ME\npQ10iM4RecWs7j/ZdCrgUVdQeDc/Hua7qnX5o4gYFxgLT6Q2f++FXuKa64i0c0UK\ntqUCduwjdwKBgQCnFNU8751TPTMl24gf2UYB9haGD6BxTW8dsno0yQe0a6kv0+e+\n530N1EpAEZrIQ6AFOiEdojKCEkGCXgD3iK7lhjC4mh9iIu4DaeRpSAYzQeAslNM7\nzb9lg21k/3DD2oeDwWKiezRlW263ZWhXr8xOMi5kjU4xkIsyAgKWNLwNwQKBgQCc\nmXR4ILcG0PL48ynF7O8uNJCp+z+4b4Avg4Ol+H0jNkU/RxNrcAwe5r9UXb1psSxj\nBHfKDBmk+sMDQlnbbW3jEVLHPMV3bjS4+U9C6ommMw3N1x5I3cn23ZUV2c0maPB5\najTc+WN+7re3F2qWQQgX58JvKXwjojjBs0MCM46HQwKBgB3n6kxtZlBnbJUfzbBJ\nLNmeM/40ledjVvsap7wMH+S5h9rR8P95rlla7xhnVvatX9KX9IY3L/GMb0lSOL2P\n2ubyv3ANTLWweYoJ2Peqzvn6pR4YkhZtJR1YyihbeeIMgcMpv5j77XsM/RRIXjyw\nNYg1MU+Bh8LdGrpFtswG1uG0\n-----END PRIVATE KEY-----\n",
-            "client_email": "workshop-reflections@cs-ed-lab.iam.gserviceaccount.com",
-            "client_id": "107115301171711267283",
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://oauth2.googleapis.com/token",
-            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/workshop-reflections%40cs-ed-lab.iam.gserviceaccount.com",
-            "universe_domain": "googleapis.com"
-        }
+        print("⚠️  Error: --use-embedded flag is no longer supported for security reasons.")
+        print("   Please provide a credentials file using --credentials instead.")
+        return
     elif args.credentials:
         # Load from file and determine type
         if not Path(args.credentials).exists():

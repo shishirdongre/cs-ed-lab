@@ -1,0 +1,59 @@
+PROGRESS REPORT - Java ML Project Workshop Development
+
+COMPLETED WORK:
+
+Java Implementation with Spark ML:
+- Completed Java implementation of sentiment analysis using Apache Spark ML
+- File: java-ml-project/YelpSentimentAnalysisSpark.java
+- Full ML pipeline: data loading, preprocessing, feature extraction (Tokenizer, StopWordsRemover, HashingTF, IDF), LinearSVC training, evaluation, and prediction
+
+Python Notebook Refactoring:
+- Refactored Python notebook to use Spark for distributed processing
+- File: colab/Yelp_Sentiment_Workshop.ipynb
+- Added reflection questions throughout at key learning points using reflection_box helper function
+- Questions follow pedagogical best practices: open-ended, metacognitive, non-leading
+
+Lab Manual for Java:
+- Created comprehensive lab manual for Java covering Spark ML concepts
+- File: java-ml-project/LAB_MANUAL.md
+- Includes code examples and explanations for educational use
+
+Google Form Creation:
+- Created comprehensive Google Form with all workshop questions
+- Form includes pre-survey, stage-by-stage questions, and post-reveal reflection questions
+- Total of 374 individual questions (expanded from 132 question groups)
+- Form successfully created and accessible for review
+
+HOW THE FORM WAS CREATED:
+
+Question Files:
+- All questions stored as JSON files in: java-ml-project/questions/
+- Each question file follows a structured JSON format with type, title, description, and question-specific fields
+- Question types include: paragraph, short_answer, scale, checkbox, multiple_choice, and group (which expands into sub-questions)
+- Files are numbered sequentially (000_student_id.json, 001_section_pre_survey.json, etc.) to maintain order
+- Post-reveal questions created for each reveal section (094_post_reveal_0_1.json through 131_post_reveal_7_1e.json)
+
+Form Creation Script:
+- Script: java-ml-project/create_google_form.py
+- Script reads all JSON files from questions/ directory in sorted order
+- Expands question groups into individual form items
+- Uses Google Forms API to create form and add questions
+- Processes questions in batches of 20 to avoid API limits
+- Handles OAuth authentication with provided credentials file
+
+CURRENT STATUS:
+
+Google Form - Draft Version:
+- This version serves as a comprehensive draft with 374 questions
+- Will be reduced to manageable size (target: 50-80 questions) based on:
+  - Time constraints
+  - Student attention span
+  - Feedback from pilot testing
+  - Focus on most pedagogically valuable questions
+
+NEXT STEPS:
+
+1. Review and refine Google Form - identify essential questions, reduce to manageable size
+2. Refine workshop design based on stakeholder feedback
+3. Conduct pilot testing with volunteer students
+4. Finalize all materials and prepare instructor guide

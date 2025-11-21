@@ -1,8 +1,8 @@
 {
   "type": "group",
   "title": "Post-Reveal Question 1.4: Conditional Logic in Data Transformation - Reflection",
-  "code_section": "Data Loading - Conditional Logic (Lines 157-158)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L157-L158",
+  "code_section": "Data Loading - Conditional Logic (Lines 264-267)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L264-L267",
   "instruction": "Now that you've seen the explanation about conditional logic in data transformation, let's reflect on your understanding.",
   "questions": [
     {

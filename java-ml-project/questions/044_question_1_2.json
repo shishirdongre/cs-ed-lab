@@ -1,15 +1,15 @@
 {
   "type": "group",
   "title": "Question 1.2: Reading CSV File",
-  "code_section": "Data Loading - CSV Reading (Lines 149-153)",
-  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L149-L153",
+  "code_section": "Data Loading - CSV Reading (Lines 257-261)",
+  "code_link": "https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L257-L261",
   "instruction": "This code reads data from a file. Think about what happens when you open a spreadsheet file - the program needs to know how to interpret the file format.",
   "reveal": "This code reads the CSV file into a Dataset (a structured collection of data). The `.option(\"header\", \"true\")` tells Spark that the first row contains column names. The `.option(\"inferSchema\", \"false\")` means \"don't guess the data types - use the schema we defined instead.\" The `.schema(schema)` applies the schema we created earlier, and `.csv(CSV_FILE)` specifies which file to read.",
   "questions": [
     {
       "type": "paragraph",
       "title": "Question 1.2a: What do you think this code is doing?",
-      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L149-L153\n\nWhat do you think this code is doing?"
+      "description": "Look at this code snippet:\n\nView the code here: https://github.com/shishirdongre/cs-ed-lab/blob/main/java-ml-project/YelpSentimentAnalysisSpark.java#L257-L261\n\nWhat do you think this code is doing?"
     },
     {
       "type": "short_answer",
