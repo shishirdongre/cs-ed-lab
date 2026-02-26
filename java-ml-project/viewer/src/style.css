@@ -1,0 +1,31 @@
+:root {
+  --bg: #fff;
+  --text: #202124;
+  --text-muted: #5f6368;
+  --accent: #1967d2;
+  --code-bg: #f8f9fa;
+  --btn-bg: #f1f3f4;
+  --line-num: #9aa0a6;
+  --border: #dadce0;
+  --header-height: 52px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: "Google Sans", Roboto, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}

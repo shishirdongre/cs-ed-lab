@@ -1,0 +1,18 @@
+[
+  { "id": 1, "title": "Imports (Java + Spark)", "startLine": 1, "endLine": 21, "description": "Standard Java I/O and collections, plus Apache Spark SQL and MLlib imports for datasets, sessions, and the Linear SVC classifier." },
+  { "id": 2, "title": "Class doc + ModelComponents inner class", "startLine": 23, "endLine": 46, "description": "The main class documentation and a helper class that bundles all fitted ML stages (tokenizer, stop words, TF-IDF, SVC model) for passing between methods." },
+  { "id": 3, "title": "Constants", "startLine": 48, "endLine": 51, "description": "Configuration constants: CSV path, train/test split ratio (80/20), and a fixed random seed for reproducible splits." },
+  { "id": 4, "title": "main: banner + Spark init + try", "startLine": 53, "endLine": 62, "description": "Entry point prints a banner, initializes the Spark session, and starts the try block that will run the full pipeline." },
+  { "id": 5, "title": "main: pipeline steps 1–6", "startLine": 64, "endLine": 81, "description": "The six high-level steps: load and prepare data, split into train/test, train the model, make predictions, evaluate, and test on sample reviews." },
+  { "id": 6, "title": "main: catch/finally + completion", "startLine": 83, "endLine": 94, "description": "Error handling and cleanup: catch logs errors, finally stops the Spark session, then prints the completion banner." },
+  { "id": 7, "title": "initializeSpark()", "startLine": 98, "endLine": 120, "description": "Creates a local Spark session with config that disables adaptive execution and console progress for cleaner, predictable runs." },
+  { "id": 8, "title": "loadAndPrepareData()", "startLine": 124, "endLine": 139, "description": "Loads the CSV via loadData(), prints sample count, and shows the class distribution (positive vs negative labels)." },
+  { "id": 9, "title": "splitData()", "startLine": 144, "endLine": 162, "description": "Splits the dataset into training and test sets using a fixed seed. Uses TEST_SIZE (0.2) for 80% train / 20% test." },
+  { "id": 10, "title": "trainModel() — stage definitions", "startLine": 165, "endLine": 200, "description": "Defines the ML pipeline stages: Tokenizer, StopWordsRemover, HashingTF, IDF, and Linear SVC. Each is configured with input/output column names." },
+  { "id": 11, "title": "trainModel() — fitting pipeline", "startLine": 201, "endLine": 222, "description": "Runs training data through the transformers, fits IDF and Linear SVC on train only, then returns a ModelComponents bundle for use in prediction." },
+  { "id": 12, "title": "makePredictions()", "startLine": 226, "endLine": 243, "description": "Applies the same tokenizer, stop words, HashingTF, and fitted IDF and SVC to the test set to produce predictions." },
+  { "id": 13, "title": "loadData()", "startLine": 248, "endLine": 271, "description": "Reads the CSV with a fixed schema (text, sentiment), then converts sentiment strings to numeric labels (positive=1, negative=0)." },
+  { "id": 14, "title": "evaluateModel()", "startLine": 276, "endLine": 339, "description": "Computes accuracy, precision, recall, F1; prints a metrics table, performance interpretation, and the confusion matrix with detailed counts." },
+  { "id": 15, "title": "getConfusionMatrix()", "startLine": 344, "endLine": 374, "description": "Collects predictions and builds a 2×2 confusion matrix, handling both Integer and Double label types from Spark." },
+  { "id": 16, "title": "testSampleReviews()", "startLine": 379, "endLine": 451, "description": "Runs the trained model on a fixed list of sample reviews, compares predicted vs expected sentiment, and prints a table with accuracy." }
+]
