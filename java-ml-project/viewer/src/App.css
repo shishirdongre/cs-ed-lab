@@ -40,6 +40,13 @@
   padding-top: var(--header-height, 52px);
 }
 
+.main-and-reflection {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  margin-left: 260px;
+}
+
 .sidebar {
   position: fixed;
   left: 0;
@@ -142,7 +149,6 @@
 }
 
 .main-content {
-  margin-left: 260px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -198,8 +204,11 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .main-content {
+  .main-and-reflection {
     margin-left: 0;
+  }
+
+  .main-content {
     min-height: 400px;
   }
 }

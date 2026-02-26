@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import CodeViewer from './CodeViewer'
+import ReflectionPanel from './ReflectionPanel'
 import chunksData from './chunks.json'
 import source from './source.java?raw'
 import './App.css'
@@ -67,19 +68,22 @@ export default function App() {
           </nav>
         </aside>
 
-        <main className="main-content">
-          <div className="code-viewer-wrapper">
-            <CodeViewer
-              source={source}
-              currentChunk={currentChunk}
-            />
-          </div>
-          <section className="narrative" aria-label="Explanation">
-            <p className="narrative-label">Explanation</p>
-            <h2>{currentChunk.title}</h2>
-            <p>{currentChunk.description}</p>
-          </section>
-        </main>
+        <div className="main-and-reflection">
+          <main className="main-content">
+            <div className="code-viewer-wrapper">
+              <CodeViewer
+                source={source}
+                currentChunk={currentChunk}
+              />
+            </div>
+            <section className="narrative" aria-label="Explanation">
+              <p className="narrative-label">Explanation</p>
+              <h2>{currentChunk.title}</h2>
+              <p>{currentChunk.description}</p>
+            </section>
+          </main>
+          <ReflectionPanel currentChunk={currentChunk} />
+        </div>
       </div>
     </div>
   )
