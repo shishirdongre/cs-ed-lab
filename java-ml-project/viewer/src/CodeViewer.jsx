@@ -15,14 +15,20 @@ export default function CodeViewer({ source, currentChunk }) {
   const endLine = currentChunk?.endLine ?? lines.length
 
   useEffect(() => {
-    if (!highlightRef.current || !currentChunk) return
-    highlightRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    if (!highlightRef.current || !codeContainerRef.current || !currentChunk) return
+    const container = codeContainerRef.current
+    const target = highlightRef.current
+    const targetOffset = target.offsetTop
+    const targetHeight = target.offsetHeight || 0
+    const containerHeight = container.clientHeight || 0
+    const scrollTop = Math.max(targetOffset - containerHeight / 2 + targetHeight / 2, 0)
+    container.scrollTo({ top: scrollTop, behavior: 'smooth' })
   }, [currentChunk?.id])
 
   return (
     <div className="code-viewer">
       <div className="code-viewer-header">
-        <span className="filename">YelpSentimentAnalysisSpark.java</span>
+        <span className="filename">YelpSentimentAnalysis.java</span>
         <span className="chunk-badge">
           Lines {startLine}–{endLine}
         </span>

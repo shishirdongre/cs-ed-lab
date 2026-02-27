@@ -1,7 +1,7 @@
 .reflection-panel {
   width: 360px;
   flex-shrink: 0;
-  height: calc(100vh - var(--header-height, 52px));
+  height: calc(100vh - var(--header-height, 88px));
   overflow-y: auto;
   border-left: 1px solid var(--border);
   background: #f8f9fa;

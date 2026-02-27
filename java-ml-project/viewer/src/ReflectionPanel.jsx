@@ -1,8 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
-import { saveUser, submitReflection } from './reflectionApi'
+import { useState, useEffect, useRef } from 'react'
+import { submitReflection } from './reflectionApi'
 import './ReflectionPanel.css'
-
-const RESEARCH_ID_KEY = 'workshop_research_id'
 const DEFAULT_MIN_LENGTH = 75
 
 function normalizeItems(items) {
@@ -12,9 +10,7 @@ function normalizeItems(items) {
   return Array.isArray(items) ? items : []
 }
 
-export default function ReflectionPanel({ currentChunk, onReflectSuccess }) {
-  const [userId, setUserId] = useState(() => localStorage.getItem(RESEARCH_ID_KEY) || '')
-  const [userIdInput, setUserIdInput] = useState(() => localStorage.getItem(RESEARCH_ID_KEY) || '')
+export default function ReflectionPanel({ currentChunk, userId, onReflectSuccess }) {
   const [status, setStatus] = useState('')
   const [values, setValues] = useState({}) // sectionId_itemId -> value
   const [lastSubmitted, setLastSubmitted] = useState({}) // sectionId_itemId -> value
@@ -27,19 +23,6 @@ export default function ReflectionPanel({ currentChunk, onReflectSuccess }) {
     }
   }, [currentChunk?.id])
 
-  const saveUserId = useCallback(async () => {
-    const id = (userIdInput || '').trim()
-    if (id) {
-      setUserId(id)
-      localStorage.setItem(RESEARCH_ID_KEY, id)
-      setStatus('')
-      saveUser(id)
-      // No confirmation from API; UI already shows Saved
-    } else {
-      setStatus('Please enter a Research ID.')
-    }
-  }, [userIdInput])
-
   const reflection = currentChunk?.reflection
   const sectionId = reflection?.sectionId ?? ''
   const items = reflection ? normalizeItems(reflection.items) : []
@@ -49,7 +32,8 @@ export default function ReflectionPanel({ currentChunk, onReflectSuccess }) {
   const key = (itemId) => (sectionId ? `${sectionId}_${itemId}` : itemId)
   const lengths = items.map((it) => (values[key(it.item_id)] || '').trim().length)
   const allValid = items.length > 0 && lengths.every((L) => L >= minLength)
-  const canSubmit = allValid && !!userId.trim()
+  const trimmedUserId = (userId || '').trim()
+  const canSubmit = allValid
 
   const makeCounterHtml = (n) => {
     const color = n >= minLength ? '#2e7d32' : '#b71c1c'
@@ -57,8 +41,8 @@ export default function ReflectionPanel({ currentChunk, onReflectSuccess }) {
   }
 
   const handleSubmit = () => {
-    if (!userId.trim()) {
-      setStatus('Please set your Research ID above before submitting.')
+    if (!trimmedUserId) {
+      setStatus('Please set your Research ID in the top right before submitting.')
       return
     }
     if (!allValid) {
@@ -71,7 +55,7 @@ export default function ReflectionPanel({ currentChunk, onReflectSuccess }) {
       response: (values[key(it.item_id)] || '').trim(),
     }))
     submitReflection(
-      userId,
+      trimmedUserId,
       sectionId,
       showConfidence ? confidence : undefined,
       apiItems
@@ -95,26 +79,7 @@ export default function ReflectionPanel({ currentChunk, onReflectSuccess }) {
   return (
     <aside className="reflection-panel" ref={panelScrollRef}>
       <div className="reflection-panel-inner">
-        <h3 className="reflection-panel-heading">Workshop Setup</h3>
-        <div className="reflection-user-id">
-          <label htmlFor="research-id">Research ID</label>
-          <div className="reflection-user-id-row">
-            <input
-              id="research-id"
-              type="text"
-              placeholder="Enter the Research ID your facilitator gives you"
-              value={userIdInput}
-              onChange={(e) => setUserIdInput(e.target.value)}
-              className="reflection-input"
-            />
-            <button type="button" className="reflection-save-id" onClick={saveUserId}>
-              Save
-            </button>
-          </div>
-          {userId && <p className="reflection-user-saved">Saved: {userId}</p>}
-          {status && !userId && <p className="reflection-warning">{status}</p>}
-        </div>
-
+        <h3 className="reflection-panel-heading">Reflection</h3>
         {!reflection ? (
           <p className="reflection-empty">No reflection for this chunk.</p>
         ) : (
@@ -154,7 +119,7 @@ export default function ReflectionPanel({ currentChunk, onReflectSuccess }) {
             })}
             {showConfidence && (
               <div className="reflection-confidence">
-                <label>How confident are you about your answer?</label>
+                <p><b>How confident are you about your answer? </b><br></br> 1 - Not confident, 5 - Very confident </p>
                 <div className="reflection-confidence-options">
                   {[1, 2, 3, 4, 5].map((n) => (
                     <label key={n} className="reflection-radio">
@@ -165,7 +130,7 @@ export default function ReflectionPanel({ currentChunk, onReflectSuccess }) {
                         checked={confidence === n}
                         onChange={() => setConfidence(n)}
                       />
-                      {n === 1 ? '1 (not confident)' : n === 5 ? '5 (very confident)' : n}
+                      {n === 1 ? '1 ' : n === 5 ? '5' : n}
                     </label>
                   ))}
                 </div>
@@ -179,7 +144,11 @@ export default function ReflectionPanel({ currentChunk, onReflectSuccess }) {
             >
               Submit Reflection
             </button>
-            {status && userId && <p className="reflection-status">{status}</p>}
+            {status && (
+              <p className={`reflection-status ${!trimmedUserId ? 'reflection-warning' : ''}`}>
+                {status}
+              </p>
+            )}
           </div>
         )}
       </div>
