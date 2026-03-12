@@ -14,6 +14,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: deploy
     permissions:
       id-token: write
       contents: read
@@ -53,7 +54,28 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name ${{ vars.LAMBDA_FUNCTION_NAME }} \
+            --region ${{ env.AWS_REGION }} \
             --image-uri ${{ steps.ecr-login.outputs.registry }}/${{ vars.ECR_REPOSITORY_NAME }}:latest
+          aws lambda wait function-updated \
+            --function-name ${{ vars.LAMBDA_FUNCTION_NAME }} \
+            --region ${{ env.AWS_REGION }}
+
+      - name: Update Lambda env (Google Sheets from GitHub)
+        if: vars.GOOGLE_SHEET_ID != ''
+        env:
+          GOOGLE_SHEET_ID: ${{ vars.GOOGLE_SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          CURRENT=$(aws lambda get-function-configuration \
+            --function-name ${{ vars.LAMBDA_FUNCTION_NAME }} \
+            --region ${{ env.AWS_REGION }} \
+            --query 'Environment.Variables' --output json 2>/dev/null || echo '{}')
+          ENV_JSON=$(echo "$CURRENT" | jq --arg sheet "$GOOGLE_SHEET_ID" --arg sjson "$GOOGLE_SERVICE_ACCOUNT_JSON" \
+            '.GOOGLE_SHEET_ID = $sheet | .GOOGLE_SERVICE_ACCOUNT_JSON = $sjson | {Variables: .}')
+          aws lambda update-function-configuration \
+            --function-name ${{ vars.LAMBDA_FUNCTION_NAME }} \
+            --region ${{ env.AWS_REGION }} \
+            --environment "$ENV_JSON"
 
       # Frontend build and deploy
       - name: Setup Node.js
