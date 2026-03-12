@@ -69,11 +69,49 @@ jobs:
           VITE_SENTIMENT_API_URL: ${{ vars.API_URL }}
         run: cd java-ml-project/viewer && npm run build
 
-      - name: Deploy frontend to S3
+      - name: Create deployment bucket and deploy
+        id: frontend-deploy
+        env:
+          BUCKET_BASE: ${{ vars.FRONTEND_BUCKET_BASE || 'java-workshop-frontend' }}
+          CF_DIST_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
-          aws s3 sync java-ml-project/viewer/dist \
-            s3://${{ vars.FRONTEND_BUCKET_NAME }}/ \
-            --delete
+          SUFFIX=$(date +%s)
+          BUCKET="${BUCKET_BASE}-${SUFFIX}"
+          echo "bucket_name=${BUCKET}" >> $GITHUB_OUTPUT
+          aws s3 mb "s3://${BUCKET}" --region ${{ env.AWS_REGION }}
+          ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
+          CF_ARN="arn:aws:cloudfront::${ACCOUNT}:distribution/${CF_DIST_ID}"
+          aws s3api put-bucket-policy --bucket "$BUCKET" --policy "{
+            \"Version\": \"2012-10-17\",
+            \"Statement\": [{
+              \"Sid\": \"AllowCloudFront\",
+              \"Effect\": \"Allow\",
+              \"Principal\": {\"Service\": \"cloudfront.amazonaws.com\"},
+              \"Action\": \"s3:GetObject\",
+              \"Resource\": \"arn:aws:s3:::${BUCKET}/*\",
+              \"Condition\": {\"StringEquals\": {\"AWS:SourceArn\": \"${CF_ARN}\"}}
+            }]
+          }"
+          aws s3 sync java-ml-project/viewer/dist "s3://${BUCKET}/" --delete
+          echo "Deployed to s3://${BUCKET}/"
+
+      - name: Update CloudFront origin
+        env:
+          BUCKET: ${{ steps.frontend-deploy.outputs.bucket_name }}
+          CF_DIST_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
+          AWS_REGION: ${{ env.AWS_REGION }}
+        run: |
+          ETAG=$(aws cloudfront get-distribution-config --id "$CF_DIST_ID" --query ETag --output text)
+          CONFIG=$(aws cloudfront get-distribution-config --id "$CF_DIST_ID" --output json)
+          ORIGIN_ID="S3-${BUCKET}"
+          DOMAIN="${BUCKET}.s3.${AWS_REGION}.amazonaws.com"
+          echo "$CONFIG" | jq --arg domain "$DOMAIN" --arg id "$ORIGIN_ID" \
+            '.DistributionConfig.Origins.Items[0].DomainName = $domain |
+             .DistributionConfig.Origins.Items[0].Id = $id |
+             .DistributionConfig.DefaultCacheBehavior.TargetOriginId = $id |
+             .DistributionConfig' | jq -c '.' > /tmp/cf-config.json
+          aws cloudfront update-distribution --id "$CF_DIST_ID" --if-match "$ETAG" \
+            --distribution-config file:///tmp/cf-config.json
 
       - name: Invalidate CloudFront cache
         run: |

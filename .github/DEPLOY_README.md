@@ -14,7 +14,7 @@ Triggers on push to `java_workshop` or via **Run workflow** (workflow_dispatch).
 ### Variables (Settings → Secrets and variables → Actions → Variables)
 - `ECR_REPOSITORY_NAME` – e.g. `java-workshop-sentiment-api`
 - `LAMBDA_FUNCTION_NAME` – e.g. `java-workshop-sentiment-api`
-- `FRONTEND_BUCKET_NAME` – S3 bucket for frontend
+- `FRONTEND_BUCKET_BASE` – Base name for frontend buckets (each deploy creates `{base}-{unix_seconds}`)
 - `CLOUDFRONT_DISTRIBUTION_ID` – CloudFront distribution ID
 - `API_URL` – Sentiment API base URL (e.g. `https://xxx.execute-api.us-east-1.amazonaws.com`)
 
