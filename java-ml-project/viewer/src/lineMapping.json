@@ -1,0 +1,26 @@
+{
+  "description": "Line number mapping: before (with System.out) → after (without System.out)",
+  "totalLinesBefore": 451,
+  "totalLinesAfter": 335,
+  "linesRemoved": 116,
+  "chunkMapping": [
+    { "chunkId": 1, "before": { "startLine": 1, "endLine": 21 }, "after": { "startLine": 1, "endLine": 21 } },
+    { "chunkId": 2, "before": { "startLine": 23, "endLine": 46 }, "after": { "startLine": 23, "endLine": 46 } },
+    { "chunkId": 3, "before": { "startLine": 48, "endLine": 51 }, "after": { "startLine": 49, "endLine": 51 } },
+    { "chunkId": 4, "before": { "startLine": 53, "endLine": 62 }, "after": { "startLine": 53, "endLine": 58 } },
+    { "chunkId": 5, "before": { "startLine": 64, "endLine": 81 }, "after": { "startLine": 59, "endLine": 76 } },
+    { "chunkId": "5a", "before": { "startLine": 64, "endLine": 68 }, "after": { "startLine": 59, "endLine": 63 } },
+    { "chunkId": "5b", "before": { "startLine": 70, "endLine": 75 }, "after": { "startLine": 65, "endLine": 70 } },
+    { "chunkId": 6, "before": { "startLine": 83, "endLine": 94 }, "after": { "startLine": 77, "endLine": 84 } },
+    { "chunkId": 7, "before": { "startLine": 98, "endLine": 120 }, "after": { "startLine": 86, "endLine": 106 } },
+    { "chunkId": 8, "before": { "startLine": 124, "endLine": 139 }, "after": { "startLine": 108, "endLine": 119 } },
+    { "chunkId": 9, "before": { "startLine": 144, "endLine": 162 }, "after": { "startLine": 120, "endLine": 130 } },
+    { "chunkId": 10, "before": { "startLine": 165, "endLine": 200 }, "after": { "startLine": 134, "endLine": 166 } },
+    { "chunkId": 11, "before": { "startLine": 201, "endLine": 222 }, "after": { "startLine": 159, "endLine": 174 } },
+    { "chunkId": 12, "before": { "startLine": 226, "endLine": 243 }, "after": { "startLine": 178, "endLine": 188 } },
+    { "chunkId": 13, "before": { "startLine": 248, "endLine": 271 }, "after": { "startLine": 193, "endLine": 215 } },
+    { "chunkId": 14, "before": { "startLine": 276, "endLine": 339 }, "after": { "startLine": 217, "endLine": 241 } },
+    { "chunkId": 15, "before": { "startLine": 344, "endLine": 374 }, "after": { "startLine": 244, "endLine": 274 } },
+    { "chunkId": 16, "before": { "startLine": 379, "endLine": 451 }, "after": { "startLine": 276, "endLine": 334 } }
+  ]
+}

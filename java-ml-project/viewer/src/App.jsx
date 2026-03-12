@@ -1,19 +1,58 @@
 import { useState, useEffect } from 'react'
 import CodeViewer from './CodeViewer'
 import ReflectionPanel from './ReflectionPanel'
+import SectionReflectionForm from './SectionReflectionForm'
 import chunksData from './chunks.json'
-import source from './source.java?raw'
+import { sources } from './sources'
+import { getDisplayName } from './fileDisplayNames'
 import { saveUser } from './reflectionApi'
+import { SUBSECTION_EXPLANATIONS } from './subsectionExplanations'
 import './App.css'
 
 const RESEARCH_ID_KEY = 'workshop_research_id'
+const COMPLETED_CHUNKS_KEY = 'workshop_completed_chunks'
+
+function getSubStepIdsForStep(chunks, step) {
+  return chunks.filter((c) => c.step === step && c.substep != null).map((c) => c.id)
+}
+
+function isStepHeaderComplete(chunks, step, completedChunkIds) {
+  const subIds = getSubStepIdsForStep(chunks, step)
+  return subIds.length > 0 && subIds.every((id) => completedChunkIds.includes(id))
+}
+
+function getFirstSubStepIndex(chunks) {
+  const i = chunks.findIndex((c) => c.substep != null)
+  return i >= 0 ? i : 0
+}
+
+function getNextSubStepIndex(chunks, currentIndex) {
+  for (let i = currentIndex + 1; i < chunks.length; i++) {
+    if (chunks[i].substep != null) return i
+  }
+  return currentIndex
+}
+
+function getPrevSubStepIndex(chunks, currentIndex) {
+  for (let i = currentIndex - 1; i >= 0; i--) {
+    if (chunks[i].substep != null) return i
+  }
+  return currentIndex
+}
 
 export default function App() {
-  const [stepIndex, setStepIndex] = useState(0)
+  const [stepIndex, setStepIndex] = useState(() => getFirstSubStepIndex(chunksData))
   const [userId, setUserId] = useState(() => localStorage.getItem(RESEARCH_ID_KEY) || '')
   const [userIdInput, setUserIdInput] = useState(() => localStorage.getItem(RESEARCH_ID_KEY) || '')
   const [userStatus, setUserStatus] = useState('')
-  const [completedChunkIds, setCompletedChunkIds] = useState([])
+  const [completedChunkIds, setCompletedChunkIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem(COMPLETED_CHUNKS_KEY)
+      return saved ? JSON.parse(saved) : []
+    } catch {
+      return []
+    }
+  })
   const chunks = chunksData
   const currentChunk = chunks[stepIndex]
 
@@ -21,9 +60,9 @@ export default function App() {
     const handleKeyDown = (e) => {
       if (e.target.closest('input, textarea, select')) return
       if (e.key === 'ArrowLeft') {
-        setStepIndex((i) => Math.max(0, i - 1))
+        setStepIndex((i) => getPrevSubStepIndex(chunks, i))
       } else if (e.key === 'ArrowRight') {
-        setStepIndex((i) => Math.min(chunks.length - 1, i + 1))
+        setStepIndex((i) => getNextSubStepIndex(chunks, i))
       }
     }
     window.addEventListener('keydown', handleKeyDown)
@@ -47,8 +86,18 @@ export default function App() {
   }
 
   const handleReflectSuccess = (chunkId) => {
-    setCompletedChunkIds((prev) => (prev.includes(chunkId) ? prev : [...prev, chunkId]))
+    setCompletedChunkIds((prev) => {
+      if (prev.includes(chunkId)) return prev
+      const next = [...prev, chunkId]
+      try {
+        localStorage.setItem(COMPLETED_CHUNKS_KEY, JSON.stringify(next))
+      } catch {}
+      return next
+    })
   }
+
+  const goToNext = () => setStepIndex((i) => getNextSubStepIndex(chunks, i))
+  const goToPrevious = () => setStepIndex((i) => getPrevSubStepIndex(chunks, i))
 
   return (
     <div className="app">
@@ -82,72 +131,103 @@ export default function App() {
       <div className="app-body">
         <aside className="sidebar">
           <nav className="chunk-nav">
-            <div className="nav-buttons">
-              <button
-                onClick={() => setStepIndex((i) => Math.max(0, i - 1))}
-                disabled={stepIndex === 0}
-                title="Previous chunk (←)"
-              >
-                ← Previous
-              </button>
-              <button
-                onClick={() => setStepIndex((i) => Math.min(chunks.length - 1, i + 1))}
-                disabled={stepIndex === chunks.length - 1}
-                title="Next chunk (→)"
-              >
-                Next →
-              </button>
-            </div>
             <div className="step-indicator">
-              Step {stepIndex + 1} of {chunks.length}
+              {currentChunk.substep != null
+                ? `Step ${currentChunk.step}.${currentChunk.substep} (Step ${currentChunk.step} of 6)`
+                : `Step ${currentChunk.step} of 6`}
             </div>
             <ul className="chunk-list" aria-label="Chunk list">
               {chunks.map((chunk, i) => {
                 const isActive = i === stepIndex
-                const isCompleted = completedChunkIds.includes(chunk.id)
-                const isSubChunk = chunk.parentId != null
+                const isStepHeader = chunk.substep == null
+                const isSubStep = chunk.substep != null
+                const isCompleted = isStepHeader
+                  ? isStepHeaderComplete(chunks, chunk.step, completedChunkIds)
+                  : completedChunkIds.includes(chunk.id)
+                const stepLabel = isStepHeader ? chunk.step : `${chunk.step}.${chunk.substep}`
+                const content = (
+                  <>
+                    <span
+                      className={`chunk-status ${isCompleted ? 'complete' : 'incomplete'}`}
+                      aria-label={
+                        isCompleted ? 'All reflections submitted for this chunk' : 'Reflections incomplete for this chunk'
+                      }
+                    >
+                      ✓
+                    </span>
+                    <span className="chunk-num">{stepLabel}</span>
+                    <span className="chunk-title">{chunk.title}</span>
+                    {!isStepHeader && (
+                      <span className="chunk-lines" title={`${getDisplayName(chunk.file)}.java: ${chunk.startLine}–${chunk.endLine}`}>
+                        {chunk.startLine}–{chunk.endLine}
+                      </span>
+                    )}
+                  </>
+                )
                 return (
                   <li key={chunk.id}>
-                    <button
-                      className={`chunk-item ${isActive ? 'active' : ''} ${isSubChunk ? 'chunk-item-indent' : ''}`}
-                      onClick={() => setStepIndex(i)}
-                    >
-                      <span
-                        className={`chunk-status ${isCompleted ? 'complete' : 'incomplete'}`}
-                        aria-label={
-                          isCompleted ? 'All reflections submitted for this chunk' : 'Reflections incomplete for this chunk'
-                        }
+                    {isStepHeader ? (
+                      <div
+                        className={`chunk-item chunk-item-header ${isCompleted ? 'chunk-item-completed' : ''}`}
+                        aria-hidden="true"
                       >
-                        {isCompleted ? '✓' : '✗'}
-                      </span>
-                      <span className="chunk-num">{chunk.id}</span>
-                      <span className="chunk-title">{chunk.title}</span>
-                    </button>
+                        {content}
+                      </div>
+                    ) : (
+                      <button
+                        className={`chunk-item chunk-item-indent ${isActive ? 'active' : ''} ${isCompleted ? 'chunk-item-completed' : ''}`}
+                        onClick={() => setStepIndex(i)}
+                      >
+                        {content}
+                      </button>
+                    )}
                   </li>
                 )
               })}
             </ul>
+            {currentChunk?.substep != null && (
+              <SectionReflectionForm
+                chunk={currentChunk}
+                userId={userId}
+                onReflectSuccess={handleReflectSuccess}
+                onGoToNext={goToNext}
+                hasNext={getNextSubStepIndex(chunks, stepIndex) !== stepIndex}
+              />
+            )}
           </nav>
         </aside>
 
         <div className="main-and-reflection">
           <main className="main-content">
-            <div className="code-viewer-wrapper">
-              <CodeViewer
-                source={source}
-                currentChunk={currentChunk}
-              />
-            </div>
             <section className="narrative" aria-label="Explanation">
               <p className="narrative-label">Explanation</p>
               <h2>{currentChunk.title}</h2>
-              <p>{currentChunk.description}</p>
+              {SUBSECTION_EXPLANATIONS[currentChunk.id] ? (
+                SUBSECTION_EXPLANATIONS[currentChunk.id]
+                  .trim()
+                  .split(/\n\n+/)
+                  .map((para, i) => <p key={i}>{para}</p>)
+              ) : (
+                <p>{currentChunk.description}</p>
+              )}
             </section>
+            <div className="code-viewer-wrapper">
+              <CodeViewer
+                sources={sources}
+                currentChunk={currentChunk}
+              />
+            </div>
           </main>
           <ReflectionPanel
             currentChunk={currentChunk}
             userId={userId}
+            stepIndex={stepIndex}
+            chunksLength={chunks.length}
+            hasNext={getNextSubStepIndex(chunks, stepIndex) !== stepIndex}
+            hasPrevious={getPrevSubStepIndex(chunks, stepIndex) !== stepIndex}
             onReflectSuccess={handleReflectSuccess}
+            onGoToNext={goToNext}
+            onGoToPrevious={goToPrevious}
           />
         </div>
       </div>
