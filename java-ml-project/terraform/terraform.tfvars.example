@@ -1,0 +1,6 @@
+# Copy to terraform.tfvars and fill in values
+
+aws_region            = "us-east-1"
+environment           = "prod"
+project_name          = "java-workshop"
+frontend_bucket_name  = "your-unique-bucket-name-java-workshop"  # Must be globally unique

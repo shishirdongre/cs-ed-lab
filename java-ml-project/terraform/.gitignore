@@ -1,0 +1,5 @@
+# Provider plugins - do not commit (large binaries)
+.terraform/
+
+# Allow committing terraform.tfstate and terraform.tfstate.backup
+# (State is stored locally in this directory)

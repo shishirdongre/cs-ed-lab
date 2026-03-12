@@ -1,0 +1,82 @@
+# Deploy Java Workshop on push to java_workshop
+# Builds Lambda (sentiment-spark → Lambda image), frontend, deploys to S3 + CloudFront
+
+name: Deploy Java Workshop
+
+on:
+  push:
+    branches: [java_workshop]
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        # If not using OIDC, set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY secrets
+        # and remove role-to-assume above
+
+      - name: Login to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # 1. Build Java model (existing java-ml-project Dockerfile)
+      - name: Build sentiment-spark (Java model)
+        run: docker build -t sentiment-spark java-ml-project
+
+      # 2. Build Lambda image (uses sentiment-spark as source)
+      - name: Build Lambda image
+        run: docker build -f sentiment-api/Dockerfile.lambda -t sentiment-api-lambda .
+
+      - name: Tag and push Lambda image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY_NAME }}
+        run: |
+          docker tag sentiment-api-lambda:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      - name: Update Lambda function
+        run: |
+          aws lambda update-function-code \
+            --function-name ${{ vars.LAMBDA_FUNCTION_NAME }} \
+            --image-uri ${{ steps.ecr-login.outputs.registry }}/${{ vars.ECR_REPOSITORY_NAME }}:latest
+
+      # Frontend build and deploy
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install frontend dependencies
+        run: cd java-ml-project/viewer && npm install
+
+      - name: Build frontend
+        env:
+          VITE_SENTIMENT_API_URL: ${{ vars.API_URL }}
+        run: cd java-ml-project/viewer && npm run build
+
+      - name: Deploy frontend to S3
+        run: |
+          aws s3 sync java-ml-project/viewer/dist \
+            s3://${{ vars.FRONTEND_BUCKET_NAME }}/ \
+            --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"

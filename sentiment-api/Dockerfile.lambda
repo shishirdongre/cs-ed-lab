@@ -1,0 +1,28 @@
+# AWS Lambda container for sentiment API
+# Uses the Java model built by java-ml-project/Dockerfile (sentiment-spark image).
+#
+# Build order:
+#   1. docker build -t sentiment-spark java-ml-project
+#   2. docker build -f sentiment-api/Dockerfile.lambda -t sentiment-api-lambda .
+#
+# The Lambda handler runs Java SentimentPredictorApp directly (no Docker-in-Docker).
+
+# Stage 1: Copy model and classes from the existing Java Docker image
+# Must build first: docker build -t sentiment-spark java-ml-project
+FROM sentiment-spark AS java-model
+
+# Stage 2: AWS Lambda base with Node.js + Java
+FROM public.ecr.aws/lambda/nodejs:20
+
+RUN dnf install -y java-11-amazon-corretto-headless && dnf clean all
+
+# Copy Java build artifacts from sentiment-spark image
+COPY --from=java-model /app/target/classes /var/task/target/classes
+COPY --from=java-model /app/target/dependency /var/task/target/dependency
+COPY --from=java-model /app/saved_sentiment_model /var/task/saved_sentiment_model
+COPY --from=java-model /app/simple_yelp_reviews.csv /var/task/
+
+# Copy Lambda handler
+COPY sentiment-api/lambda/index.js /var/task/
+
+CMD ["index.handler"]
