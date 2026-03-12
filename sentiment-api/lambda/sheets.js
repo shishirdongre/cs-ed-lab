@@ -111,12 +111,22 @@ async function saveUser(userId) {
  * Append reflection rows to the user's sheet.
  */
 async function submitReflection(userId, sectionId, confidence, items) {
+  console.log('[sheets] submitReflection called', { userId, sectionId, confidence, itemsCount: items?.length });
   const sheets = getSheetsClient();
   const sheetId = getSheetId();
-  if (!sheets || !sheetId) return;
+  if (!sheets || !sheetId) {
+    console.log('[sheets] No Sheets client or sheetId - skipping (GOOGLE_SHEET_ID or GOOGLE_SERVICE_ACCOUNT_JSON not set)');
+    return;
+  }
 
   const title = sanitizeSheetTitle(userId);
-  if (!title || !items?.length) return;
+  if (!title || !items?.length) {
+    console.log('[sheets] Skipping: empty title or items', { title, itemsLen: items?.length });
+    return;
+  }
+
+  // Ensure user sheet exists (create if needed) before appending
+  await saveUser(userId);
 
   const ts = new Date().toISOString();
   const rows = items.map((it) => [
@@ -130,12 +140,14 @@ async function submitReflection(userId, sectionId, confidence, items) {
   ]);
 
   try {
+    console.log('[sheets] Appending %d rows to sheet "%s"', rows.length, title);
     await sheets.spreadsheets.values.append({
       spreadsheetId: sheetId,
       range: sheetRange(title),
       valueInputOption: 'USER_ENTERED',
       requestBody: { values: rows },
     });
+    console.log('[sheets] Reflection appended successfully');
   } catch (e) {
     console.error('[sheets] submitReflection failed:', e?.message ?? e);
     throw e;
