@@ -26,11 +26,16 @@ export default function CodeViewer({ sources, currentChunk }) {
     if (!highlightRef.current || !codeContainerRef.current || !currentChunk) return
     const container = codeContainerRef.current
     const target = highlightRef.current
-    const targetOffset = target.offsetTop
-    const targetHeight = target.offsetHeight || 0
-    const containerHeight = container.clientHeight || 0
-    const scrollTop = Math.max(targetOffset - containerHeight / 2 + targetHeight / 2, 0)
-    container.scrollTo({ top: scrollTop, behavior: 'smooth' })
+    const scrollToHighlight = () => {
+      const targetRect = target.getBoundingClientRect()
+      const containerRect = container.getBoundingClientRect()
+      const targetHeight = targetRect.height
+      const containerHeight = container.clientHeight
+      const targetOffsetInContent = targetRect.top - containerRect.top + container.scrollTop
+      const scrollTop = Math.max(targetOffsetInContent - containerHeight / 2 + targetHeight / 2, 0)
+      container.scrollTo({ top: scrollTop, behavior: 'smooth' })
+    }
+    requestAnimationFrame(() => requestAnimationFrame(scrollToHighlight))
   }, [currentChunk?.id])
 
   return (

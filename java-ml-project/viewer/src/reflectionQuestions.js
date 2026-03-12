@@ -13,7 +13,7 @@ export const REFLECTION_QUESTIONS = {
     items: [{ item_id: 'main_try_main', question: 'Describe the structure of the main method and its error handling.' }],
   },
   '1.3': {
-    title: 'Reflection: 1.3 SparkInitializer.createSession()',
+    title: 'Reflection: 1.3 SparkInitializer',
     items: [{ item_id: 'spark_init_main', question: 'What configuration choices are made when creating the Spark session?' }],
   },
   '1.4': {
