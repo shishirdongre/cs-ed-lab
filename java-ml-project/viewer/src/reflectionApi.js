@@ -1,27 +1,26 @@
 /**
  * Google Sheets integration from the frontend using service account (no backend).
  * No confirmation returned to the UI; sends are fire-and-forget.
+ *
+ * CREDENTIALS REMOVED: Do not put service account keys in source. Use env vars
+ * or a backend API. When disabled, Research ID is saved to localStorage only.
  */
 
 import * as jose from 'jose'
-/*
+
+// Disabled: no credentials in source. Set via env (VITE_SHEET_ID, etc.) or use a backend.
 const SHEET_ID = ''
 const SCOPES = [
   'https://www.googleapis.com/auth/spreadsheets',
   'https://www.googleapis.com/auth/drive',
 ]
-
-const SERVICE_ACCOUNT_INFO = {
-  type: 'service_account',
-  project_id: '',
-  private_key_id: '',
-  private_key: `-----BEGIN PRIVATE KEY----
------END PRIVATE KEY-----`,
-  client_email: '',
-  token_uri: '',
-}  */
+const SERVICE_ACCOUNT_INFO = null
 
 const RESEARCH_ID_KEY = 'workshop_research_id'
+
+function isSheetsConfigured() {
+  return SHEET_ID && SERVICE_ACCOUNT_INFO?.private_key
+}
 
 function sanitizeSheetTitle(raw) {
   const bad = [':', '\\', '/', '?', '*', '[', ']']
@@ -35,6 +34,7 @@ let cachedToken = null
 let tokenExpiry = 0
 
 async function getAccessToken() {
+  if (!SERVICE_ACCOUNT_INFO?.private_key) return null
   if (cachedToken && Date.now() < tokenExpiry - 60000) return cachedToken
   const key = await jose.importPKCS8(SERVICE_ACCOUNT_INFO.private_key, 'RS256')
   const payload = { scope: SCOPES.join(' ') }
@@ -75,8 +75,13 @@ function sheetRange(title) {
 export async function saveUser(userId) {
   const title = sanitizeSheetTitle(userId)
   if (!title) return
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem(RESEARCH_ID_KEY, userId)
+  }
+  if (!isSheetsConfigured()) return
   try {
     const token = await getAccessToken()
+    if (!token) return
     const res = await fetch(
       `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?fields=sheets.properties`,
       { headers: { Authorization: `Bearer ${token}` } }
@@ -135,9 +140,6 @@ export async function saveUser(userId) {
       )
       if (!appendRes.ok) throw new Error(await appendRes.text())
     }
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem(RESEARCH_ID_KEY, userId)
-    }
   } catch (e) {
     console.error('[reflectionApi] saveUser failed:', e?.message ?? e)
   }
@@ -153,8 +155,10 @@ export function reflect(userId, sectionId, items, confidence) {
 export async function submitReflection(userId, sectionId, confidence, items) {
   const title = sanitizeSheetTitle(userId)
   if (!title || !items || !items.length) return
+  if (!isSheetsConfigured()) return
   try {
     const token = await getAccessToken()
+    if (!token) return
     const ts = new Date().toISOString()
     const rows = items.map((it) => [
       ts,

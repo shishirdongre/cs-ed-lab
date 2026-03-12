@@ -21,6 +21,8 @@ function runPrediction(review) {
 
     const child = spawn('java', [
       '-Xmx1500m',
+      '-DAWS_LAMBDA=1',
+      '-Djava.io.tmpdir=/tmp',
       '-cp', JAVA_CP,
       'SentimentPredictorApp',
       review,
@@ -28,6 +30,7 @@ function runPrediction(review) {
     ], {
       cwd: APP_DIR,
       stdio: ['pipe', 'pipe', 'pipe'],
+      env: { ...process.env, AWS_LAMBDA_FUNCTION_NAME: process.env.AWS_LAMBDA_FUNCTION_NAME || 'java-workshop-sentiment-api' },
     });
 
     console.log('[DEBUG] Java process spawned, pid:', child.pid);
@@ -61,9 +64,10 @@ function runPrediction(review) {
           fs.unlinkSync(outputFile);
           resolve(JSON.parse(data));
         } else {
-          if (stdout) console.error('[DEBUG] Java stdout (full):', stdout);
-          if (stderr) console.error('[DEBUG] Java stderr (full):', stderr);
-          reject(new Error(`Process exited with code ${code}${stderr ? ': ' + stderr.trim().slice(0, 500) : ''}`));
+          const errDetail = [stdout, stderr].filter(Boolean).join('\n').trim().slice(0, 1000);
+          console.error('[DEBUG] Java exit', code, 'stdout:', stdout?.slice(-500));
+          console.error('[DEBUG] Java stderr:', stderr?.slice(-500));
+          reject(new Error(`Process exited with code ${code}${errDetail ? '\n' + errDetail : ''}`));
         }
       } catch (err) {
         if (fs.existsSync(outputFile)) fs.unlinkSync(outputFile);

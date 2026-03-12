@@ -88,11 +88,11 @@ Each metric gives a different view of performance. Accuracy is simple but can be
 
 The confusion matrix shows where the model makes mistakes. For example, a high count in matrix[1][0] means we often miss positive reviews (predict negative when they’re positive). This is more informative than a single accuracy number.`,
 
-  '6.1': `run loops over a list of sample reviews. For each review, we create a small DataFrame with one row using spark.createDataFrame and a schema (text and label). We use label 0 as a placeholder since we don’t need the true label for prediction. predictor.transform applies the full pipeline and returns the prediction.
+  '6.1': `run loops over a list of sample reviews. For each review, we create a small DataFrame with one row using spark.createDataFrame and a schema (text and label). We use label 0 as a placeholder since we don't need the true label for prediction. predictor.transform applies the full pipeline and returns the prediction.
 
-We extract the predicted label from the result row. The prediction is 0 or 1; we convert it to "positive" or "negative" for display. This demonstrates how to use the model on brand-new text that wasn’t in the training or test set.`,
+We extract the predicted label from the result row. The prediction is 0 or 1; we convert it to "positive" or "negative" for display. This demonstrates how to use the model on brand-new text that wasn't in the training or test set.`,
 
   '6.2': `In main, we create a SampleReviewTester and call sampleTester.run(model, spark). We pass the trained model and the SparkSession. The tester uses them to run predictions on its built-in list of sample reviews.
 
-This is the final step of the pipeline: after loading, splitting, training, evaluating, we try the model on a few example sentences to see it in action. It’s a quick sanity check that the model produces sensible outputs.`,
+This is the final step of the pipeline: after loading, splitting, training, evaluating, we try the model on a few example sentences to see it in action. It's a quick sanity check that the model produces sensible outputs.`,
 }

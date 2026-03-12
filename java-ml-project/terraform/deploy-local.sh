@@ -15,6 +15,7 @@ unset AWS_REGION FRONTEND_BUCKET_NAME CLOUDFRONT_ID API_URL ECR_REPOSITORY_URL 2
 AWS_REGION="$(terraform output -raw aws_region 2>/dev/null)"
 FRONTEND_BUCKET_NAME="$(terraform output -raw frontend_bucket_name 2>/dev/null)"
 CLOUDFRONT_ID="$(terraform output -raw cloudfront_id 2>/dev/null)"
+CLOUDFRONT_URL="$(terraform output -raw cloudfront_url 2>/dev/null)"
 API_URL="$(terraform output -raw api_url 2>/dev/null)"
 ECR_FULL="$(terraform output -raw ecr_repository_url 2>/dev/null)"
 ECR_REGISTRY="${ECR_FULL%%/*}"
@@ -79,4 +80,5 @@ aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_ID" --paths "/
 
 echo ""
 echo "Deployment complete."
+echo "Frontend: $CLOUDFRONT_URL"
 echo "API: $API_URL"
