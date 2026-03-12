@@ -1,8 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
+const sheets = require('./lambda/sheets');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -77,7 +79,37 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+app.post('/save-user', async (req, res) => {
+  const userId = (req.body?.userId || req.body?.user_id || '').trim();
+  if (!userId) {
+    return res.status(400).json({ error: 'Missing userId' });
+  }
+  try {
+    await sheets.saveUser(userId);
+    res.json({ ok: true });
+  } catch (e) {
+    console.error('[save-user]', e?.message ?? e);
+    res.status(500).json({ error: e?.message || 'Failed' });
+  }
+});
+
+app.post('/reflect', async (req, res) => {
+  const { userId, sectionId, confidence, items } = req.body || {};
+  if (!userId || !items?.length) {
+    return res.status(400).json({ error: 'Missing userId or items' });
+  }
+  try {
+    await sheets.submitReflection(userId, sectionId || '', confidence, items);
+    res.json({ ok: true });
+  } catch (e) {
+    console.error('[reflect]', e?.message ?? e);
+    res.status(500).json({ error: e?.message || 'Failed' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Sentiment API running on http://localhost:${PORT}`);
-  console.log('POST /predict with { "review": "your review text" }');
+  console.log('  POST /predict   - sentiment analysis');
+  console.log('  POST /save-user - register Research ID');
+  console.log('  POST /reflect   - submit reflection');
 });

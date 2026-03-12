@@ -1,0 +1,9 @@
+{
+  "name": "sentiment-api-lambda",
+  "version": "1.0.0",
+  "description": "Lambda handler: sentiment + reflection to Sheets",
+  "main": "index.js",
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}

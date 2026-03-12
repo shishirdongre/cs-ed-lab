@@ -1,9 +1,10 @@
 #!/bin/zsh
 # Run Terraform with variables from environment.
-# No fallbacks - set all required vars.
+# Sources .env if present (gitignored; copy from .env.example).
 
 set -e
 cd "$(dirname "$0")"
+[[ -f .env ]] && set -a && source .env && set +a
 
 REQUIRED_VARS=(
   AWS_REGION

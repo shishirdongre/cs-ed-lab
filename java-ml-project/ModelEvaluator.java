@@ -23,6 +23,16 @@ public class ModelEvaluator {
         double f1 = evaluator.setMetricName("f1").evaluate(predictions);
 
         long[][] confusionMatrix = getConfusionMatrix(predictions);
+
+        System.out.println("\n=== Model Evaluation ===");
+        System.out.printf("Accuracy:  %.2f%%%n", accuracy * 100);
+        System.out.printf("Precision: %.2f%%%n", precision * 100);
+        System.out.printf("Recall:    %.2f%%%n", recall * 100);
+        System.out.printf("F1:        %.2f%%%n", f1 * 100);
+        System.out.println("Confusion matrix (rows=actual, cols=predicted):");
+        System.out.printf("  TN=%d  FP=%d%n", confusionMatrix[0][0], confusionMatrix[0][1]);
+        System.out.printf("  FN=%d  TP=%d%n", confusionMatrix[1][0], confusionMatrix[1][1]);
+        System.out.println("========================\n");
     }
 
     /**

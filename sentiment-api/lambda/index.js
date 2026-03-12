@@ -1,9 +1,10 @@
 /**
- * AWS Lambda handler for sentiment API.
- * Runs Java SentimentPredictorApp directly (no Docker).
+ * AWS Lambda handler for sentiment API + reflection to Google Sheets.
+ * Runs Java SentimentPredictorApp for predictions; delegates reflection to sheets.js.
  */
 
 const { spawn } = require('child_process');
+const sheets = require('./sheets');
 const path = require('path');
 const fs = require('fs');
 
@@ -117,6 +118,46 @@ exports.handler = async (event) => {
       },
       body: '',
     };
+  }
+
+  if (method === 'POST' && reqPath === '/save-user') {
+    let body;
+    try {
+      body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body || {};
+    } catch (e) {
+      return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Invalid JSON' }) };
+    }
+    const userId = (body.userId || body.user_id || '').trim();
+    if (!userId) {
+      return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Missing userId' }) };
+    }
+    try {
+      await sheets.saveUser(userId);
+      return { statusCode: 200, headers: corsHeaders(), body: JSON.stringify({ ok: true }) };
+    } catch (e) {
+      console.error('[save-user]', e?.message ?? e);
+      return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: e?.message || 'Failed' }) };
+    }
+  }
+
+  if (method === 'POST' && reqPath === '/reflect') {
+    let body;
+    try {
+      body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body || {};
+    } catch (e) {
+      return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Invalid JSON' }) };
+    }
+    const { userId, sectionId, confidence, items } = body;
+    if (!userId || !items?.length) {
+      return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Missing userId or items' }) };
+    }
+    try {
+      await sheets.submitReflection(userId, sectionId || '', confidence, items);
+      return { statusCode: 200, headers: corsHeaders(), body: JSON.stringify({ ok: true }) };
+    } catch (e) {
+      console.error('[reflect]', e?.message ?? e);
+      return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: e?.message || 'Failed' }) };
+    }
   }
 
   if (method === 'POST' && reqPath === '/predict') {

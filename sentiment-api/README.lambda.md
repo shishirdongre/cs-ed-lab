@@ -11,3 +11,21 @@ docker build -f sentiment-api/Dockerfile.lambda -t sentiment-api-lambda .
 ```
 
 The Lambda handler (`sentiment-api/lambda/index.js`) runs `SentimentPredictorApp` via Java directly—no Docker-in-Docker.
+
+## Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | /health | Health check |
+| POST | /predict | Sentiment prediction |
+| POST | /save-user | Save Research ID, create sheet if needed |
+| POST | /reflect | Submit reflection rows to Google Sheet |
+
+## Reflection → Google Sheets
+
+Set Lambda env vars to enable reflection submissions:
+
+- `GOOGLE_SHEET_ID` – Spreadsheet ID
+- `GOOGLE_SERVICE_ACCOUNT_JSON` – Service account JSON (raw or base64)
+
+If not set, `/save-user` and `/reflect` return 200 but do nothing.

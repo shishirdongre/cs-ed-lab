@@ -63,6 +63,16 @@ Create S3 bucket, CloudFront, Lambda, API Gateway, ECR.
 
 ### 3a. Set required variables (no fallbacks)
 
+Copy the example env file and edit:
+
+```bash
+cd java-ml-project/terraform
+cp .env.example .env
+# Edit .env with your values (it's gitignored)
+```
+
+Or export manually:
+
 ```bash
 export AWS_REGION="us-west-1"
 export FRONTEND_BUCKET_NAME="java-workshop-yourname-$(date +%s)"
@@ -70,7 +80,7 @@ export ENVIRONMENT="prod"
 export PROJECT_NAME="java-workshop"
 ```
 
-Bucket name must be **globally unique** across all AWS accounts.
+`run.sh` sources `.env` automatically if present. Bucket name must be **globally unique**.
 
 ### 3b. Run Terraform
 

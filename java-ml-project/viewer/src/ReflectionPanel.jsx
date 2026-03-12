@@ -119,7 +119,7 @@ export default function ReflectionPanel({ currentChunk, userId, stepIndex, chunk
         {showSentimentForm && (
           <section className="sentiment-section">
             <h3 className="reflection-panel-heading">Try Sentiment Analysis</h3>
-            <p className="sentiment-hint">Enter a review to predict sentiment (positive/negative)</p>
+            <p className="sentiment-hint">Enter a review to predict sentiment (positive/negative). With ~76% accuracy, some predictions may be wrong—e.g., sarcasm or short text can confuse the model.</p>
             <textarea
               placeholder="e.g. Amazing pizza, friendly staff!"
               value={sentimentReview}

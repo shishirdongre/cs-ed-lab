@@ -2,7 +2,7 @@
 # Build: docker build -t sentiment-spark .
 # Run:   docker run --rm sentiment-spark "Amazing pizza, friendly staff"
 
-FROM openjdk:11-jdk-slim AS builder
+FROM eclipse-temurin:11-jdk AS builder
 
 RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 
@@ -25,7 +25,7 @@ RUN mvn clean compile dependency:copy-dependencies -DskipTests
 RUN java -cp ".:target/classes:target/dependency/*" YelpSentimentAnalysisRefactored
 
 # Runtime stage
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre
 
 WORKDIR /app
 

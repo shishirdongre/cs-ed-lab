@@ -4,3 +4,5 @@ terraform.tfstate
 terraform.tfstate.backup
 *.tfstate.*
 lambda-logs.txt
+.env
+service-account.json

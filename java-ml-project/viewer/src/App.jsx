@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import CodeViewer from './CodeViewer'
 import ReflectionPanel from './ReflectionPanel'
-import SectionReflectionForm from './SectionReflectionForm'
 import SidebarTabs from './SidebarTabs'
 import FileList from './CodeExplorer/FileList'
 import CodeDisplay from './CodeExplorer/CodeDisplay'
@@ -194,15 +193,6 @@ export default function App() {
                 )
               })}
             </ul>
-            {currentChunk?.substep != null && (
-              <SectionReflectionForm
-                chunk={currentChunk}
-                userId={userId}
-                onReflectSuccess={handleReflectSuccess}
-                onGoToNext={goToNext}
-                hasNext={getNextSubStepIndex(chunks, stepIndex) !== stepIndex}
-              />
-            )}
           </nav>
           )}
           {activeTab === 'codeExplorer' && (

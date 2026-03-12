@@ -22,7 +22,10 @@ COPY --from=java-model /app/target/dependency /var/task/target/dependency
 COPY --from=java-model /app/saved_sentiment_model /var/task/saved_sentiment_model
 COPY --from=java-model /app/simple_yelp_reviews.csv /var/task/
 
-# Copy Lambda handler
-COPY sentiment-api/lambda/index.js /var/task/
+# Copy Lambda handler and deps
+COPY sentiment-api/lambda/package.json /var/task/
+COPY sentiment-api/lambda/index.js sentiment-api/lambda/sheets.js /var/task/
+WORKDIR /var/task
+RUN npm install --omit=dev
 
 CMD ["index.handler"]

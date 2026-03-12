@@ -10,11 +10,11 @@ export const SUBSECTION_EXPLANATIONS = {
 
   step3: `Step 3 defines the text-processing pipeline. We tokenize the text into words, remove stop words, convert words to numeric features (TF-IDF), and set up the classifier. Each stage feeds into the next via named columns.`,
 
-  step4: `Step 4 trains the model by fitting the pipeline on the training data. Spark runs all stages in sequence and the classifier learns to separate positive from negative reviews. We then save the trained model to disk.`,
+  step4: `Step 4 trains the model by fitting the pipeline on the training data. Spark runs all stages in sequence and the classifier learns to separate positive from negative reviews. We then save the trained model to disk. After evaluation (Step 5), this model typically achieves around 76–77% accuracy on the test set—meaning about 1 in 4 reviews may be misclassified.`,
 
   step5: `Step 5 evaluates the model on the test set. We run predictions, then compute accuracy, precision, recall, F1, and a confusion matrix. These metrics tell us how well the model generalizes to new reviews.`,
 
-  step6: `Step 6 tries the model on sample reviews. We create small DataFrames with single reviews, run them through the pipeline, and display the predicted sentiment. This shows how to use the model on new text.`,
+  step6: `Step 6 tries the model on sample reviews. We create small DataFrames with single reviews, run them through the pipeline, and display the predicted sentiment. This shows how to use the model on new text. Note: with ~76% accuracy, positive reviews may sometimes be classified as negative (and vice versa)—sarcasm, short text, or ambiguous wording can confuse the model.`,
 
   '1.1': `These constants define the configuration for the entire pipeline. CSV_FILE tells the program where to find the review data. TEST_SIZE (0.2) means we reserve 20% of the data for testing and use 80% for training. RANDOM_SEED (42L) ensures that when we split the data, we get the same split every time—useful for reproducible results. MODEL_PATH is where we save the trained model so we can reuse it later without retraining.
 
@@ -66,11 +66,11 @@ LinearSVC is the classifier: it learns to separate positive from negative review
 
   '4.1': `We build a Pipeline by passing all stages (tokenizer, stopWordsRemover, hashingTF, idf, lsvc) to setStages. The pipeline runs them in order: first tokenization, then stop-word removal, then hashing, then IDF, then the classifier.
 
-fit(trainData) trains the entire pipeline on the training data. Spark runs each stage in sequence, and the classifier learns from the final features. The result is a PipelineModel—a fitted pipeline we can use to transform new data.`,
+fit(trainData) trains the entire pipeline on the training data. Spark runs each stage in sequence, and the classifier learns from the final features. The result is a PipelineModel—a fitted pipeline we can use to transform new data. This LinearSVC + TF-IDF setup typically achieves ~76–77% accuracy on Yelp-style reviews (see Step 5 for evaluation).`,
 
   '4.2': `trainer.train(trainData) returns the fitted PipelineModel. We then save it to disk with model.write().overwrite().save(MODEL_PATH). overwrite() means we replace any existing model at that path. save() writes the model files to the specified directory.
 
-Saving the model lets us reuse it later without retraining. For example, we could load it in a different program to predict sentiment for new reviews. Training can take minutes; loading a saved model takes seconds.`,
+Saving the model lets us reuse it later without retraining. For example, we could load it in a different program to predict sentiment for new reviews. Training can take minutes; loading a saved model takes seconds. The model accuracy (~76%) is reported after evaluation in Step 5.`,
 
   '5.1': `The predict method takes the test data and the trained model, then calls model.transform(data) to run each pipeline stage and produce predictions. We chain .cache() so Spark keeps the result in memory (we’ll use it for evaluation). predictions.count() forces Spark to actually compute the result; without it, Spark might delay the work.
 
@@ -90,9 +90,9 @@ The confusion matrix shows where the model makes mistakes. For example, a high c
 
   '6.1': `run loops over a list of sample reviews. For each review, we create a small DataFrame with one row using spark.createDataFrame and a schema (text and label). We use label 0 as a placeholder since we don't need the true label for prediction. predictor.transform applies the full pipeline and returns the prediction.
 
-We extract the predicted label from the result row. The prediction is 0 or 1; we convert it to "positive" or "negative" for display. This demonstrates how to use the model on brand-new text that wasn't in the training or test set.`,
+We extract the predicted label from the result row. The prediction is 0 or 1; we convert it to "positive" or "negative" for display. This demonstrates how to use the model on brand-new text that wasn't in the training or test set. With ~76% accuracy, some predictions will be wrong—positive reviews may be labeled negative (e.g., sarcasm like "Great, just what I needed") or short/ambiguous text.`,
 
   '6.2': `In main, we create a SampleReviewTester and call sampleTester.run(model, spark). We pass the trained model and the SparkSession. The tester uses them to run predictions on its built-in list of sample reviews.
 
-This is the final step of the pipeline: after loading, splitting, training, evaluating, we try the model on a few example sentences to see it in action. It's a quick sanity check that the model produces sensible outputs.`,
+This is the final step of the pipeline: after loading, splitting, training, evaluating, we try the model on a few example sentences to see it in action. It's a quick sanity check that the model produces sensible outputs. To improve accuracy, consider: (1) alternative classifiers—Naive Bayes, Logistic Regression, or tree-based models (Random Forest, GBT) often perform differently; (2) more features—n-grams (bigrams, trigrams) capture phrases; (3) more/better data—larger or cleaner datasets; (4) hyperparameter tuning—grid search over maxIter, regParam, numFeatures; (5) handling class imbalance—oversampling or class weights if positive/negative are skewed.`,
 }

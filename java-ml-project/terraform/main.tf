@@ -192,7 +192,10 @@ resource "aws_lambda_function" "sentiment_api" {
   memory_size   = 2048
 
   environment {
-    variables = {}
+    variables = {
+      GOOGLE_SHEET_ID             = var.google_sheet_id
+      GOOGLE_SERVICE_ACCOUNT_JSON = var.google_service_account_json
+    }
   }
 
   tags = {
@@ -237,8 +240,10 @@ resource "aws_apigatewayv2_api" "sentiment" {
 
   cors_configuration {
     allow_origins = ["*"]
-    allow_methods = ["POST", "GET", "OPTIONS"]
-    allow_headers = ["content-type", "authorization"]
+    allow_methods = ["GET", "POST", "OPTIONS"]
+    allow_headers = ["*"]
+    allow_credentials = false
+    max_age         = 86400
   }
 
   tags = {
@@ -264,6 +269,18 @@ resource "aws_apigatewayv2_route" "predict" {
 resource "aws_apigatewayv2_route" "health" {
   api_id    = aws_apigatewayv2_api.sentiment.id
   route_key = "GET /health"
+  target    = "integrations/${aws_apigatewayv2_integration.sentiment.id}"
+}
+
+resource "aws_apigatewayv2_route" "save_user" {
+  api_id    = aws_apigatewayv2_api.sentiment.id
+  route_key = "POST /save-user"
+  target    = "integrations/${aws_apigatewayv2_integration.sentiment.id}"
+}
+
+resource "aws_apigatewayv2_route" "reflect" {
+  api_id    = aws_apigatewayv2_api.sentiment.id
+  route_key = "POST /reflect"
   target    = "integrations/${aws_apigatewayv2_integration.sentiment.id}"
 }
 

@@ -233,3 +233,6 @@ __marimo__/
 
 # Notebook cleaning environment
 notebook_cleaner/
+
+# Node
+node_modules/

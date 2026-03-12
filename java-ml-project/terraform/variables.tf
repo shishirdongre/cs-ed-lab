@@ -20,3 +20,16 @@ variable "frontend_bucket_name" {
   description = "S3 bucket name for frontend (TF_VAR_frontend_bucket_name or FRONTEND_BUCKET_NAME via run.sh)"
   type        = string
 }
+
+variable "google_sheet_id" {
+  description = "Google Sheet ID for reflection submissions (optional)"
+  type        = string
+  default     = ""
+}
+
+variable "google_service_account_json" {
+  description = "Google service account JSON (raw or base64) for Sheets API (optional, sensitive)"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
