@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react'
 import CodeViewer from './CodeViewer'
 import ReflectionPanel from './ReflectionPanel'
 import SectionReflectionForm from './SectionReflectionForm'
+import SidebarTabs from './SidebarTabs'
+import FileList from './CodeExplorer/FileList'
+import CodeDisplay from './CodeExplorer/CodeDisplay'
+import ErrorBoundary from './ErrorBoundary'
 import chunksData from './chunks.json'
 import { sources } from './sources'
 import { getDisplayName } from './fileDisplayNames'
@@ -55,6 +59,9 @@ export default function App() {
   })
   const chunks = chunksData
   const currentChunk = chunks[stepIndex]
+  const [activeTab, setActiveTab] = useState('steps')
+  const fileKeys = Object.keys(sources || {})
+  const [selectedFile, setSelectedFile] = useState(fileKeys[0] || null)
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -130,6 +137,8 @@ export default function App() {
 
       <div className="app-body">
         <aside className="sidebar">
+          <SidebarTabs activeTab={activeTab} onTabChange={setActiveTab} />
+          {activeTab === 'steps' && (
           <nav className="chunk-nav">
             <div className="step-indicator">
               {currentChunk.substep != null
@@ -195,9 +204,21 @@ export default function App() {
               />
             )}
           </nav>
+          )}
+          {activeTab === 'codeExplorer' && (
+            <div className="sidebar-code-explorer">
+              <FileList
+                sources={sources}
+                selectedFile={selectedFile}
+                onSelectFile={setSelectedFile}
+              />
+            </div>
+          )}
         </aside>
 
         <div className="main-and-reflection">
+          {activeTab === 'steps' && (
+          <>
           <main className="main-content">
             <section className="narrative" aria-label="Explanation">
               <p className="narrative-label">Explanation</p>
@@ -229,6 +250,18 @@ export default function App() {
             onGoToNext={goToNext}
             onGoToPrevious={goToPrevious}
           />
+          </>
+          )}
+          {activeTab === 'codeExplorer' && (
+            <div className="code-explorer-main-wrap">
+              <ErrorBoundary key={selectedFile}>
+                <CodeDisplay
+                  fileKey={selectedFile}
+                  source={selectedFile ? sources[selectedFile] : ''}
+                />
+              </ErrorBoundary>
+            </div>
+          )}
         </div>
       </div>
     </div>

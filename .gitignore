@@ -78,6 +78,7 @@ target/
 # Java
 *.class
 *.jar
+saved_sentiment_model/
 *.war
 *.ear
 *.nar

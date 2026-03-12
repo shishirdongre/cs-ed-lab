@@ -1,0 +1,55 @@
+.code-display {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  background: #fff;
+  border: 1px solid var(--border, #ddd);
+  border-radius: 4px;
+}
+
+.code-display-header {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border, #ddd);
+  background: #f8f9fa;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.code-display-filename {
+  font-family: ui-monospace, monospace;
+}
+
+.code-display-scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 12px;
+}
+
+.code-display-block {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.code-display-code {
+  display: block;
+  white-space: pre;
+}
+
+.code-display-line {
+  display: block;
+}
+
+.code-display-line-num {
+  display: inline-block;
+  width: 2.5em;
+  margin-right: 1em;
+  color: #999;
+  user-select: none;
+}
+
+.code-display-line-content {
+  white-space: pre;
+}

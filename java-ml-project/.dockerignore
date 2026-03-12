@@ -1,0 +1,11 @@
+target
+*.class
+slidev
+archive
+viewer
+.git
+*.md
+token.json
+node_modules
+**/node_modules
+YelpSentimentAnalysisSmileML.java
