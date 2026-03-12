@@ -8,7 +8,7 @@ on:
     branches: [java_workshop]
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
 
 jobs:
   deploy:
