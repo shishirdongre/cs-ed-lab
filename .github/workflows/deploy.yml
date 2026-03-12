@@ -6,6 +6,7 @@ name: Deploy Java Workshop
 on:
   push:
     branches: [java_workshop]
+  workflow_dispatch:
 
 env:
   AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
