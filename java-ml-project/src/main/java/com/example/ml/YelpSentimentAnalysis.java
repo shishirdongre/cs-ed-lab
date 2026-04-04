@@ -34,6 +34,8 @@ public class YelpSentimentAnalysis {
     private static final double TEST_SIZE = 0.2;
     private static final long RANDOM_SEED = 42L;
     private static final String DEFAULT_OUTPUT_FILE = "sentiment_output.json";
+    /** Same path as SentimentPredictorApp; Docker build copies this directory into the runtime image. */
+    private static final String SAVED_MODEL_DIR = "saved_sentiment_model";
 
     public static void main(String[] args) {
         SparkSession spark = SparkInitializer.createSession();
@@ -52,6 +54,7 @@ public class YelpSentimentAnalysis {
             // 3) Fit pipeline on training data only.
             SentimentModelTrainer trainer = new SentimentModelTrainer();
             PipelineModel model = trainer.train(trainData);
+            model.write().overwrite().save(SAVED_MODEL_DIR);
 
             if (args.length > 0) {
                 String outputFile = args.length > 1 ? args[args.length - 1] : DEFAULT_OUTPUT_FILE;
