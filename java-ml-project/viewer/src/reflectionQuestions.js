@@ -4,61 +4,51 @@
  * Edit this file to change questions without touching component code.
  */
 export const REFLECTION_QUESTIONS = {
+  '1.0': {
+    title: 'Reflection: 1.0 The training dataset',
+    items: [
+      {
+        item_id: 'dataset_columns',
+        question:
+          'What does each row of the CSV represent, and what are the two column names? Why does the model need a numeric label in addition to the words?',
+      },
+    ],
+  },
   '1.1': {
-    title: 'Reflection: 1.1 Constants',
-    items: [{ item_id: 'constants_main', question: 'What role do these constants play in the overall pipeline?' }],
+    title: 'Reflection: 1.1 Reading the CSV in load()',
+    items: [
+      {
+        item_id: 'load_schema_labels',
+        question:
+          'How does load() declare the CSV columns, read the file, and turn the sentiment strings into numeric labels?',
+      },
+    ],
   },
   '1.2': {
-    title: 'Reflection: 1.2 main declaration & try',
-    items: [{ item_id: 'main_try_main', question: 'Describe the structure of the main method and its error handling.' }],
-  },
-  '1.3': {
-    title: 'Reflection: 1.3 SparkInitializer.createSession()',
-    items: [{ item_id: 'spark_init_main', question: 'What configuration choices are made when creating the Spark session?' }],
-  },
-  '1.4': {
-    title: 'Reflection: 1.4 DataLoader in main',
-    items: [{ item_id: 'dataloader_main_main', question: 'How is the DataLoader used to prepare data for the pipeline?' }],
-  },
-  '1.5': {
-    title: 'Reflection: 1.5 loadAndPrepare()',
-    items: [{ item_id: 'load_prepare_main', question: 'What does loadAndPrepare delegate to, and why might it be structured this way?' }],
-  },
-  '1.6': {
-    title: 'Reflection: 1.6 load()',
-    items: [{ item_id: 'load_main', question: 'Describe how the raw sentiment labels are converted for the model.' }],
-  },
-  '1.7': {
-    title: 'Reflection: 1.7 Error handling',
-    items: [{ item_id: 'error_handling_main', question: 'What happens when an exception occurs during execution?' }],
+    title: 'Reflection: 1.2 Calling the loader from the main function',
+    items: [
+      {
+        item_id: 'entry_loader_wiring',
+        question:
+          'In the highlighted lines, what happens after main starts: how is DataLoader constructed and how is load(spark) connected to the result variable?',
+      },
+    ],
   },
   '2.1': {
-    title: 'Reflection: 2.1 Full pipeline overview',
-    items: [{ item_id: 'pipeline_overview_main', question: 'Describe the sequence of steps in the full analysis pipeline.' }],
+    title: 'Reflection: 2.1 DataSplitter & train setup in main',
+    items: [{ item_id: 'splitter_train_main', question: 'How are the train and test sets obtained, and why is the model trained only on trainData?' }],
   },
   '2.2': {
-    title: 'Reflection: 2.2 DataSplitter & train setup in main',
-    items: [{ item_id: 'splitter_train_main', question: 'How are the train and test sets obtained and used?' }],
-  },
-  '2.3': {
-    title: 'Reflection: 2.3 split()',
+    title: 'Reflection: 2.2 split()',
     items: [{ item_id: 'split_main', question: 'What does the random seed contribute to the split?' }],
   },
   '3.1': {
-    title: 'Reflection: 3.1 ModelComponents',
-    items: [{ item_id: 'model_components_main', question: 'Why might these components be grouped into a single class?' }],
-  },
-  '3.2': {
-    title: 'Reflection: 3.2 Stage definitions',
+    title: 'Reflection: 3.1 Text processing and features',
     items: [{ item_id: 'stage_defs_main', question: 'Describe how each stage connects to the next via input and output columns.' }],
   },
   '4.1': {
-    title: 'Reflection: 4.1 Pipeline build & fit',
-    items: [{ item_id: 'pipeline_fit_main', question: 'What occurs when fit is called on the pipeline?' }],
-  },
-  '4.2': {
-    title: 'Reflection: 4.2 Train and save in main',
-    items: [{ item_id: 'train_save_main', question: 'Why would we save the fitted model to disk?' }],
+    title: 'Reflection: 4.1 Train the model',
+    items: [{ item_id: 'pipeline_fit_main', question: 'What occurs when fit is called on the pipeline, and what object does train() return?' }],
   },
   '5.1': {
     title: 'Reflection: 5.1 predict()',
@@ -73,7 +63,7 @@ export const REFLECTION_QUESTIONS = {
     items: [{ item_id: 'evaluate_main', question: 'What does each metric (accuracy, precision, recall, F1) capture?' }],
   },
   '5.4': {
-    title: 'Reflection: 5.4 getConfusionMatrix()',
+    title: 'Reflection: 5.4 Confusion matrix',
     items: [{ item_id: 'confusion_matrix_main', question: 'What information does the confusion matrix provide that the other metrics do not?' }],
   },
   '6.1': {
@@ -93,10 +83,10 @@ export function getReflectionForChunk(chunk) {
   const q = REFLECTION_QUESTIONS[chunk.id]
   if (!q) return null
   return {
-    sectionId: chunk.id,
+    sectionId: q.sectionId ?? chunk.id,
     title: q.title,
     items: q.items,
-    minLength: DEFAULT_MIN_LENGTH,
-    showConfidence: true,
+    minLength: q.minLength ?? DEFAULT_MIN_LENGTH,
+    showConfidence: q.showConfidence ?? true,
   }
 }

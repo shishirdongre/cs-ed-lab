@@ -31,9 +31,9 @@ export default function SectionReflectionForm({ chunk, userId, onReflectSuccess,
   const lengths = items.map((it) => (values[key(it.item_id)] || '').trim().length)
   const allValid = items.length > 0 && lengths.every((L) => L >= minLength)
   const trimmedUserId = (userId || '').trim()
-  const canSubmit = trimmedUserId && (
-    ALLOW_EMPTY_REFLECTION_FOR_TESTING ? true : (allValid && (showConfidence ? confidence != null : true))
-  )
+  const textOk = ALLOW_EMPTY_REFLECTION_FOR_TESTING || allValid
+  const confidenceOk = !showConfidence || confidence != null
+  const canSubmit = Boolean(trimmedUserId && textOk && confidenceOk)
 
   const setValue = (itemId, text) => {
     setValues((prev) => ({ ...prev, [key(itemId)]: text }))
@@ -48,8 +48,8 @@ export default function SectionReflectionForm({ chunk, userId, onReflectSuccess,
       setStatus('Please reach the minimum character count.')
       return
     }
-    if (!ALLOW_EMPTY_REFLECTION_FOR_TESTING && showConfidence && confidence == null) {
-      setStatus('Please select a confidence level.')
+    if (showConfidence && confidence == null) {
+      setStatus('Please select a confidence level before submitting.')
       return
     }
     const apiItems = items.map((it) => ({
@@ -97,7 +97,7 @@ export default function SectionReflectionForm({ chunk, userId, onReflectSuccess,
       })}
       {showConfidence && (
         <div className="section-reflection-confidence">
-          <label className="section-reflection-confidence-label">Confidence (1–5):</label>
+          <label className="section-reflection-confidence-label">Confidence (1 to 5):</label>
           <div className="section-reflection-confidence-options">
             {[1, 2, 3, 4, 5].map((n) => (
               <label key={n} className="section-reflection-radio">

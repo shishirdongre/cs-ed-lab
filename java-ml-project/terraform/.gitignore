@@ -6,3 +6,6 @@ terraform.tfstate.backup
 lambda-logs.txt
 .env
 service-account.json
+client_secret*.json
+tfplan
+*.tfplan

@@ -1,14 +1,29 @@
+package com.example.ml;
+
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+
+import java.util.List;
+
+/**
+ * Prints standard classification metrics and a 2x2 confusion matrix for test predictions.
+ */
 public class ModelEvaluator {
 
+    /**
+     * Each {@code evaluate(...)} call runs a separate Spark aggregation on {@code predictions};
+     * predictions should already be cached upstream when possible.
+     */
     public void evaluate(Dataset<Row> predictions) {
-        MulticlassClassificationEvaluator evaluator = new MulticlassClassificationEvaluator()
+        MulticlassClassificationEvaluator ev = new MulticlassClassificationEvaluator()
                 .setLabelCol("label")
                 .setPredictionCol("prediction");
 
-        double accuracy = evaluator.setMetricName("accuracy").evaluate(predictions);
-        double precision = evaluator.setMetricName("weightedPrecision").evaluate(predictions);
-        double recall = evaluator.setMetricName("weightedRecall").evaluate(predictions);
-        double f1 = evaluator.setMetricName("f1").evaluate(predictions);
+        double accuracy = metric(ev, "accuracy", predictions);
+        double precision = metric(ev, "weightedPrecision", predictions);
+        double recall = metric(ev, "weightedRecall", predictions);
+        double f1 = metric(ev, "f1", predictions);
 
         long[][] confusionMatrix = getConfusionMatrix(predictions);
 
@@ -23,6 +38,14 @@ public class ModelEvaluator {
         System.out.println("========================\n");
     }
 
+    private static double metric(MulticlassClassificationEvaluator ev, String metricName,
+                                 Dataset<Row> predictions) {
+        return ev.setMetricName(metricName).evaluate(predictions);
+    }
+
+    /**
+     * Brings label/prediction pairs to the driver to count cells (OK for typical test-set sizes in this lab).
+     */
     public long[][] getConfusionMatrix(Dataset<Row> predictions) {
         long[][] matrix = new long[2][2];
         List<Row> results = predictions.select("label", "prediction").collectAsList();

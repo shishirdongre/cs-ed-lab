@@ -32,3 +32,8 @@ output "ecr_repository_url" {
   description = "ECR repository URL for sentiment API Lambda image"
   value       = aws_ecr_repository.sentiment_api.repository_url
 }
+
+output "google_sheet_id" {
+  description = "Google Sheet ID for reflection submissions"
+  value       = var.google_sheet_id
+}

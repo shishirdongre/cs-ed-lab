@@ -5,18 +5,26 @@ Triggers on push to `java_workshop` or via **Run workflow** (workflow_dispatch).
 1. **Lambda** – Builds `sentiment-spark` (Java model) then the Lambda image
 2. **Frontend** – Builds viewer, uploads to S3, invalidates CloudFront
 
-## Required GitHub configuration
+## Configuration: `deploy` environment
 
-### Secrets
-- `AWS_ROLE_ARN` – IAM role for OIDC (recommended), or
-- `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` – if not using OIDC
+All vars and secrets live in the **deploy** environment so collaborators can access them.
 
-### Variables (Settings → Secrets and variables → Actions → Variables)
+**Settings → Environments → deploy** (or https://github.com/shishirdongre/cs-ed-lab/settings/environments)
+
+### Environment variables (already set)
 - `ECR_REPOSITORY_NAME` – e.g. `java-workshop-sentiment-api`
 - `LAMBDA_FUNCTION_NAME` – e.g. `java-workshop-sentiment-api`
 - `FRONTEND_BUCKET_BASE` – Base name for frontend buckets (each deploy creates `{base}-{unix_seconds}`)
 - `CLOUDFRONT_DISTRIBUTION_ID` – CloudFront distribution ID
 - `API_URL` – Sentiment API base URL (e.g. `https://xxx.execute-api.us-east-1.amazonaws.com`)
+- `GOOGLE_SHEET_ID` – Google Sheet ID for reflection submissions (optional; pipeline updates Lambda env)
+
+### Environment secrets (add via Settings → Environments → deploy → Environment secrets)
+- `AWS_ACCESS_KEY_ID` – AWS access key
+- `AWS_SECRET_ACCESS_KEY` – AWS secret key
+- `GOOGLE_SERVICE_ACCOUNT_JSON` – Service account JSON for Sheets (optional)
+
+**To add secrets:** Run `./scripts/setup-env-secrets.sh` with AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in your env, or add manually in the GitHub UI.
 
 Values come from Terraform outputs after `terraform apply`. Run `./deploy-local.sh` from `java-ml-project/terraform/` for local deployment.
 

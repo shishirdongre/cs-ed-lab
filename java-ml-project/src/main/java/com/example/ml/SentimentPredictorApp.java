@@ -1,3 +1,5 @@
+package com.example.ml;
+
 import org.apache.spark.ml.PipelineModel;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -15,7 +17,7 @@ import java.util.Arrays;
 /**
  * Loads the saved sentiment model and predicts for a single review.
  * Usage: java ... SentimentPredictorApp "review text" [output_file]
- * Requires the model to be trained first (run YelpSentimentAnalysisRefactored once).
+ * Requires the model to be trained first (run YelpSentimentAnalysis once).
  */
 public class SentimentPredictorApp {
 
@@ -30,7 +32,7 @@ public class SentimentPredictorApp {
             System.exit(1);
         }
 
-        // Last arg = output file; all others = review text (same as YelpSentimentAnalysisRefactored)
+        // Last arg = output file; all others = review text (same as YelpSentimentAnalysis)
         String outputFile = args.length > 1 ? args[args.length - 1] : DEFAULT_OUTPUT_FILE;
         String review = args.length > 1
                 ? String.join(" ", Arrays.copyOf(args, args.length - 1))
@@ -79,7 +81,7 @@ public class SentimentPredictorApp {
             System.out.println("[DEBUG] Done, exiting 0");
 
         } catch (Exception e) {
-            System.err.println("❌ ERROR: " + e.getMessage());
+            System.err.println("ERROR: " + e.getMessage());
             e.printStackTrace();
             System.exit(1);
         } finally {

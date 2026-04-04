@@ -44,9 +44,9 @@ export default function ReflectionPanel({ currentChunk, userId, stepIndex, chunk
   const lengths = items.map((it) => (values[key(it.item_id)] || '').trim().length)
   const allValid = items.length > 0 && lengths.every((L) => L >= minLength)
   const trimmedUserId = (userId || '').trim()
-  const canSubmit = trimmedUserId && (
-    ALLOW_EMPTY_REFLECTION_FOR_TESTING ? true : (allValid && (showConfidence ? confidence != null : true))
-  )
+  const textOk = ALLOW_EMPTY_REFLECTION_FOR_TESTING || allValid
+  const confidenceOk = !showConfidence || confidence != null
+  const canSubmit = Boolean(trimmedUserId && textOk && confidenceOk)
 
   const makeCounterHtml = (n) => {
     const color = n >= minLength ? '#2e7d32' : '#b71c1c'
@@ -60,6 +60,10 @@ export default function ReflectionPanel({ currentChunk, userId, stepIndex, chunk
     }
     if (!ALLOW_EMPTY_REFLECTION_FOR_TESTING && !allValid) {
       setStatus('Some answers are too short. Please reach the minimum character count.')
+      return
+    }
+    if (showConfidence && confidence == null) {
+      setStatus('Please select a confidence level before submitting.')
       return
     }
     const apiItems = items.map((it) => ({
@@ -119,7 +123,7 @@ export default function ReflectionPanel({ currentChunk, userId, stepIndex, chunk
         {showSentimentForm && (
           <section className="sentiment-section">
             <h3 className="reflection-panel-heading">Try Sentiment Analysis</h3>
-            <p className="sentiment-hint">Enter a review to predict sentiment (positive/negative). With ~76% accuracy, some predictions may be wrong—e.g., sarcasm or short text can confuse the model.</p>
+            <p className="sentiment-hint">Enter a review to predict sentiment (positive/negative). With ~76% accuracy, some predictions may be wrong (for example, sarcasm or short text can confuse the model).</p>
             <textarea
               placeholder="e.g. Amazing pizza, friendly staff!"
               value={sentimentReview}
@@ -130,11 +134,20 @@ export default function ReflectionPanel({ currentChunk, userId, stepIndex, chunk
             />
             <button
               type="button"
-              className="reflection-submit sentiment-submit"
+              className={`reflection-submit sentiment-submit${sentimentLoading ? ' sentiment-submit--loading' : ''}`}
               onClick={handleSentimentSubmit}
               disabled={sentimentLoading}
+              aria-busy={sentimentLoading}
+              title={
+                sentimentLoading
+                  ? 'Please wait for up to 1 minute while the analysis runs.'
+                  : 'Send this review to the sentiment API'
+              }
             >
-              {sentimentLoading ? 'Analyzing…' : 'Analyze'}
+              {sentimentLoading && <span className="sentiment-spinner" aria-hidden="true" />}
+              <span className="sentiment-submit-label">
+                {sentimentLoading ? 'Please wait for up to 1 minute…' : 'Analyze'}
+              </span>
             </button>
             {sentimentError && <p className="reflection-warning">{sentimentError}</p>}
             {sentimentResult && (
@@ -164,7 +177,11 @@ export default function ReflectionPanel({ currentChunk, userId, stepIndex, chunk
                     {it.question}
                   </h4>
                   <textarea
-                    placeholder={`Type your reflection here... (minimum ${minLength} characters)`}
+                    placeholder={
+                      minLength > 0
+                        ? `Type your reflection here... (minimum ${minLength} characters)`
+                        : 'Optional feedback… you can leave this blank and still submit.'
+                    }
                     value={val}
                     onChange={(e) => setValue(it.item_id, e.target.value)}
                     className="reflection-textarea"

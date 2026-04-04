@@ -25,7 +25,7 @@ function runPrediction(review) {
       '-DAWS_LAMBDA=1',
       '-Djava.io.tmpdir=/tmp',
       '-cp', JAVA_CP,
-      'SentimentPredictorApp',
+      'com.example.ml.SentimentPredictorApp',
       review,
       outputFile,
     ], {
@@ -141,21 +141,27 @@ exports.handler = async (event) => {
   }
 
   if (method === 'POST' && reqPath === '/reflect') {
+    console.log('[reflect] POST /reflect received');
     let body;
     try {
       body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body || {};
+      console.log('[reflect] Parsed body:', JSON.stringify(body));
     } catch (e) {
+      console.error('[reflect] JSON parse error:', e?.message ?? e);
       return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Invalid JSON' }) };
     }
     const { userId, sectionId, confidence, items } = body;
+    console.log('[reflect] userId=%s sectionId=%s confidence=%s itemsCount=%d', userId, sectionId, confidence, items?.length ?? 0);
     if (!userId || !items?.length) {
+      console.warn('[reflect] Validation failed: missing userId or items', { userId: !!userId, itemsLen: items?.length ?? 0 });
       return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Missing userId or items' }) };
     }
     try {
       await sheets.submitReflection(userId, sectionId || '', confidence, items);
+      console.log('[reflect] Success for userId=%s', userId);
       return { statusCode: 200, headers: corsHeaders(), body: JSON.stringify({ ok: true }) };
     } catch (e) {
-      console.error('[reflect]', e?.message ?? e);
+      console.error('[reflect] Error:', e?.message ?? e);
       return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: e?.message || 'Failed' }) };
     }
   }

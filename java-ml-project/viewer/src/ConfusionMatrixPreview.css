@@ -1,0 +1,105 @@
+.confusion-matrix-section {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1rem 1rem;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.confusion-matrix-heading {
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.confusion-matrix-note {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--muted-text, #475569);
+}
+
+.confusion-matrix-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.confusion-matrix-table {
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.confusion-matrix-caption {
+  caption-side: top;
+  text-align: left;
+  font-size: 0.82rem;
+  color: var(--muted-text, #64748b);
+  padding: 0 0 0.65rem;
+}
+
+.confusion-matrix-corner {
+  background: #f1f5f9;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+}
+
+.confusion-matrix-colhead,
+.confusion-matrix-rowhead {
+  background: #e2e8f0;
+  font-weight: 600;
+  padding: 0.5rem 0.65rem;
+  text-align: center;
+  border: 1px solid var(--border, #cbd5e1);
+  vertical-align: middle;
+}
+
+.confusion-matrix-rowhead {
+  text-align: right;
+}
+
+.confusion-matrix-sub {
+  display: block;
+  font-weight: 500;
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-top: 0.15rem;
+}
+
+.confusion-matrix-cell {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border: 1px solid var(--border, #cbd5e1);
+  vertical-align: middle;
+}
+
+.confusion-matrix-abbr {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+  color: #334155;
+}
+
+.confusion-matrix-count {
+  font-family: ui-monospace, monospace;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.confusion-matrix-cell-tn {
+  background: rgba(5, 150, 105, 0.12);
+}
+
+.confusion-matrix-cell-tp {
+  background: rgba(5, 150, 105, 0.12);
+}
+
+.confusion-matrix-cell-fp,
+.confusion-matrix-cell-fn {
+  background: rgba(220, 38, 38, 0.08);
+}

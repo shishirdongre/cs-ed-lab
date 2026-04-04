@@ -1,23 +1,17 @@
 {
-  "description": "Chunk-to-source validation tracker — line highlights validated against actual code",
-  "version": "1.3",
+  "description": "Chunk-to-source validation tracker; line highlights validated against actual code",
+  "version": "1.8",
   "chunks": [
-    { "id": 2, "file": "ModelComponents", "startLine": 1, "endLine": 16, "covers": "Entire ModelComponents class" },
-    { "id": 3, "file": "YelpSentimentAnalysisRefactored", "startLine": 3, "endLine": 6, "covers": "CSV_FILE, TEST_SIZE, RANDOM_SEED, MODEL_PATH" },
-    { "id": 4, "file": "YelpSentimentAnalysisRefactored", "startLine": 8, "endLine": 11, "covers": "main declaration, SparkInitializer.createSession(), try {" },
-    { "id": 5, "file": "YelpSentimentAnalysisRefactored", "startLine": 12, "endLine": 32, "covers": "Full pipeline: DataLoader, DataSplitter, SentimentModelTrainer, save, SentimentPredictor, ModelEvaluator, SampleReviewTester" },
-    { "id": "5a", "file": "YelpSentimentAnalysisRefactored", "startLine": 12, "endLine": 13, "covers": "DataLoader loader, loader.loadAndPrepare(spark)" },
-    { "id": "5b", "file": "YelpSentimentAnalysisRefactored", "startLine": 15, "endLine": 21, "covers": "DataSplitter, split(data), trainData/testData, SentimentModelTrainer, trainer.train(trainData)" },
-    { "id": 6, "file": "YelpSentimentAnalysisRefactored", "startLine": 34, "endLine": 39, "covers": "catch (Exception e), finally, spark.stop()" },
-    { "id": 7, "file": "SparkInitializer", "startLine": 3, "endLine": 19, "covers": "createSession() method body" },
-    { "id": 8, "file": "DataLoader", "startLine": 9, "endLine": 11, "covers": "loadAndPrepare() method" },
-    { "id": 9, "file": "DataSplitter", "startLine": 11, "endLine": 15, "covers": "split() method" },
-    { "id": 10, "file": "SentimentModelTrainer", "startLine": 8, "endLine": 29, "covers": "Tokenizer, StopWordsRemover, HashingTF, IDF, LinearSVC stage definitions" },
-    { "id": 11, "file": "SentimentModelTrainer", "startLine": 31, "endLine": 35, "covers": "Pipeline build, setStages, pipeline.fit(trainData)" },
-    { "id": 12, "file": "SentimentPredictor", "startLine": 3, "endLine": 7, "covers": "predict() method" },
-    { "id": 13, "file": "DataLoader", "startLine": 13, "endLine": 31, "covers": "load() method: schema, spark.read, withColumn label conversion" },
-    { "id": 14, "file": "ModelEvaluator", "startLine": 3, "endLine": 14, "covers": "evaluate() method" },
-    { "id": 15, "file": "ModelEvaluator", "startLine": 16, "endLine": 26, "covers": "getConfusionMatrix() method" },
-    { "id": 16, "file": "SampleReviewTester", "startLine": 27, "endLine": 48, "covers": "run() method: loop, createDataFrame, transform, prediction" }
+    { "id": 3, "file": "YelpSentimentAnalysis", "startLine": 38, "endLine": 44, "covers": "main: Spark session, DataLoader, load(spark)" },
+    { "id": "5a", "file": "YelpSentimentAnalysis", "startLine": 42, "endLine": 44, "covers": "DataLoader loader, loader.load(spark)" },
+    { "id": "5b", "file": "YelpSentimentAnalysis", "startLine": 47, "endLine": 54, "covers": "DataSplitter, split(data), trainData/testData, SentimentModelTrainer, trainer.train(trainData)" },
+    { "id": 9, "file": "DataSplitter", "startLine": 22, "endLine": 25, "covers": "split() method" },
+    { "id": 10, "file": "SentimentModelTrainer", "startLine": 27, "endLine": 53, "covers": "Tokenizer, StopWordsRemover, HashingTF, IDF, LinearSVC: text processing and features" },
+    { "id": 11, "file": "SentimentModelTrainer", "startLine": 55, "endLine": 59, "covers": "Pipeline build, setStages, pipeline.fit(trainData)" },
+    { "id": 12, "file": "SentimentPredictor", "startLine": 29, "endLine": 33, "covers": "predict() method" },
+    { "id": 13, "file": "DataLoader", "startLine": 26, "endLine": 49, "covers": "load() javadoc + method: schema, spark.read, withColumn label conversion" },
+    { "id": 14, "file": "ModelEvaluator", "startLine": 18, "endLine": 39, "covers": "evaluate() method" },
+    { "id": 15, "file": "ModelEvaluator", "startLine": 49, "endLine": 59, "covers": "getConfusionMatrix() method" },
+    { "id": 16, "file": "SampleReviewTester", "startLine": 38, "endLine": 53, "covers": "run() method: loop, predictLabelForText, print table" }
   ]
 }

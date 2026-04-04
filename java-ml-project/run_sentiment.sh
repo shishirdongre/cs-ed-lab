@@ -34,7 +34,7 @@ fi
 
 # Run with java -cp (Dockerfile pattern: no Maven at runtime)
 CLASSPATH=".:target/classes:target/dependency/*"
-java -cp "$CLASSPATH" YelpSentimentAnalysisRefactored "$REVIEW" "$OUTPUT_FILE" 2>/dev/null || {
+java -cp "$CLASSPATH" com.example.ml.YelpSentimentAnalysis "$REVIEW" "$OUTPUT_FILE" 2>/dev/null || {
   echo "{\"error\":\"Prediction failed\"}" > "$OUTPUT_FILE"
   exit 1
 }

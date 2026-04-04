@@ -30,5 +30,7 @@ export TF_VAR_aws_region="$AWS_REGION"
 export TF_VAR_environment="$ENVIRONMENT"
 export TF_VAR_project_name="$PROJECT_NAME"
 export TF_VAR_frontend_bucket_name="$FRONTEND_BUCKET_NAME"
+[[ -n "${TF_VAR_google_sheet_id:-}" ]] && export TF_VAR_google_sheet_id
+[[ -n "${TF_VAR_google_service_account_json:-}" ]] && export TF_VAR_google_service_account_json
 
 exec terraform "$@"

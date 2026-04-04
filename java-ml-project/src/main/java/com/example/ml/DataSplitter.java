@@ -1,8 +1,10 @@
+package com.example.ml;
+
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
 /**
- * Splits a dataset into training and test sets for model evaluation.
+ * Splits labeled data into training and test portions with a fixed random seed.
  */
 public class DataSplitter {
 
@@ -15,11 +17,10 @@ public class DataSplitter {
     }
 
     /**
-     * Split data into [train, test] and print sample counts.
+     * Returns {@code [train, test]}; same seed yields the same split across runs.
      */
     public Dataset<Row>[] split(Dataset<Row> data) {
         double trainFraction = 1.0 - testFraction;
-        Dataset<Row>[] splits = data.randomSplit(new double[]{trainFraction, testFraction}, randomSeed);
-        return splits;
+        return data.randomSplit(new double[]{trainFraction, testFraction}, randomSeed);
     }
 }

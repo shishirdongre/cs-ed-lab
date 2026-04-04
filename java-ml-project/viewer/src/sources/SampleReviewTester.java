@@ -1,3 +1,13 @@
+package com.example.ml;
+
+import org.apache.spark.ml.PipelineModel;
+import org.apache.spark.sql.SparkSession;
+
+import com.example.ml.SentimentPredictor;
+
+/**
+ * Runs the saved pipeline on fixed example reviews and prints expected vs predicted sentiment.
+ */
 public class SampleReviewTester {
 
     private static final String[][] SAMPLE_REVIEWS = {
@@ -24,26 +34,21 @@ public class SampleReviewTester {
 
     private final SentimentPredictor predictor = new SentimentPredictor();
 
+    /** Prints a small table comparing gold labels to model output for each sample line. */
     public void run(PipelineModel model, SparkSession spark) {
-        for (int i = 0; i < SAMPLE_REVIEWS.length; i++) {
-            String review = SAMPLE_REVIEWS[i][0];
-            String expected = SAMPLE_REVIEWS[i][1];
-
-            Dataset<Row> reviewData = spark.createDataFrame(
-                    Arrays.asList(RowFactory.create(review, 0)),
-                    new StructType(new StructField[]{
-                            DataTypes.createStructField("text", DataTypes.StringType, false),
-                            DataTypes.createStructField("label", DataTypes.IntegerType, false)
-                    })
-            );
-
-            Dataset<Row> predResult = predictor.transform(reviewData, model);
-            Row result = predResult.select("prediction").collectAsList().get(0);
-            int predictedLabel = result.get(0) instanceof Integer
-                    ? result.getInt(0)
-                    : ((Number) result.get(0)).intValue();
-
+        System.out.println("\n=== Sample reviews ===");
+        System.out.println("Match  Expected    Predicted   Snippet");
+        System.out.println("--------------------------------------------------");
+        for (String[] sample : SAMPLE_REVIEWS) {
+            String review = sample[0];
+            String expected = sample[1];
+            int predictedLabel = predictor.predictLabelForText(model, spark, review);
             String predicted = (predictedLabel == 1) ? "positive" : "negative";
+            boolean match = expected.equals(predicted);
+            String snippet = review.length() > 48 ? review.substring(0, 45) + "..." : review;
+            System.out.printf("%-7s  %-10s  %-10s  %s%n",
+                    match ? "yes" : "no", expected, predicted, snippet);
         }
+        System.out.println("====================\n");
     }
 }

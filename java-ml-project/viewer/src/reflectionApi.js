@@ -3,9 +3,15 @@
  * Set VITE_SENTIMENT_API_URL for both sentiment and reflection endpoints.
  */
 
-const API_BASE = (import.meta.env.VITE_SENTIMENT_API_URL || 'http://localhost:3000').replace(/\/$/, '');
+import { RESEARCH_ID_KEY, workshopStorageGet, workshopStorageSet } from './workshopStorage'
 
-const RESEARCH_ID_KEY = 'workshop_research_id';
+const API_BASE = (import.meta.env.VITE_SENTIMENT_API_URL || 'http://localhost:3000').replace(/\/$/, '')
+
+export { RESEARCH_ID_KEY }
+
+export function getStoredResearchId() {
+  return (workshopStorageGet(RESEARCH_ID_KEY) || '').trim()
+}
 
 /**
  * Save Research ID to backend (creates sheet in Google Sheets if configured).
@@ -13,9 +19,7 @@ const RESEARCH_ID_KEY = 'workshop_research_id';
 export async function saveUser(userId) {
   const title = (userId || '').trim();
   if (!title) return;
-  if (typeof localStorage !== 'undefined') {
-    localStorage.setItem(RESEARCH_ID_KEY, userId);
-  }
+  workshopStorageSet(RESEARCH_ID_KEY, userId)
   try {
     const res = await fetch(`${API_BASE}/save-user`, {
       method: 'POST',

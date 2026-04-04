@@ -1,0 +1,88 @@
+.dataset-dedicated-section {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1rem 1rem;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.dataset-preview-heading {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.dataset-preview-caption {
+  caption-side: top;
+  text-align: left;
+  font-size: 0.82rem;
+  color: var(--muted-text, #64748b);
+  padding: 0 0 0.5rem;
+}
+
+.dataset-preview-note {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--muted-text, #475569);
+}
+
+.dataset-preview-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.dataset-preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.dataset-preview-table th,
+.dataset-preview-table td {
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  vertical-align: top;
+}
+
+.dataset-preview-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dataset-preview-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.dataset-preview-cell-text {
+  font-family: ui-monospace, monospace;
+  word-break: break-word;
+}
+
+.dataset-preview-cell-label {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.dataset-sentiment {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.dataset-sentiment--positive {
+  background: rgba(5, 150, 105, 0.18);
+  color: #047857;
+}
+
+.dataset-sentiment--negative {
+  background: rgba(220, 38, 38, 0.15);
+  color: #b91c1c;
+}

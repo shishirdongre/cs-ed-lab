@@ -1,3 +1,11 @@
+package com.example.ml;
+
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+
+/**
+ * Splits labeled data into training and test portions with a fixed random seed.
+ */
 public class DataSplitter {
 
     private final double testFraction;
@@ -8,9 +16,11 @@ public class DataSplitter {
         this.randomSeed = randomSeed;
     }
 
+    /**
+     * Returns {@code [train, test]}; same seed yields the same split across runs.
+     */
     public Dataset<Row>[] split(Dataset<Row> data) {
         double trainFraction = 1.0 - testFraction;
-        Dataset<Row>[] splits = data.randomSplit(new double[]{trainFraction, testFraction}, randomSeed);
-        return splits;
+        return data.randomSplit(new double[]{trainFraction, testFraction}, randomSeed);
     }
 }
