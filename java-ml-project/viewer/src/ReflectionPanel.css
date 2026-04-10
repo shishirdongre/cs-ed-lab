@@ -118,6 +118,14 @@
   color: var(--text);
 }
 
+.reflection-preamble {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+}
+
 .reflection-item {
   display: flex;
   flex-direction: column;

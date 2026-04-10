@@ -13,9 +13,7 @@ const REFLECTION_PROMPT = `(a) What part of this step felt easiest to understand
 
 (d) What concept in this step felt new or unfamiliar, and was not helped much by your prior programming knowledge?`
 
-const PREAMBLE_SUFFIX = `Please answer each of the following questions, labeling your responses a), b), c), and d).
-
-Please write your answers in the box below, labeling each part a), b), c), and d).`
+const PREAMBLE_SUFFIX = `In the box below, answer (a)–(d), labeling each part a), b), c), and d).`
 
 function preamble(reading) {
   return `${reading.trim()}\n\n${PREAMBLE_SUFFIX}`
@@ -23,95 +21,93 @@ function preamble(reading) {
 
 const SINGLE_ITEM = [{ item_id: 'reflection', question: REFLECTION_PROMPT }]
 
+/**
+ * Preamble template (except 1.0 CSV-only):
+ * Look at … in `SomeClass.java`. Read the `method` … and the surrounding code in that class.
+ * Then read `YelpSentimentAnalysis.main` where … (no fixed line numbers—code may shift).
+ */
 export const REFLECTION_QUESTIONS = {
   '1.0': {
     title: 'Reflection: 1.0 The training dataset',
     preamble: preamble(
-      'Read the file `simple_yelp_reviews.csv` (Code tab or explorer). Notice the columns; later you will see them read in `DataLoader.load()` and referenced from `YelpSentimentAnalysis.main`.'
+      'Look at the training data file `simple_yelp_reviews.csv` (Code tab or file list). Read the header row and a few data rows so you see the columns. This step has no Java class to open.'
     ),
     items: SINGLE_ITEM,
   },
   '1.1': {
     title: 'Reflection: 1.1 Reading the CSV in load()',
     preamble: preamble(
-      'Read `DataLoader.load()`. In `YelpSentimentAnalysis.main`, look at the call `loader.load(spark)` and how its result is assigned.'
+      'Look at the CSV loading code in `DataLoader.java`. Read the `load` method and the surrounding code in that class. Then read `YelpSentimentAnalysis.main` where the loader is created and `load` is called.'
     ),
     items: SINGLE_ITEM,
   },
   '1.2': {
     title: 'Reflection: 1.2 Calling the loader from the main function',
     preamble: preamble(
-      'Read `YelpSentimentAnalysis.main`: `SparkSession` creation, `new DataLoader(...)`, and the `load(spark)` call. Compare with `DataLoader.load()` from 1.1.'
+      'Look at the Spark session setup in `SparkInitializer.java`. Read `createSession` and the surrounding code in that class. Then read `YelpSentimentAnalysis.main` where the session is used with `DataLoader` and `load(spark)`. Optionally look at `DataLoader.load` again beside `main`.'
     ),
     items: SINGLE_ITEM,
   },
   '2.1': {
     title: 'Reflection: 2.1 DataSplitter & train setup in main',
     preamble: preamble(
-      'Read `DataSplitter` (constructor) and `split(...)`. In `YelpSentimentAnalysis.main`, look at `new DataSplitter(...)`, `splitter.split(data)`, `trainData` / `testData`, and the start of training (`SentimentModelTrainer`, `train(...)`).'
+      'Look at the train/test split code in `DataSplitter.java`. Read the `split` method and the surrounding code in that class. Then read `YelpSentimentAnalysis.main` from the splitter through the first `train` call.'
     ),
     items: SINGLE_ITEM,
   },
   '2.2': {
-    title: 'Reflection: 2.2 split()',
+    title: 'Reflection: 2.2 DataSplitter.split and the call in main',
     preamble: preamble(
-      'Read `DataSplitter.split()`. In `main`, find the call that uses `split` on the loaded dataset.'
+      'Look at the split logic in `DataSplitter.java`. Read the `split` method and the surrounding code in that class. Then read `YelpSentimentAnalysis.main` where `split` is called on the loaded data.'
     ),
     items: SINGLE_ITEM,
   },
   '3.1': {
     title: 'Reflection: 3.1 Text processing and features',
     preamble: preamble(
-      'Read `SentimentModelTrainer.train()` where the pipeline stages are built (`setStages`, tokenizer, hashing, IDF, classifier). In `main`, look at `new SentimentModelTrainer()` and `trainer.train(trainData)`.'
+      'Look at the text processing and feature code in `SentimentModelTrainer.java`. Read the `train` method and the surrounding code in that class. Then read `YelpSentimentAnalysis.main` where the trainer is built and `train` is called (lines 54–56).'
     ),
     items: SINGLE_ITEM,
   },
   '4.1': {
     title: 'Reflection: 4.1 Train the model',
     preamble: preamble(
-      'Read `SentimentModelTrainer.train()`: `pipeline.fit(trainData)` and the return type. In `main`, follow the `train(trainData)` call and what is stored in the `model` variable.'
+      'Look at how the pipeline is fitted in `SentimentModelTrainer.java`. Read the `train` method (especially the end where `fit` runs) and the surrounding code in that class. Then read `YelpSentimentAnalysis.main` where `model` is assigned and saved.'
     ),
     items: SINGLE_ITEM,
   },
   '5.1': {
-    title: 'Reflection: 5.1 predict()',
+    title: 'Reflection: 5.1 SentimentPredictor.predict and the test-data call in main',
     preamble: preamble(
-      'Read `SentimentPredictor.predict(...)`. In `main`, find where `predictor.predict(...)` is called on the test data.'
+      'Look at the prediction code in `SentimentPredictor.java`. Read the `predict` method and the surrounding code in that class. Then read `YelpSentimentAnalysis.main` where `predict` is called on the test data.'
     ),
     items: SINGLE_ITEM,
   },
   '5.2': {
     title: 'Reflection: 5.2 Predictor in main',
     preamble: preamble(
-      'Read `SentimentPredictor` (constructor / `predict`). In `YelpSentimentAnalysis.main`, look at the `SentimentPredictor` instance and the `predict(testData, model)` call.'
+      'Look at the prediction code in `SentimentPredictor.java`. Read the `predict` method and the surrounding code in that class. Then read `YelpSentimentAnalysis.main` where the predictor is constructed and `predict` is called, and connect those calls to the methods you read in `SentimentPredictor`.'
     ),
     items: SINGLE_ITEM,
   },
   '5.3': {
-    title: 'Reflection: 5.3 evaluate()',
+    title: 'Reflection: 5.3 ModelEvaluator.evaluate and the printed output',
     preamble: preamble(
-      'Read `ModelEvaluator.evaluate(...)`. In `main`, find `evaluator.evaluate(predictions)` and what is passed in.'
+      'Look at the evaluation and printed output in `ModelEvaluator.java`. Read the `evaluate` method and the surrounding code in that class. Then read `YelpSentimentAnalysis.main` where `evaluate` is called.'
     ),
     items: SINGLE_ITEM,
   },
   '5.4': {
     title: 'Reflection: 5.4 Confusion matrix',
     preamble: preamble(
-      'Read `ModelEvaluator.getConfusionMatrix(...)` and its use inside `evaluate(...)`. In `main`, it is the same `evaluator.evaluate(predictions)` call as in 5.3.'
+      'Look at the confusion matrix code in `ModelEvaluator.java`. Read `getConfusionMatrix`, `evaluate`, and the surrounding code in that class. Then read `YelpSentimentAnalysis.main` where `evaluate` is called.'
     ),
     items: SINGLE_ITEM,
   },
   '6.1': {
-    title: 'Reflection: 6.1 run()',
+    title: 'Reflection: 6.1 SampleReviewTester.run and the sample review list',
     preamble: preamble(
-      'Read `SampleReviewTester.run(...)`. In `main`, find where `run(...)` will be called (6.2 shows the wiring).'
-    ),
-    items: SINGLE_ITEM,
-  },
-  '6.2': {
-    title: 'Reflection: 6.2 SampleReviewTester in main',
-    preamble: preamble(
-      'Read `SampleReviewTester` and `SampleReviewTester.run(...)`. In `YelpSentimentAnalysis.main`, look at `new SampleReviewTester()` and `sampleTester.run(model, spark)`.'
+      'Look at the sample review harness in `SampleReviewTester.java`. Read the `SAMPLE_REVIEWS` block, the `run` method, and the surrounding code in that class. Then check `YelpSentimentAnalysis.main` and find where `SampleReviewTester` is constructed and `run` is called so you see how that harness is wired in.'
     ),
     items: SINGLE_ITEM,
   },

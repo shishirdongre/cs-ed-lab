@@ -90,9 +90,9 @@ The HTML table below shows the same layout with example counts; your run will di
 
   '6.1': `run loops over a list of sample reviews. For each review, predictLabelForText builds a one-row DataFrame, runs the pipeline, and reads the integer prediction. We compare the expected label to the model output and print a short table row.
 
-This demonstrates how to use the model on brand-new text that wasn't in the training or test set. With ~76% accuracy, some predictions will be wrong; positive reviews may be labeled negative, for example when sarcasm or short, ambiguous text confuses the model.`,
+This demonstrates how to use the model on brand-new text that wasn't in the training or test set. With ~76% accuracy, some predictions will be wrong; positive reviews may be labeled negative, for example when sarcasm or short, ambiguous text confuses the model.
 
-  '6.2': `In main, we create a SampleReviewTester and call sampleTester.run with the model and spark. We pass the trained model and the SparkSession. The tester uses them to run predictions on its built-in list of sample reviews.
+Open YelpSentimentAnalysis and look at main: find where a SampleReviewTester is created and run is called with the model and spark. That call wires this class into the full program—you do not need a separate substep for it.
 
 This is the final step of the pipeline: after loading, splitting, training, evaluating, we try the model on a few example sentences to see it in action. It's a quick sanity check that the model produces sensible outputs. To improve accuracy, consider alternative classifiers such as Naive Bayes, Logistic Regression, or tree-based models like Random Forest or GBT, which often perform differently; more features such as n-grams, bigrams or trigrams, to capture phrases; more or better data such as larger or cleaner datasets; hyperparameter tuning, for example grid search over maxIter, regParam, numFeatures; and handling class imbalance, for example oversampling or class weights if positive and negative are skewed.
 

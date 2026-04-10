@@ -163,7 +163,12 @@ export default function ReflectionPanel({ currentChunk, userId, stepIndex, chunk
           <p className="reflection-empty">No reflection for this chunk.</p>
         ) : (
           <div className="reflection-form">
-            {reflection.title && <h3 className="reflection-form-title">{reflection.title}</h3>}
+            {(currentChunk?.title || reflection.title) && (
+              <h3 className="reflection-form-title">{currentChunk?.title || reflection.title}</h3>
+            )}
+            {reflection.preamble && (
+              <div className="reflection-preamble">{reflection.preamble}</div>
+            )}
             {items.map((it) => {
               const k = key(it.item_id)
               const val = values[k] ?? ''
