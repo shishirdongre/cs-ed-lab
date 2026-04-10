@@ -128,11 +128,17 @@
   margin: 0;
   font-size: 13px;
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.45;
   color: var(--text);
   display: flex;
   align-items: flex-start;
   gap: 6px;
+}
+
+.reflection-question-text {
+  flex: 1;
+  min-width: 0;
+  white-space: pre-line;
 }
 
 .reflection-check {

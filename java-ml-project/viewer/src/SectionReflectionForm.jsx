@@ -90,7 +90,7 @@ export default function SectionReflectionForm({ chunk, userId, onReflectSuccess,
               value={val}
               onChange={(e) => setValue(it.item_id, e.target.value)}
               className="section-reflection-textarea"
-              rows={3}
+              rows={items.length === 1 ? 10 : 3}
             />
             <span className={`section-reflection-counter ${len >= minLength ? 'valid' : ''}`}>
               {len} / {minLength}

@@ -28,7 +28,8 @@
   display: block;
   margin-bottom: 4px;
   color: var(--text-muted, #666);
-  line-height: 1.3;
+  line-height: 1.45;
+  white-space: pre-line;
 }
 
 .section-reflection-saved {

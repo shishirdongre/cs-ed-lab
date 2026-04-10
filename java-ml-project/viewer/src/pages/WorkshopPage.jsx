@@ -76,6 +76,8 @@ export default function WorkshopPage() {
 
   const currentChunk = chunks[stepIndex]
   const isThankYouStep = currentChunk?.step === 7
+  /** Sidebar row with no sub-number (e.g. "Step 3: …"); overview only, no code tab. */
+  const isMainStepHeading = currentChunk != null && currentChunk.substep == null
   const [activeTab, setActiveTab] = useState('steps')
   /** Within Steps: explanation first, then code in a separate tab. */
   const [contentTab, setContentTab] = useState('explanation')
@@ -260,38 +262,40 @@ export default function WorkshopPage() {
                   />
                 ) : (
                   <>
-                    <div className="main-content-tabbar" role="tablist" aria-label="Step content">
-                      <button
-                        type="button"
-                        role="tab"
-                        id="tab-explanation"
-                        className={`content-tab ${contentTab === 'explanation' ? 'active' : ''}`}
-                        aria-selected={contentTab === 'explanation'}
-                        aria-controls="panel-explanation"
-                        onClick={() => setContentTab('explanation')}
-                      >
-                        Explanation
-                      </button>
-                      <button
-                        type="button"
-                        role="tab"
-                        id="tab-code"
-                        className={`content-tab ${contentTab === 'code' ? 'active' : ''}`}
-                        aria-selected={contentTab === 'code'}
-                        aria-controls="panel-code"
-                        onClick={() => setContentTab('code')}
-                      >
-                        Code
-                      </button>
-                    </div>
+                    {!isMainStepHeading && (
+                      <div className="main-content-tabbar" role="tablist" aria-label="Step content">
+                        <button
+                          type="button"
+                          role="tab"
+                          id="tab-explanation"
+                          className={`content-tab ${contentTab === 'explanation' ? 'active' : ''}`}
+                          aria-selected={contentTab === 'explanation'}
+                          aria-controls="panel-explanation"
+                          onClick={() => setContentTab('explanation')}
+                        >
+                          Explanation
+                        </button>
+                        <button
+                          type="button"
+                          role="tab"
+                          id="tab-code"
+                          className={`content-tab ${contentTab === 'code' ? 'active' : ''}`}
+                          aria-selected={contentTab === 'code'}
+                          aria-controls="panel-code"
+                          onClick={() => setContentTab('code')}
+                        >
+                          Code
+                        </button>
+                      </div>
+                    )}
                     <div className="main-content-panels">
-                      {contentTab === 'explanation' && (
+                      {(isMainStepHeading || contentTab === 'explanation') && (
                         <section
                           id="panel-explanation"
                           role="tabpanel"
-                          aria-labelledby="tab-explanation"
+                          aria-labelledby={isMainStepHeading ? undefined : 'tab-explanation'}
                           className="narrative"
-                          aria-label="Explanation"
+                          aria-label={isMainStepHeading ? 'Section overview' : 'Explanation'}
                         >
                           <h2>{currentChunk.title}</h2>
                           {SUBSECTION_EXPLANATIONS[currentChunk.id] ? (
@@ -311,12 +315,14 @@ export default function WorkshopPage() {
                           ) : (
                             <p>{currentChunk.description}</p>
                           )}
-                          <button type="button" className="view-code-cta" onClick={() => setContentTab('code')}>
-                            View code
-                          </button>
+                          {!isMainStepHeading && (
+                            <button type="button" className="view-code-cta" onClick={() => setContentTab('code')}>
+                              View code
+                            </button>
+                          )}
                         </section>
                       )}
-                      {contentTab === 'code' && (
+                      {!isMainStepHeading && contentTab === 'code' && (
                         <div
                           id="panel-code"
                           role="tabpanel"

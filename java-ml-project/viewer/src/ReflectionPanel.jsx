@@ -174,7 +174,7 @@ export default function ReflectionPanel({ currentChunk, userId, stepIndex, chunk
                 <div key={it.item_id} className="reflection-item">
                   <h4 className="reflection-question">
                     {isSaved && <span className="reflection-check" aria-label="Saved">✓</span>}
-                    {it.question}
+                    <span className="reflection-question-text">{it.question}</span>
                   </h4>
                   <textarea
                     placeholder={

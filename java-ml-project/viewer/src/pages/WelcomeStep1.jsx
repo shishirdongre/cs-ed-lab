@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { saveUser } from '../reflectionApi'
-import { RESEARCH_ID_KEY, clearWorkshopStoredState, workshopStorageGet, workshopStorageSet } from '../workshopStorage'
+import { RESEARCH_ID_KEY, workshopStorageGet, workshopStorageSet } from '../workshopStorage'
 import './Landing.css'
 
 /**
@@ -9,10 +8,10 @@ import './Landing.css'
  */
 export default function WelcomeStep1() {
   const navigate = useNavigate()
-  const [researchId, setResearchId] = useState(() => localStorage.getItem(RESEARCH_ID_KEY) || '')
+  const [researchId, setResearchId] = useState(() => workshopStorageGet(RESEARCH_ID_KEY) || '')
   const [status, setStatus] = useState('')
 
-  const handleContinue = async () => {
+  const handleContinue = () => {
     const id = (researchId || '').trim()
     if (!id) {
       setStatus('Please enter the Research ID your facilitator gave you.')
@@ -20,11 +19,6 @@ export default function WelcomeStep1() {
     }
     setStatus('')
     workshopStorageSet(RESEARCH_ID_KEY, id)
-    try {
-      await saveUser(id)
-    } catch {
-      setStatus('Could not reach the server to save your ID. You can still continue; we will retry later.')
-    }
     navigate('/welcome/classes')
   }
 
@@ -60,21 +54,6 @@ export default function WelcomeStep1() {
       <p className="landing-hint">
         Already entered your ID?{' '}
         <Link to="/welcome/classes">Go to step 2</Link>
-      </p>
-
-      <p className="landing-hint">
-        <button
-          type="button"
-          className="landing-link-button"
-          onClick={() => {
-            clearWorkshopStoredState()
-            setResearchId('')
-            setStatus('Cleared saved Research ID and step progress in this browser.')
-          }}
-        >
-          Clear saved workshop data
-        </button>{' '}
-        <span className="landing-hint-note">(same browser tab will start empty; does not use cookies.)</span>
       </p>
     </div>
   )

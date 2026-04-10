@@ -28,16 +28,3 @@ export function workshopStorageSet(key, value) {
     getStore()?.setItem(key, value)
   } catch {}
 }
-
-/**
- * Removes workshop keys from **both** local and session storage so nothing leaks
- * when switching VITE_WORKSHOP_STORAGE or using “start fresh”.
- */
-export function clearWorkshopStoredState() {
-  for (const key of [RESEARCH_ID_KEY, COMPLETED_CHUNKS_KEY]) {
-    try {
-      localStorage.removeItem(key)
-      sessionStorage.removeItem(key)
-    } catch {}
-  }
-}
