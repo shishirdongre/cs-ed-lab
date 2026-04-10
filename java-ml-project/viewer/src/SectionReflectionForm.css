@@ -12,6 +12,14 @@
   color: var(--text, #333);
 }
 
+.section-reflection-preamble {
+  margin: 0 0 10px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--text-muted, #666);
+  white-space: pre-wrap;
+}
+
 .section-reflection-item {
   margin-bottom: 8px;
 }

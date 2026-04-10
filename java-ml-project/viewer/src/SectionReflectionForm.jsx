@@ -70,6 +70,9 @@ export default function SectionReflectionForm({ chunk, userId, onReflectSuccess,
   return (
     <div className="section-reflection-form">
       <h4 className="section-reflection-title">{reflection.title}</h4>
+      {reflection.preamble && (
+        <div className="section-reflection-preamble">{reflection.preamble}</div>
+      )}
       {items.map((it) => {
         const k = key(it.item_id)
         const val = values[k] ?? ''

@@ -1,78 +1,121 @@
 /**
  * Reflection questions for each sub-section (chunk).
- * Key: chunk id (e.g. "1.1", "2.3"). Value: { title, items }.
- * Edit this file to change questions without touching component code.
+ * Key: chunk id (e.g. "1.1", "2.3"). Value: { title, preamble?, items }.
+ * Wording aligns with java-ml-project/docs/reflection-comparison-colab-vs-java-viewer.md (Java section).
  */
+const ABCD_ITEMS = [
+  { item_id: 'a', question: '(a) What part of this step felt easiest to understand? Why?' },
+  { item_id: 'b', question: '(b) What part of this step felt most challenging or confusing? Why?' },
+  {
+    item_id: 'c',
+    question: '(c) What prior programming knowledge helped you understand this step, if any?',
+  },
+  {
+    item_id: 'd',
+    question:
+      '(d) What concept in this step felt new or unfamiliar, and was not helped much by your prior programming knowledge?',
+  },
+]
+
+const PREAMBLE_SUFFIX = `Please answer each of the following questions, labeling your responses a), b), c), and d).
+
+Please write your answers separately for labelling each of them before answer (use the boxes below for (a)–(d)).`
+
+function preamble(reading) {
+  return `${reading.trim()}\n\n${PREAMBLE_SUFFIX}`
+}
+
 export const REFLECTION_QUESTIONS = {
   '1.0': {
     title: 'Reflection: 1.0 The training dataset',
-    items: [
-      {
-        item_id: 'dataset_columns',
-        question:
-          'What does each row of the CSV represent, and what are the two column names? Why does the model need a numeric label in addition to the words?',
-      },
-    ],
+    preamble: preamble(
+      'Read the file `simple_yelp_reviews.csv` (Code tab or explorer). Notice the columns; later you will see them read in `DataLoader.load()` and referenced from `YelpSentimentAnalysis.main`.'
+    ),
+    items: ABCD_ITEMS,
   },
   '1.1': {
     title: 'Reflection: 1.1 Reading the CSV in load()',
-    items: [
-      {
-        item_id: 'load_schema_labels',
-        question:
-          'How does load() declare the CSV columns, read the file, and turn the sentiment strings into numeric labels?',
-      },
-    ],
+    preamble: preamble(
+      'Read `DataLoader.load()`. In `YelpSentimentAnalysis.main`, look at the call `loader.load(spark)` and how its result is assigned.'
+    ),
+    items: ABCD_ITEMS,
   },
   '1.2': {
     title: 'Reflection: 1.2 Calling the loader from the main function',
-    items: [
-      {
-        item_id: 'entry_loader_wiring',
-        question:
-          'In the highlighted lines, what happens after main starts: how is DataLoader constructed and how is load(spark) connected to the result variable?',
-      },
-    ],
+    preamble: preamble(
+      'Read `YelpSentimentAnalysis.main`: `SparkSession` creation, `new DataLoader(...)`, and the `load(spark)` call. Compare with `DataLoader.load()` from 1.1.'
+    ),
+    items: ABCD_ITEMS,
   },
   '2.1': {
     title: 'Reflection: 2.1 DataSplitter & train setup in main',
-    items: [{ item_id: 'splitter_train_main', question: 'How are the train and test sets obtained, and why is the model trained only on trainData?' }],
+    preamble: preamble(
+      'Read `DataSplitter` (constructor) and `split(...)`. In `YelpSentimentAnalysis.main`, look at `new DataSplitter(...)`, `splitter.split(data)`, `trainData` / `testData`, and the start of training (`SentimentModelTrainer`, `train(...)`).'
+    ),
+    items: ABCD_ITEMS,
   },
   '2.2': {
     title: 'Reflection: 2.2 split()',
-    items: [{ item_id: 'split_main', question: 'What does the random seed contribute to the split?' }],
+    preamble: preamble(
+      'Read `DataSplitter.split()`. In `main`, find the call that uses `split` on the loaded dataset.'
+    ),
+    items: ABCD_ITEMS,
   },
   '3.1': {
     title: 'Reflection: 3.1 Text processing and features',
-    items: [{ item_id: 'stage_defs_main', question: 'Describe how each stage connects to the next via input and output columns.' }],
+    preamble: preamble(
+      'Read `SentimentModelTrainer.train()` where the pipeline stages are built (`setStages`, tokenizer, hashing, IDF, classifier). In `main`, look at `new SentimentModelTrainer()` and `trainer.train(trainData)`.'
+    ),
+    items: ABCD_ITEMS,
   },
   '4.1': {
     title: 'Reflection: 4.1 Train the model',
-    items: [{ item_id: 'pipeline_fit_main', question: 'What occurs when fit is called on the pipeline, and what object does train() return?' }],
+    preamble: preamble(
+      'Read `SentimentModelTrainer.train()`: `pipeline.fit(trainData)` and the return type. In `main`, follow the `train(trainData)` call and what is stored in the `model` variable.'
+    ),
+    items: ABCD_ITEMS,
   },
   '5.1': {
     title: 'Reflection: 5.1 predict()',
-    items: [{ item_id: 'predict_main', question: 'What does the cache and count accomplish in the predict method?' }],
+    preamble: preamble(
+      'Read `SentimentPredictor.predict(...)`. In `main`, find where `predictor.predict(...)` is called on the test data.'
+    ),
+    items: ABCD_ITEMS,
   },
   '5.2': {
     title: 'Reflection: 5.2 Predictor in main',
-    items: [{ item_id: 'predictor_main_main', question: 'How does the predictor use the trained model on the test data?' }],
+    preamble: preamble(
+      'Read `SentimentPredictor` (constructor / `predict`). In `YelpSentimentAnalysis.main`, look at the `SentimentPredictor` instance and the `predict(testData, model)` call.'
+    ),
+    items: ABCD_ITEMS,
   },
   '5.3': {
     title: 'Reflection: 5.3 evaluate()',
-    items: [{ item_id: 'evaluate_main', question: 'What does each metric (accuracy, precision, recall, F1) capture?' }],
+    preamble: preamble(
+      'Read `ModelEvaluator.evaluate(...)`. In `main`, find `evaluator.evaluate(predictions)` and what is passed in.'
+    ),
+    items: ABCD_ITEMS,
   },
   '5.4': {
     title: 'Reflection: 5.4 Confusion matrix',
-    items: [{ item_id: 'confusion_matrix_main', question: 'What information does the confusion matrix provide that the other metrics do not?' }],
+    preamble: preamble(
+      'Read `ModelEvaluator.getConfusionMatrix(...)` and its use inside `evaluate(...)`. In `main`, it is the same `evaluator.evaluate(predictions)` call as in 5.3.'
+    ),
+    items: ABCD_ITEMS,
   },
   '6.1': {
     title: 'Reflection: 6.1 run()',
-    items: [{ item_id: 'run_main', question: 'Describe how a single review is prepared and passed through the model.' }],
+    preamble: preamble(
+      'Read `SampleReviewTester.run(...)`. In `main`, find where `run(...)` will be called (6.2 shows the wiring).'
+    ),
+    items: ABCD_ITEMS,
   },
   '6.2': {
     title: 'Reflection: 6.2 SampleReviewTester in main',
-    items: [{ item_id: 'sample_tester_main_main', question: 'How does the main program invoke the sample review tester?' }],
+    preamble: preamble(
+      'Read `SampleReviewTester` and `SampleReviewTester.run(...)`. In `YelpSentimentAnalysis.main`, look at `new SampleReviewTester()` and `sampleTester.run(model, spark)`.'
+    ),
+    items: ABCD_ITEMS,
   },
 }
 
@@ -85,6 +128,7 @@ export function getReflectionForChunk(chunk) {
   return {
     sectionId: q.sectionId ?? chunk.id,
     title: q.title,
+    preamble: q.preamble,
     items: q.items,
     minLength: q.minLength ?? DEFAULT_MIN_LENGTH,
     showConfidence: q.showConfidence ?? true,
